@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.shiro;
+package edu.pitt.isg.sbad.shiro;
 
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -28,17 +28,9 @@ import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class CCDAuthorizingRealm extends AuthorizingRealm {
-
-    //@Autowired
-    //private UserAccountService userAccountService;
-
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principalCollection) {
         final String username = (String) principalCollection.getPrimaryPrincipal();
-        //final UserAccount userAccount = userAccountService.findByUsername(username);
-        //if (userAccount == null) {
-        //    throw new UnknownAccountException("Account does not exist");
-        //}
 
         Set<String> roles = new LinkedHashSet<>();
         roles.add("user");
@@ -58,12 +50,7 @@ public class CCDAuthorizingRealm extends AuthorizingRealm {
         if (username == null) {
             throw new UnknownAccountException("Username not provided");
         }
-        /*final UserAccount userAccount = userAccountService.findByUsername(username);
-        if (userAccount == null) {
-            throw new UnknownAccountException("Account does not exist");
-        }*/
 
-        return new SimpleAuthenticationInfo(username, credentials.getPassword()/*userAccount.getPassword().toCharArray()*/, getName());
+        return new SimpleAuthenticationInfo(username, credentials.getPassword(), getName());
     }
-
 }

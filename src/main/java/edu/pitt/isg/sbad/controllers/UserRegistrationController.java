@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.controllers;
+package edu.pitt.isg.sbad.controllers;
 
-import com.example.main.AppUser;
+import edu.pitt.isg.sbad.main.AppUser;
 import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -39,18 +39,6 @@ public class UserRegistrationController implements ViewPath {
         "You should receive an email from us shortly."
     };
 
-    //private final UserAccountService userAccountService;
-
-    //private final UserService userService;
-
-    //private final AppUserService appUserService;
-/*
-    @Autowired
-    public UserRegistrationController(UserAccountService userAccountService, UserService userService, AppUserService appUserService) {
-        this.userAccountService = userAccountService;
-        this.userService = userService;
-        this.appUserService = appUserService;
-    }*/
 
     @RequestMapping(value = "federated", method = RequestMethod.POST)
     public String processTermsAndConditions(
@@ -61,66 +49,12 @@ public class UserRegistrationController implements ViewPath {
             final SessionStatus sessionStatus,
             final RedirectAttributes redirectAttributes,
             final Model model) {
-        if (agree) {
-            /*if (userService.registerNewFederatedUser(appUser, request)) {
-                String username = appUser.getEmail();
-                UserAccount userAccount = userAccountService.findByUsername(username);*/
-                model.addAttribute("appUser", appUser);//appUserService.createAppUser(userAccount, false));
+        model.addAttribute("appUser", appUser);
 
-                new WebSubject.Builder(request, response)
+        new WebSubject.Builder(request, response)
                         .authenticated(true)
                         .sessionCreationEnabled(true)
                         .buildSubject();
-                return REDIRECT_HOME;
-            /*} else {
-                sessionStatus.setComplete();
-                redirectAttributes.addFlashAttribute("errorMsg", Collections.singletonList("Sorry, registration is unavailable at this time."));
-                return REDIRECT_LOGIN;
-            }*/
-        } else {
-            return REDIRECT_TERMS;
-        }
+        return REDIRECT_HOME;
     }
-/*
-    @RequestMapping(method = RequestMethod.POST)
-    public String registerWebUser(
-            final UserRegistration userRegistration,
-            final RedirectAttributes redirectAttributes,
-            final HttpServletRequest request) {
-        if (userRegistration.isAgree()) {
-            String username = userRegistration.getUsername();
-            if (userAccountService.findByUsername(username) == null) {
-                if (userService.registerNewUser(userRegistration, request)) {
-                    redirectAttributes.addFlashAttribute("successMsg", REGISTRATION_SUCCESS);
-                } else {
-                    redirectAttributes.addFlashAttribute("errorMsg", Collections.singletonList("Sorry, registration is unavailable at this time."));
-                }
-            } else {
-                redirectAttributes.addFlashAttribute("errorMsg", Collections.singletonList(username + " has already been registered."));
-            }
-        } else {
-            redirectAttributes.addFlashAttribute("errorMsg", Collections.singletonList("You must accept the terms and conditions."));
-        }
-
-        return REDIRECT_LOGIN;
-    }
-
-    @RequestMapping(value = "activate", method = RequestMethod.GET)
-    public String activateNewUser(
-            @RequestParam(value = "account", required = true) final String account,
-            final Model model) {
-        String accountId = new String(Base64.getUrlDecoder().decode(account));
-        UserAccount userAccount = userAccountService.findByAccount(accountId);
-        if (userAccount == null || userAccount.isActive()) {
-            throw new UserActivationException();
-        } else {
-            userAccount.setActive(Boolean.TRUE);
-            userAccountService.saveUserAccount(userAccount);
-
-            model.addAttribute("username", userAccount.getUsername());
-
-            return USER_ACTIVATION_SUCCESS_VIEW;
-        }
-    }
-*/
 }

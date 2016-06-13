@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.controllers;
+package edu.pitt.isg.sbad.controllers;
 
-import com.example.main.AppUser;
+import edu.pitt.isg.sbad.main.AppUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -36,10 +36,8 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 @RequestMapping("secured")
 @SessionAttributes("appUser")
 public class ApplicationSecuredController implements ViewPath {
-
     @RequestMapping(value = HOME, method = RequestMethod.GET)
     public String showHomePage(@ModelAttribute("appUser") final AppUser appUser, final Model model) {
         return HOME_VIEW;
     }
-
 }

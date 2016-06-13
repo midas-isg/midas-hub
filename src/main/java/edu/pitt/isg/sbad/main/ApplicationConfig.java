@@ -1,4 +1,4 @@
-package com.example.main;
+package edu.pitt.isg.sbad.main;
 
 import com.auth0.Auth0Filter;
 import com.auth0.Auth0ServletCallback;
@@ -17,7 +17,6 @@ import java.util.Map;
         @PropertySource("classpath:auth0.properties")
 })
 public class ApplicationConfig {
-
     @Value(value = "${auth0.clientId}")
     private String clientId;
 
@@ -33,12 +32,6 @@ public class ApplicationConfig {
     @Bean
     public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
         return new PropertySourcesPlaceholderConfigurer();
-    }
-
-    // Not required for the Spring Security implementation, but offers Auth0 API access
-    @Bean
-    public Auth0Client auth0Client() {
-        return new Auth0Client(clientId, issuer);
     }
 
     @Bean(name = "authFilter")
@@ -67,5 +60,4 @@ public class ApplicationConfig {
 
         return registrationBean;
     }
-
 }

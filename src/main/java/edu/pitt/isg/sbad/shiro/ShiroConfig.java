@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.shiro;
+package edu.pitt.isg.sbad.shiro;
 
 import org.apache.shiro.authc.credential.DefaultPasswordService;
 import org.apache.shiro.authc.credential.PasswordMatcher;
@@ -37,40 +37,9 @@ import java.util.Map;
  */
 @Configuration
 public class ShiroConfig {
-
-    @Bean(name = "passwordService")
-    public DefaultPasswordService passwordService() {
-        return new DefaultPasswordService();
-    }
-
-    @Bean(name = "credentialsMatcher")
-    public PasswordMatcher credentialsMatcher() {
-        final PasswordMatcher credentialsMatcher = new PasswordMatcher();
-        credentialsMatcher.setPasswordService(passwordService());
-
-        return credentialsMatcher;
-    }
-
-    @Bean
-    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-        return new LifecycleBeanPostProcessor();
-    }
-/*
-    @Bean(name = "realm")
-    @DependsOn("lifecycleBeanPostProcessor")
-    public CCDAuthorizingRealm realm() {
-        CCDAuthorizingRealm realm = new CCDAuthorizingRealm();
-        realm.setCredentialsMatcher(credentialsMatcher());
-
-        return realm;
-    }*/
-
     @Bean(name = "securityManager")
     public DefaultWebSecurityManager securityManager() {
-        final DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        //securityManager.setRealm(realm());
-
-        return securityManager;
+        return new DefaultWebSecurityManager();
     }
 
     @Bean
@@ -87,5 +56,4 @@ public class ShiroConfig {
 
         return factoryBean;
     }
-
 }

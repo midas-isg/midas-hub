@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.main;
+package edu.pitt.isg.sbad.main;
 
 import org.springframework.context.annotation.Scope;
 
@@ -30,23 +30,13 @@ import java.util.Date;
  */
 @Scope("session")
 public class AppUser {
-
     private String username;
-
     private String firstName;
-
     private String middleName;
-
     private String lastName;
-
     private String email;
-
     private Date lastLogin;
-
     private boolean localAccount;
-
-    public AppUser() {
-    }
 
     public String getUsername() {
         return username;

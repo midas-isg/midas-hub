@@ -16,15 +16,15 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.controllers;
+package edu.pitt.isg.sbad.controllers;
 
 import com.auth0.Auth0User;
 import com.auth0.NonceGenerator;
 import com.auth0.NonceStorage;
 import com.auth0.RequestNonceStorage;
-import com.example.main.AppUser;
-import com.example.main.CcdProperties;
-import com.example.main.UrlAid;
+import edu.pitt.isg.sbad.main.AppUser;
+import edu.pitt.isg.sbad.main.CcdProperties;
+import edu.pitt.isg.sbad.main.UrlAid;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -57,24 +57,15 @@ import java.util.Collections;
 //@Profile("auth0")
 @SessionAttributes("appUser")
 public class Auth0LoginController {
-
+    public static final String LOGIN_VIEW = "auth0Login";
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
 
     private final NonceGenerator nonceGenerator = new NonceGenerator();
-
-    public static final String LOGIN_VIEW = "auth0Login";
-
     private final CcdProperties ccdProperties;
 
-    //private final UserAccountService userAccountService;
-
-    //private final AppUserService appUserService;
-
     @Autowired
-    public Auth0LoginController(CcdProperties ccdProperties/*, UserAccountService userAccountService, AppUserService appUserService*/) {
+    public Auth0LoginController(CcdProperties ccdProperties) {
         this.ccdProperties = ccdProperties;
-        //this.userAccountService = userAccountService;
-        //this.appUserService = appUserService;
     }
 
     @RequestMapping(value = "auth0", method = RequestMethod.GET)
@@ -88,45 +79,16 @@ public class Auth0LoginController {
             return "redirect:/login";
         } else {
             String email = auth0User.getEmail().toLowerCase();
-            /*UserAccount userAccount = userAccountService.findByEmail(email);
-            if (userAccount == null) {*/
-                String firstName = auth0User.getProperty("given_name");
-                String lastName = auth0User.getProperty("family_name");
-                AppUser appUser = new AppUser();
-                appUser.setEmail(email);
-                appUser.setFirstName((firstName == null) ? "" : firstName);
-                appUser.setMiddleName("");
-                appUser.setLastName((lastName == null) ? "" : lastName);
-                appUser.setLocalAccount(false);
-                model.addAttribute("appUser", appUser);
-                return "secured/terms";
-            /*} else {
-                if (userAccount.isActive()) {
-                    UserLogin userLogin = userAccount.getUserLogin();
-                    userLogin.setLastLoginDate(userLogin.getLoginDate());
-                    userLogin.setLastLoginLocation(userLogin.getLoginLocation());
-                    userLogin.setLoginDate(new Date(System.currentTimeMillis()));
-                    try {
-                        userLogin.setLoginLocation(UrlUtility.InetNTOA(request.getRemoteAddr()));
-                    } catch (UnknownHostException exception) {
-                        LOGGER.info(exception.getLocalizedMessage());
-                    }
-                    userAccountService.saveUserAccount(userAccount);
-
-                    model.addAttribute("appUser", appUserService.createAppUser(userAccount, false));
-
-                    new WebSubject.Builder(request, response)
-                            .authenticated(true)
-                            .sessionCreationEnabled(true)
-                            .buildSubject();
-
-                    return REDIRECT_HOME;
-                } else {
-                    redirectAttributes.addAttribute("errorMsg", Collections.singletonList("Your account has not been activated."));
-
-                    return REDIRECT_LOGIN;
-                }
-            }*/
+            String firstName = auth0User.getProperty("given_name");
+            String lastName = auth0User.getProperty("family_name");
+            AppUser appUser = new AppUser();
+            appUser.setEmail(email);
+            appUser.setFirstName((firstName == null) ? "" : firstName);
+            appUser.setMiddleName("");
+            appUser.setLastName((lastName == null) ? "" : lastName);
+            appUser.setLocalAccount(false);
+            model.addAttribute("appUser", appUser);
+            return "secured/terms";
         }
     }
 
@@ -150,7 +112,6 @@ public class Auth0LoginController {
 
         model.addAttribute("callbackUrl", UrlAid.buildURI(request, ccdProperties, "callback"));
         model.addAttribute("state", nonce);
-        //model.addAttribute("userRegistration", new UserRegistration());
 
         return LOGIN_VIEW;
     }
@@ -171,32 +132,12 @@ public class Auth0LoginController {
             return "redirect:/login";
         }
 
-        /*UserAccount userAccount = userAccountService.findByUsername(username);
-        if (userAccount.isActive()) {
-            UserLogin userLogin = userAccount.getUserLogin();
-            userLogin.setLastLoginDate(userLogin.getLoginDate());
-            userLogin.setLastLoginLocation(userLogin.getLoginLocation());
-            userLogin.setLoginDate(new Date(System.currentTimeMillis()));
-            try {
-                userLogin.setLoginLocation(UrlUtility.InetNTOA(request.getRemoteAddr()));
-            } catch (UnknownHostException exception) {
-                LOGGER.info(exception.getLocalizedMessage());
-            }
-            userAccountService.saveUserAccount(userAccount);
-
-            model.addAttribute("appUser", appUserService.createAppUser(userAccount, true));*/
-            return "redirect:/secured/terms";
-        /*} else {
-            currentUser.logout();
-            redirectAttributes.addFlashAttribute("errorMsg", Collections.singletonList("Your account has not been activated."));
-            return REDIRECT_LOGIN;
-        }*/
+        return "redirect:/secured/terms";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)
     public RedirectView logOut(
             @Value("${auth0.domain}") final String auth0Domain,
-            //@ModelAttribute("appUser") final AppUser appUser,
             final HttpServletRequest request,
             final SessionStatus sessionStatus,
             final RedirectAttributes redirectAttributes) {
@@ -207,17 +148,12 @@ public class Auth0LoginController {
             redirectAttributes.addFlashAttribute("successMsg", Collections.singletonList("You have successfully logged out."));
         }
 
-        /*if (appUser.getLocalAccount()) {
-            return new RedirectView(LOGIN, true);
-        } else {*/
-            String redirectUrl = UriComponentsBuilder.newInstance()
+        String redirectUrl = UriComponentsBuilder.newInstance()
                     .scheme("https")
                     .host(auth0Domain)
                     .pathSegment("v2", "logout")
                     .queryParam("returnTo", UrlAid.buildURI(request, ccdProperties, "login"))
                     .build().toString();
-            return new RedirectView(redirectUrl, false);
-        //}
+        return new RedirectView(redirectUrl, false);
     }
-
 }

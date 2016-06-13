@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package com.example.main;
+package edu.pitt.isg.sbad.main;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
@@ -31,17 +31,11 @@ import org.springframework.stereotype.Component;
 @Component
 @PropertySource("classpath:ccd.properties")
 public class CcdProperties {
-
     @Value("${ccd.callback.server.name}")
     private String callbackServerName;
 
     @Value("${ccd.callback.server.port}")
     private String callbackServerPort;
-
-
-
-    public CcdProperties() {
-    }
 
     public String getCallbackServerName() {
         return callbackServerName;

@@ -1,4 +1,4 @@
-package com.example.controllers;
+package edu.pitt.isg.sbad.controllers;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @Component
-public class SecuredPingController implements ViewPath {
-
+public class SecuredPingController {
 	@RequestMapping(value = "/secured/ping")
 	@ResponseBody
 	public String securedPing() {
