@@ -30,12 +30,8 @@
                         <h4 class="pitt-color">CCD Terms and Conditions</h4>
                     </div>
                     <div class="panel-body">
-                        <form id="term_form" role="form" method="POST" action="user/registration/federated" th:action="@{/user/registration/federated}">
+                        <form id="term_form" role="form" method="POST" action="federated">
                             <fieldset>
-                                <textarea rows="15" id="agreement" readonly="readonly" th:utext="${@environment.getProperty('ccd.app.agreement')}"></textarea>
-                                <div class="form-group">
-                                    <input id="agree" type="checkbox" name="agree" /> I Accept the Terms and Conditions
-                                </div>
                                 <button id="accept" type="submit" class="btn btn-lg btn-block btn-success">Submit</button>
                             </fieldset>
                         </form>

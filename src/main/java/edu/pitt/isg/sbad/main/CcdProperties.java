@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @PropertySource("classpath:ccd.properties")
-public class CcdProperties {
+public class CcdProperties { //TODO remove this class
     @Value("${ccd.callback.server.name}")
     private String callbackServerName;
 

@@ -29,11 +29,6 @@ public class ApplicationConfig {
     @Value(value = "${auth0.securedRoute}")
     protected String securedRoute;
 
-    @Bean
-    public static PropertySourcesPlaceholderConfigurer propertySourcesPlaceholderConfigurer() {
-        return new PropertySourcesPlaceholderConfigurer();
-    }
-
     @Bean(name = "authFilter")
     public FilterRegistrationBean authFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();

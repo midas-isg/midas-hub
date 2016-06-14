@@ -38,8 +38,8 @@ public interface ViewPath {
     public static final String USER_ACTIVATION_SUCCESS_VIEW = "user/userActivationSuccess";
 
     public static final String TERMS = "terms";
-    public static final String TERMS_VIEW = "terms";
-    public static final String REDIRECT_TERMS = "redirect:/terms";
+    public static final String TERMS_VIEW = "secured/terms";
+    public static final String REDIRECT_TERMS = "redirect:/secured/terms";
 
     public static final String USER_PROFILE_VIEW = "secured/user/userProfile";
     public static final String REDIRECT_USER_PROFILE = "redirect:/secured/user/profile";

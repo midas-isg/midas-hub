@@ -35,54 +35,6 @@ public class UrlAid {
     private UrlAid() {
     }
 
-    /**
-     * Implementation of MySQL INET_NTOA function. Given a numeric IPv4 network
-     * address in network byte order, returns the dotted-quad string
-     * representation of the address as a nonbinary string in the connection
-     * character set.
-     * http://dev.mysql.com/doc/refman/5.6/en/miscellaneous-functions.html#function_inet-ntoa
-     *
-     * @param host
-     * @return
-     * @throws UnknownHostException when the IP address of a host could not be
-     * determined
-     */
-    public static long InetNTOA(String host) throws UnknownHostException {
-        InetAddress inetAddress = InetAddress.getByName(host);
-        byte[] address = inetAddress.getAddress();
-        double base = 256.0;
-        double power = address.length;
-        long result = 0;
-        for (byte b : address) {
-            result += ((b & 0xFF) % base * Math.pow(base, --power));
-        }
-
-        return result;
-    }
-
-    /**
-     * Implementation of MySQL INET_ATON function. Given the dotted-quad
-     * representation of an IPv4 network address as a string, returns an integer
-     * that represents the numeric value of the address in network byte order
-     * (big endian).
-     * http://dev.mysql.com/doc/refman/5.6/en/miscellaneous-functions.html#function_inet-aton
-     *
-     * @param value
-     * @return
-     * @throws UnknownHostException when he IP address of a host could not be
-     * determined
-     */
-    public static String InetATON(long value) throws UnknownHostException {
-        byte[] addr = {
-            (byte) (value >> 24),
-            (byte) (value >> 16),
-            (byte) (value >> 8),
-            (byte) value
-        };
-
-        return InetAddress.getByAddress(addr).getHostAddress();
-    }
-
     private static UriComponentsBuilder buildURI2(HttpServletRequest request, CcdProperties ccdProperties) {
         String name = ccdProperties.getCallbackServerName();
         String port = ccdProperties.getCallbackServerPort();

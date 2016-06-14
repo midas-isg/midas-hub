@@ -22,27 +22,27 @@ import edu.pitt.isg.sbad.main.AppUser;
 import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+/**
+ *
+ * Feb 18, 2016 3:18:46 PM
+ *
+ * @author Kevin V. Bui (kvb2@pitt.edu)
+ */
 @Controller
 @SessionAttributes("appUser")
-@RequestMapping(value = "user/registration")
-public class UserRegistrationController implements ViewPath {
-
-    private static final String[] REGISTRATION_SUCCESS = {
-        "Thank you for registering!",
-        "You should receive an email from us shortly."
-    };
-
-
-    @RequestMapping(value = "federated", method = RequestMethod.POST)
+public class ApplicationController implements ViewPath {
+    @RequestMapping(value = "federated", method = RequestMethod.POST) // TODO make it more secured
     public String processTermsAndConditions(
-            @RequestParam("agree") boolean agree,
             @ModelAttribute("appUser") final AppUser appUser,
             final HttpServletRequest request,
             final HttpServletResponse response,
@@ -52,9 +52,13 @@ public class UserRegistrationController implements ViewPath {
         model.addAttribute("appUser", appUser);
 
         new WebSubject.Builder(request, response)
-                        .authenticated(true)
-                        .sessionCreationEnabled(true)
-                        .buildSubject();
+                .authenticated(true)
+                .sessionCreationEnabled(true)
+                .buildSubject();
         return REDIRECT_HOME;
+    }
+    @RequestMapping(value = "secured/" + HOME, method = RequestMethod.GET)
+    public String showHomePage(@ModelAttribute("appUser") final AppUser appUser, final Model model) {
+        return HOME_VIEW;
     }
 }

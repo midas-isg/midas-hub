@@ -26,8 +26,6 @@ import edu.pitt.isg.sbad.main.AppUser;
 import edu.pitt.isg.sbad.main.CcdProperties;
 import edu.pitt.isg.sbad.main.UrlAid;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,9 +52,8 @@ import java.util.Collections;
  * @author Kevin V. Bui (kvb2@pitt.edu)
  */
 @Controller
-//@Profile("auth0")
 @SessionAttributes("appUser")
-public class Auth0LoginController {
+public class Auth0LoginController implements ViewPath {
     public static final String LOGIN_VIEW = "auth0Login";
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
 
@@ -76,7 +73,7 @@ public class Auth0LoginController {
             final Model model) {
         Auth0User auth0User = Auth0User.get(request);
         if (auth0User == null) {
-            return "redirect:/login";
+            return REDIRECT_LOGIN;
         } else {
             String email = auth0User.getEmail().toLowerCase();
             String firstName = auth0User.getProperty("given_name");
@@ -88,7 +85,7 @@ public class Auth0LoginController {
             appUser.setLastName((lastName == null) ? "" : lastName);
             appUser.setLocalAccount(false);
             model.addAttribute("appUser", appUser);
-            return "secured/terms";
+            return TERMS_VIEW;
         }
     }
 
@@ -97,11 +94,12 @@ public class Auth0LoginController {
             final HttpServletRequest request,
             final SessionStatus sessionStatus,
             final Model model) {
+
         Subject currentUser = SecurityUtils.getSubject();
         if (sessionStatus.isComplete()) {
             currentUser.logout();
         } else if (currentUser.isAuthenticated()) {
-            return "redirect:/secured/terms";
+            return REDIRECT_TERMS;
         } else {
             sessionStatus.setComplete();
         }
@@ -114,25 +112,6 @@ public class Auth0LoginController {
         model.addAttribute("state", nonce);
 
         return LOGIN_VIEW;
-    }
-
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String processLogin(
-            final HttpServletRequest request,
-            final UsernamePasswordToken credentials,
-            final RedirectAttributes redirectAttributes,
-            final Model model) {
-        Subject currentUser = SecurityUtils.getSubject();
-        String username = credentials.getUsername();
-        try {
-            currentUser.login(credentials);
-        } catch (AuthenticationException exception) {
-            LOGGER.warn(String.format("Failed login attempt from user %s.", username));
-            redirectAttributes.addFlashAttribute("errorMsg", Collections.singletonList("Invalid username and/or password."));
-            return "redirect:/login";
-        }
-
-        return "redirect:/secured/terms";
     }
 
     @RequestMapping(value = "/logout", method = RequestMethod.GET)

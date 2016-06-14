@@ -48,7 +48,6 @@ public class ShiroConfig {
         factoryBean.setSecurityManager(securityManager());
         factoryBean.setLoginUrl("/login");
         factoryBean.setUnauthorizedUrl("/401");
-        factoryBean.setSuccessUrl("/secured/ping");
 
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
         filterChainDefinitionMap.put("/secured/**", "authc");
