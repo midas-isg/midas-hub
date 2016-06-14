@@ -1,4 +1,4 @@
-package edu.pitt.isg.sbad.main;
+package edu.pitt.isg.sbad.auth0;
 
 import com.auth0.Auth0Filter;
 import com.auth0.Auth0ServletCallback;
@@ -6,17 +6,16 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.embedded.FilterRegistrationBean;
 import org.springframework.boot.context.embedded.ServletRegistrationBean;
 import org.springframework.context.annotation.*;
-import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 
 import java.util.HashMap;
 import java.util.Map;
 
 @Configuration
 @PropertySources({
-        @PropertySource("classpath:application.properties"),
+        //@PropertySource("classpath:application.properties"),
         @PropertySource("classpath:auth0.properties")
 })
-public class ApplicationConfig {
+public class Auth0Config {
     @Value(value = "${auth0.clientId}")
     private String clientId;
 

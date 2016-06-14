@@ -1,5 +1,6 @@
-package edu.pitt.isg.sbad.main;
+package edu.pitt.isg.sbad;
 
+import edu.pitt.isg.sbad.auth0.Auth0Config;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -14,7 +15,7 @@ import org.springframework.context.annotation.PropertySource;
 public class Application {
 	public static void main(String[] args) {
 		final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-		ctx.register(ApplicationConfig.class);
+		ctx.register(Auth0Config.class);
 		ctx.refresh();
 		SpringApplication.run(Application.class, args);
 	}

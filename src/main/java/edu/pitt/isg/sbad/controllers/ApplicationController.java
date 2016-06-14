@@ -18,7 +18,7 @@
  */
 package edu.pitt.isg.sbad.controllers;
 
-import edu.pitt.isg.sbad.main.AppUser;
+import edu.pitt.isg.sbad.auth0.AppUser;
 import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -57,7 +57,8 @@ public class ApplicationController implements ViewPath {
                 .buildSubject();
         return REDIRECT_HOME;
     }
-    @RequestMapping(value = "secured/" + HOME, method = RequestMethod.GET)
+
+    @RequestMapping(value = HOME_VIEW, method = RequestMethod.GET)
     public String showHomePage(@ModelAttribute("appUser") final AppUser appUser, final Model model) {
         return HOME_VIEW;
     }

@@ -22,29 +22,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
-                    <div class="col-lg-12">
-                        <p class="text-muted">The Center for Causal Discovery has designed the CCD
-                            Application to facilitate causal modeling and discovery (CMD) on large datasets. To enable this
-                            capability, we have optimized the running time of the CMD algorithms using
-                            parallelization and caching techniques. Within a simple interface, a user can conduct an analysis
-                            locally on their desktop/laptop or choose to run their
-                            analysis remotely on more capable hardware at the Pittsburgh Supercomputing Center.
-                        </p>
-                        <p class="text-muted">
-                            To start using this
-                            application, import and summarize a dataset in Data Management. Then select a CMD algorithm in
-                            Causal Discovery. We currently are making available only the Fast Greedy Search (FGS) algorithm for
-                            continuous data which outputs a whole causal graph from the input data. The application will guide
-                            you through this process of running the algorithm. You can view the status of an analysis in the Job
-                            Queue and view the results in Run Results.
-                        </p>
-                    </div>
-                </div>
                 <footer th:replace="secured/fragments/footer :: footer" />
             </div>
         </div>
-        <script src="../../static/vendors/jquery/jquery.min.js" th:src="@{/vendors/jquery/jquery.min.js}"></script>
-        <script src="../../static/vendors/bootstrap/js/bootstrap.min.js" th:src="@{/vendors/bootstrap/js/bootstrap.min.js}"></script>
     </body>
 </html>
