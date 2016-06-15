@@ -23,13 +23,11 @@ import com.auth0.NonceGenerator;
 import com.auth0.NonceStorage;
 import com.auth0.RequestNonceStorage;
 import edu.pitt.isg.sbad.auth0.AppUser;
-import edu.pitt.isg.sbad.auth0.CcdProperties;
 import edu.pitt.isg.sbad.auth0.UrlAid;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -58,12 +56,6 @@ public class Auth0LoginController implements ViewPath {
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
 
     private final NonceGenerator nonceGenerator = new NonceGenerator();
-    private final CcdProperties ccdProperties;
-
-    @Autowired
-    public Auth0LoginController(CcdProperties ccdProperties) {
-        this.ccdProperties = ccdProperties;
-    }
 
     @RequestMapping(value = "auth0", method = RequestMethod.GET)
     public String processAuth0Login(
@@ -108,7 +100,7 @@ public class Auth0LoginController implements ViewPath {
         NonceStorage nonceStorage = new RequestNonceStorage(request);
         nonceStorage.setState(nonce);
 
-        model.addAttribute("callbackUrl", UrlAid.buildURI(request, ccdProperties, "callback"));
+        model.addAttribute("callbackUrl", UrlAid.buildURI(request, "callback"));
         model.addAttribute("state", nonce);
 
         return LOGIN_VIEW;
@@ -131,7 +123,7 @@ public class Auth0LoginController implements ViewPath {
                     .scheme("https")
                     .host(auth0Domain)
                     .pathSegment("v2", "logout")
-                    .queryParam("returnTo", UrlAid.buildURI(request, ccdProperties, "login"))
+                    .queryParam("returnTo", UrlAid.buildURI(request, "login"))
                     .build().toString();
         return new RedirectView(redirectUrl, false);
     }

@@ -33,12 +33,9 @@ public class UrlAid {
     private UrlAid() {
     }
 
-    private static UriComponentsBuilder buildURI2(HttpServletRequest request, CcdProperties ccdProperties) {
-        String name = ccdProperties.getCallbackServerName();
-        String port = ccdProperties.getCallbackServerPort();
-
-        String serverName = (name == null || name.isEmpty()) ? request.getServerName() : name;  // hostname.com
-        int serverPort = (port == null || port.isEmpty()) ? request.getServerPort() : Integer.parseInt(port); // 80
+    private static UriComponentsBuilder buildURI2(HttpServletRequest request) {
+        String serverName = request.getServerName();
+        int serverPort = request.getServerPort();
         String scheme = (serverPort == 443) ? "https" : "http";  // http or https
         String contextPath = request.getContextPath();  // /ccd
 
@@ -55,8 +52,8 @@ public class UrlAid {
         return uriBuilder;
     }
 
-    public static String buildURI(HttpServletRequest request, CcdProperties ccdProperties, String... pathSegments) {
-        return buildURI2(request, ccdProperties).pathSegment(pathSegments).build().normalize().toString();
+    public static String buildURI(HttpServletRequest request, String... pathSegments) {
+        return buildURI2(request).pathSegment(pathSegments).build().normalize().toString();
     }
 
 }
