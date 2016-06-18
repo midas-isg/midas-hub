@@ -6,20 +6,8 @@
         <title>CCD</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <style>
-            body,html{padding:0;margin:0}.table{display:table;position:absolute;height:100%;width:100%;background:linear-gradient(rgba(255,255,255,.3),rgba(255,255,255,0));background-color:#e8ebef}.cell{display:table-cell;vertical-align:middle}.content{padding:25px 0;margin-left:auto;margin-right:auto;width:280px}
-        </style>
     </head>
     <body>
-        <div class="table">
-            <div class="cell">
-                <div class="content">
-                    <div id="widget-container"></div>
-                </div>
-            </div>
-        </div>
-
-
         <script src="/vendors/auth0/lock-9.1.min.js"></script>
         <script th:inline="javascript">
             (function() { // TODO should be page not modal.
@@ -38,7 +26,7 @@
                     callbackURL: callbackUrl,
                     responseType: 'code',
                     rememberLastLogin: true,
-                    container: 'widget-container',
+                    closable: false,
                     authParams: {
                         state: state
                     }
