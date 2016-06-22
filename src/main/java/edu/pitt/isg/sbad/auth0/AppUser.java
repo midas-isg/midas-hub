@@ -30,7 +30,6 @@ import java.util.Date;
  */
 @Scope("session")
 public class AppUser {
-    private String username;
     private String firstName;
     private String middleName;
     private String lastName;
@@ -38,12 +37,13 @@ public class AppUser {
     private Date lastLogin;
     private boolean localAccount;
 
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
+    public String getName() {
+        if (firstName == null)
+            return getEmail();
+        String name = firstName;
+        if (lastName != null)
+            name += " " + lastName;
+        return name;
     }
 
     public String getFirstName() {
@@ -52,14 +52,6 @@ public class AppUser {
 
     public void setFirstName(String firstName) {
         this.firstName = firstName;
-    }
-
-    public String getMiddleName() {
-        return middleName;
-    }
-
-    public void setMiddleName(String middleName) {
-        this.middleName = middleName;
     }
 
     public String getLastName() {

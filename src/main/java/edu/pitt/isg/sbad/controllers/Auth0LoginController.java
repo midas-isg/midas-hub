@@ -68,16 +68,21 @@ public class Auth0LoginController implements ViewPath {
             return REDIRECT_LOGIN;
         } else {
             String email = auth0User.getEmail().toLowerCase();
-            String firstName = auth0User.getProperty("given_name");
-            String lastName = auth0User.getProperty("family_name");
             AppUser appUser = new AppUser();
             appUser.setEmail(email);
-            appUser.setFirstName((firstName == null) ? "" : firstName);
-            appUser.setMiddleName("");
-            appUser.setLastName((lastName == null) ? "" : lastName);
+            appUser.setFirstName(getSafely(auth0User, "given_name"));
+            appUser.setLastName(getSafely(auth0User, "family_name"));
             appUser.setLocalAccount(false);
             model.addAttribute("appUser", appUser);
             return TERMS_VIEW;
+        }
+    }
+
+    private String getSafely(Auth0User auth0User, String key) {
+        try {
+            return auth0User.getProperty(key);
+        } catch (Exception e){
+            return null;
         }
     }
 
