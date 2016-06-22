@@ -31,7 +31,6 @@ import java.util.Date;
 @Scope("session")
 public class AppUser {
     private String firstName;
-    private String middleName;
     private String lastName;
     private String email;
     private Date lastLogin;
