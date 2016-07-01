@@ -13,7 +13,6 @@ import java.io.IOException;
 
 @Controller
 public class CallbackController extends Auth0CallbackHandler {
-
     //private SsoConfig ssoConfig;
 
     /*@Autowired
@@ -71,5 +70,4 @@ public class CallbackController extends Auth0CallbackHandler {
         }
         return QueryParamUtils.parseFromQueryParams(stateFromRequest, "externalReturnUrl");
     }
-
 }

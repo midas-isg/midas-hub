@@ -39,8 +39,8 @@ import javax.servlet.http.HttpServletResponse;
  */
 @Controller
 @SessionAttributes("appUser")
-public class ApplicationController implements ViewPath {
-    @RequestMapping(value = "federated", method = RequestMethod.POST) // TODO make it more secured
+public class ApplicationController {
+    @RequestMapping(value = "secured/federated", method = RequestMethod.POST)
     public String processTermsAndConditions(
             @ModelAttribute("appUser") final AppUser appUser,
             final HttpServletRequest request,
@@ -50,11 +50,11 @@ public class ApplicationController implements ViewPath {
             final Model model) {
         model.addAttribute("appUser", appUser);
 
-        return REDIRECT_HOME;
+        return "redirect:/secured/home";
     }
 
-    @RequestMapping(value = HOME_VIEW, method = RequestMethod.GET)
+    @RequestMapping(value = "secured/home", method = RequestMethod.GET)
     public String showHomePage(@ModelAttribute("appUser") final AppUser appUser, final Model model) {
-        return HOME_VIEW;
+        return "secured/home";
     }
 }

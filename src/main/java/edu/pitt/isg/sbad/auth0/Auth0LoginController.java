@@ -21,7 +21,6 @@ package edu.pitt.isg.sbad.auth0;
 import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
 import com.auth0.web.SessionUtils;
-import edu.pitt.isg.sbad.controllers.ViewPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -47,7 +46,7 @@ import java.util.Collections;
  */
 @Controller
 @SessionAttributes("appUser")
-public class Auth0LoginController implements ViewPath {
+public class Auth0LoginController {
     public static final String LOGIN_VIEW = "auth0Login";
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
 
@@ -65,9 +64,8 @@ public class Auth0LoginController implements ViewPath {
         appUser.setLastName(auth0User.getFamilyName());
         appUser.setLocalAccount(false);
         model.addAttribute("appUser", appUser);
-        return TERMS_VIEW;
+        return "secured/terms";
     }
-
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showLoginPage(
