@@ -16,13 +16,12 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.isg.sbad.controllers;
+package edu.pitt.isg.sbad.auth0;
 
 import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
 import com.auth0.web.SessionUtils;
-import edu.pitt.isg.sbad.auth0.AppUser;
-import edu.pitt.isg.sbad.auth0.UrlAid;
+import edu.pitt.isg.sbad.controllers.ViewPath;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;

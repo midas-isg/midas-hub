@@ -10,12 +10,11 @@ import org.springframework.context.annotation.PropertySource;
 @SpringBootApplication
 @ComponentScan(basePackages = {"edu.pitt.isg.sbad", "com.auth0"})
 @EnableAutoConfiguration
-@PropertySource("classpath:auth0.properties")
+//@PropertySource("classpath:auth0.properties")
 public class Application {
 	public static void main(String[] args) {
 		final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
-		//ctx.register(Auth0Config.class);
-		ctx.refresh();
+		//ctx.refresh();
 		SpringApplication.run(Application.class, args);
 	}
 }
