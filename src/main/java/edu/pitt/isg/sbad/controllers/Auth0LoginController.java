@@ -18,14 +18,11 @@
  */
 package edu.pitt.isg.sbad.controllers;
 
-import com.auth0.Auth0User;
-import com.auth0.NonceGenerator;
-import com.auth0.NonceStorage;
-import com.auth0.RequestNonceStorage;
+import com.auth0.web.Auth0User;
+import com.auth0.web.NonceUtils;
+import com.auth0.web.SessionUtils;
 import edu.pitt.isg.sbad.auth0.AppUser;
 import edu.pitt.isg.sbad.auth0.UrlAid;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.subject.Subject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -55,36 +52,23 @@ public class Auth0LoginController implements ViewPath {
     public static final String LOGIN_VIEW = "auth0Login";
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
 
-    private final NonceGenerator nonceGenerator = new NonceGenerator();
-
     @RequestMapping(value = "auth0", method = RequestMethod.GET)
     public String processAuth0Login(
             final HttpServletRequest request,
             final HttpServletResponse response,
             final RedirectAttributes redirectAttributes,
             final Model model) {
-        Auth0User auth0User = Auth0User.get(request);
-        if (auth0User == null) {
-            return REDIRECT_LOGIN;
-        } else {
-            String email = auth0User.getEmail().toLowerCase();
-            AppUser appUser = new AppUser();
-            appUser.setEmail(email);
-            appUser.setFirstName(getSafely(auth0User, "given_name"));
-            appUser.setLastName(getSafely(auth0User, "family_name"));
-            appUser.setLocalAccount(false);
-            model.addAttribute("appUser", appUser);
-            return TERMS_VIEW;
-        }
+        Auth0User auth0User = (Auth0User)request.getSession().getAttribute("auth0User");
+        String email = auth0User.getEmail().toLowerCase();
+        AppUser appUser = new AppUser();
+        appUser.setEmail(email);
+        appUser.setFirstName(auth0User.getGivenName());
+        appUser.setLastName(auth0User.getFamilyName());
+        appUser.setLocalAccount(false);
+        model.addAttribute("appUser", appUser);
+        return TERMS_VIEW;
     }
 
-    private String getSafely(Auth0User auth0User, String key) {
-        try {
-            return auth0User.getProperty(key);
-        } catch (Exception e){
-            return null;
-        }
-    }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showLoginPage(
@@ -92,18 +76,8 @@ public class Auth0LoginController implements ViewPath {
             final SessionStatus sessionStatus,
             final Model model) {
 
-        Subject currentUser = SecurityUtils.getSubject();
-        if (sessionStatus.isComplete()) {
-            currentUser.logout();
-        } else if (currentUser.isAuthenticated()) {
-            return REDIRECT_TERMS;
-        } else {
-            sessionStatus.setComplete();
-        }
-
-        String nonce = nonceGenerator.generateNonce();
-        NonceStorage nonceStorage = new RequestNonceStorage(request);
-        nonceStorage.setState(nonce);
+        NonceUtils.addNonceToStorage(request);
+        String nonce = SessionUtils.getState(request);
 
         model.addAttribute("callbackUrl", UrlAid.buildURI(request, "callback"));
         model.addAttribute("state", nonce);
@@ -117,12 +91,9 @@ public class Auth0LoginController implements ViewPath {
             final HttpServletRequest request,
             final SessionStatus sessionStatus,
             final RedirectAttributes redirectAttributes) {
-        Subject currentUser = SecurityUtils.getSubject();
-        if (currentUser.isAuthenticated()) {
-            currentUser.logout();
-            sessionStatus.setComplete();
-            redirectAttributes.addFlashAttribute("successMsg", Collections.singletonList("You have successfully logged out."));
-        }
+
+        sessionStatus.setComplete();
+        redirectAttributes.addFlashAttribute("successMsg", Collections.singletonList("You have successfully logged out."));
 
         String redirectUrl = UriComponentsBuilder.newInstance()
                     .scheme("https")

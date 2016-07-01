@@ -1,4 +1,4 @@
-package edu.pitt.isg.sbad.auth0;
+/*package edu.pitt.isg.sbad.auth0;
 
 import com.auth0.Auth0Filter;
 import com.auth0.Auth0ServletCallback;
@@ -28,11 +28,20 @@ public class Auth0Config {
     @Value(value = "${auth0.securedRoute}")
     protected String securedRoute;
 
-    @Bean(name = "authFilter")
+    @Bean(name = "appAuthFilter")
     public FilterRegistrationBean authFilter() {
         FilterRegistrationBean registrationBean = new FilterRegistrationBean();
-        registrationBean.setFilter(new Auth0Filter());
+        registrationBean.setFilter(new AppAuth0Filter());
         registrationBean.addInitParameter("auth0.redirect_on_authentication_error", "/login");
+        registrationBean.addUrlPatterns("/");
+
+        return registrationBean;
+    }
+
+    /*@Bean(name = "authFilter")
+    public FilterRegistrationBean appAuthFilter() {
+        FilterRegistrationBean registrationBean = new FilterRegistrationBean();
+        registrationBean.setFilter(new AppAuth0Filter());
         registrationBean.addUrlPatterns("/");
 
         return registrationBean;
@@ -54,4 +63,4 @@ public class Auth0Config {
 
         return registrationBean;
     }
-}
+}*/

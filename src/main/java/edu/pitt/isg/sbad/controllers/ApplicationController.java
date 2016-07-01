@@ -19,7 +19,6 @@
 package edu.pitt.isg.sbad.controllers;
 
 import edu.pitt.isg.sbad.auth0.AppUser;
-import org.apache.shiro.web.subject.WebSubject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,10 +50,6 @@ public class ApplicationController implements ViewPath {
             final Model model) {
         model.addAttribute("appUser", appUser);
 
-        new WebSubject.Builder(request, response)
-                .authenticated(true)
-                .sessionCreationEnabled(true)
-                .buildSubject();
         return REDIRECT_HOME;
     }
 

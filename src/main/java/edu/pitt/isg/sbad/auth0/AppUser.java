@@ -29,7 +29,7 @@ import java.util.Date;
  * @author Kevin V. Bui (kvb2@pitt.edu)
  */
 @Scope("session")
-public class AppUser {
+public class AppUser  {
     private String firstName;
     private String lastName;
     private String email;
