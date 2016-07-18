@@ -40,7 +40,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @SessionAttributes("appUser")
 public class ApplicationController {
-    @RequestMapping(value = "secured/federated", method = RequestMethod.POST)
+    @RequestMapping(value = "federated", method = RequestMethod.POST) // TODO make it more secured.
     public String processTermsAndConditions(
             @ModelAttribute("appUser") final AppUser appUser,
             final HttpServletRequest request,

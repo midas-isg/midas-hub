@@ -9,10 +9,9 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @ComponentScan(basePackages = {"edu.pitt.isg.sbad", "com.auth0"})
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 public class Application {
 	public static void main(String[] args) {
-		final AnnotationConfigApplicationContext ctx = new AnnotationConfigApplicationContext();
 		SpringApplication.run(Application.class, args);
 	}
 }
