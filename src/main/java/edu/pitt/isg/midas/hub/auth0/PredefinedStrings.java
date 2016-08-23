@@ -1,4 +1,4 @@
-package edu.pitt.isg.sbad.auth0;
+package edu.pitt.isg.midas.hub.auth0;
 
 public class PredefinedStrings {
     public static final String AFFILIATION = "affiliation";

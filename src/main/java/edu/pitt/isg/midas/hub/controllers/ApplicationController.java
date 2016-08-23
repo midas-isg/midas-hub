@@ -16,9 +16,9 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.isg.sbad.controllers;
+package edu.pitt.isg.midas.hub.controllers;
 
-import edu.pitt.isg.sbad.auth0.AppUser;
+import edu.pitt.isg.midas.hub.auth0.AppUser;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;

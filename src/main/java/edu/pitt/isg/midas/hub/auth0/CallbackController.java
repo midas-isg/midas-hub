@@ -1,4 +1,4 @@
-package edu.pitt.isg.sbad.auth0;
+package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0CallbackHandler;
 import com.auth0.web.QueryParamUtils;

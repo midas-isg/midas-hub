@@ -1,4 +1,4 @@
-package edu.pitt.isg.sbad.controllers;
+package edu.pitt.isg.midas.hub.controllers;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;

@@ -1,4 +1,4 @@
-package edu.pitt.isg.sbad.auth0;
+package edu.pitt.isg.midas.hub.auth0;
 
 
 import com.auth0.web.Auth0CallbackHandler;
@@ -25,8 +25,8 @@ import java.util.Set;
 import java.util.TreeSet;
 
 import static com.auth0.web.SessionUtils.getAuth0User;
-import static edu.pitt.isg.sbad.auth0.PredefinedStrings.AFFILIATION;
-import static edu.pitt.isg.sbad.auth0.PredefinedStrings.ISG_USER;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
 import static java.util.Collections.singletonMap;
 import static org.springframework.http.HttpMethod.PATCH;
 

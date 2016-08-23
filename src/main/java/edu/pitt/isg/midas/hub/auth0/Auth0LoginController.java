@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.isg.sbad.auth0;
+package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
@@ -38,7 +38,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 
-import static edu.pitt.isg.sbad.auth0.PredefinedStrings.AFFILIATION;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 
 /**
  *

@@ -16,7 +16,7 @@
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
  * MA 02110-1301  USA
  */
-package edu.pitt.isg.sbad.auth0;
+package edu.pitt.isg.midas.hub.auth0;
 
 import org.springframework.web.util.UriComponentsBuilder;
 
