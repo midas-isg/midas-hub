@@ -4,12 +4,12 @@
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>edu.pitt.isg</groupId>
-  <artifactId>spring-boot-auth0-demo</artifactId>
+  <artifactId>midas-hub</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
 
-  <name>exp-spring-boot-auth0</name>
-  <description>Auth0 Spring Boot API Example</description>
+  <name>MIDAS Hub</name>
+  <description>Hub for MIDAS-Network applications</description>
 
   <parent>
     <groupId>org.springframework.boot</groupId>

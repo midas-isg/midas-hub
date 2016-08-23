@@ -38,6 +38,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 
+import static edu.pitt.isg.sbad.auth0.PredefinedStrings.AFFILIATION;
+
 /**
  *
  * Feb 18, 2016 2:00:19 PM
@@ -56,7 +58,7 @@ public class Auth0LoginController {
             final HttpServletResponse response,
             final RedirectAttributes redirectAttributes,
             final Model model) {
-        Auth0User auth0User = (Auth0User)request.getSession().getAttribute("auth0User");
+        final Auth0User auth0User = SessionUtils.getAuth0User(request); //authenticateUserAtAppLevel(request);
         String email = auth0User.getEmail().toLowerCase();
         AppUser appUser = new AppUser();
         appUser.setEmail(email);
@@ -64,15 +66,17 @@ public class Auth0LoginController {
         appUser.setLastName(auth0User.getFamilyName());
         appUser.setLocalAccount(false);
         model.addAttribute("appUser", appUser);
-        return "secured/terms";
+        if (auth0User.getAppMetadata().get(AFFILIATION) == null) {
+            return "secured/terms";
+        }
+        return "secured/home";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showLoginPage(
             final HttpServletRequest request,
-            final SessionStatus sessionStatus,
-            final Model model) {
-
+            final Model model)
+    {
         NonceUtils.addNonceToStorage(request);
         String nonce = SessionUtils.getState(request);
 
@@ -93,11 +97,11 @@ public class Auth0LoginController {
         redirectAttributes.addFlashAttribute("successMsg", Collections.singletonList("You have successfully logged out."));
 
         String redirectUrl = UriComponentsBuilder.newInstance()
-                    .scheme("https")
-                    .host(auth0Domain)
-                    .pathSegment("v2", "logout")
-                    .queryParam("returnTo", UrlAid.buildURI(request, "login"))
-                    .build().toString();
+                .scheme("https")
+                .host(auth0Domain)
+                .pathSegment("v2", "logout")
+                .queryParam("returnTo", UrlAid.buildURI(request, "login"))
+                .build().toString();
         return new RedirectView(redirectUrl, false);
     }
 }

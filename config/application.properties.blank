@@ -1,0 +1,11 @@
+# Your application settings:
+server.port=
+server.context-path=
+
+# Auth0 application settings:
+auth0.clientSecret=
+auth0.clientId=
+auth0.domain=
+auth0.issuer=
+
+app.auth0.secret.token=
