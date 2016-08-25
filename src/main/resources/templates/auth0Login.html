@@ -6,22 +6,25 @@
         <title>Login - MIDAS</title>
         <meta name="description" content="" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+        <link rel='icon' th:href="@{/public/favicon.ico}"/>
     </head>
     <body>
-        <script th:src="@{/vendors/auth0/lock-9.1.min.js}"></script>
+        <script th:src="@{/webjars/auth0-lock/build/auth0-lock.js}"></script>
         <script th:inline="javascript">
             (function() {
                 var auth0ClientId = /*[[${@environment.getProperty('auth0.clientId')}]]*/ '';
                 var auth0Domain = /*[[${@environment.getProperty('auth0.domain')}]]*/ '';
                 var state = /*[[${state}]]*/ '';
                 var callbackUrl = /*[[${callbackUrl}]]*/ '';
+                var icon = /*[[@{/public/logo.png}]]*/ '';
                 new Auth0Lock(auth0ClientId, auth0Domain).show({
                     dict: {
                         signin: {
                             title: "MIDAS Hub"
                         }
                     },
-                    icon: 'http://www.epimodels.org/drupal/sites/all/themes/marinelli/logo.png',
+                    icon: icon,
                     callbackURL: callbackUrl,
                     responseType: 'code',
                     rememberLastLogin: true,
