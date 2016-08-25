@@ -26,6 +26,7 @@ buildNumber.properties
 hs_err_pid*
 /.idea
 /db/hsqldb/*.log
-/db/hsqldb/*.tmp/
 /db/hsqldb/*.lck
+/db/hsqldb/*.properties
+/db/hsqldb/*.tmp/
 /PID
