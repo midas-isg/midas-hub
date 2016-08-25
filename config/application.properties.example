@@ -1,6 +1,6 @@
-# Your application settings:
-server.port=8080
-server.context-path=/ccd
+# application settings:
+server.port=9000
+server.context-path=/dev
 
 # Auth0 application settings:
 auth0.clientSecret=obd5NC6RpVVu3FHMDFHWZ3hQAeaNw8Ch1FYDAKok6NiiLLK1vOygP54tf4rMlnja
@@ -9,3 +9,6 @@ auth0.domain=dbmi-sso.auth0.com
 auth0.issuer=https://dbmi-sso.auth0.com/
 
 app.auth0.secret.token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJOWTk0dWt3VXJJbHE2ZTFFTlh1YzgyZDZyOXF4SjFXcyIsInNjb3BlcyI6eyJ1c2Vyc19hcHBfbWV0YWRhdGEiOnsiYWN0aW9ucyI6WyJyZWFkIiwidXBkYXRlIiwiY3JlYXRlIl19fSwiaWF0IjoxNDcwNjY1Mzc0LCJqdGkiOiIwZjM3OWY4YzY2ZjJlZjQzZjFmYmI3YTBhMWEwMGVmZiJ9.9ROB6XaTWho9RYplnjNPVaUeJjcRvP27daBS3z9ZJjo
+
+# Database settings:
+spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod

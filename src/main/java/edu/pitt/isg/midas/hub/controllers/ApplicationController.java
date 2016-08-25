@@ -19,6 +19,9 @@
 package edu.pitt.isg.midas.hub.controllers;
 
 import edu.pitt.isg.midas.hub.auth0.AppUser;
+import edu.pitt.isg.midas.hub.service.Service;
+import edu.pitt.isg.midas.hub.service.ServiceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -40,13 +43,12 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 @SessionAttributes("appUser")
 public class ApplicationController {
+    @Autowired
+    private ServiceRepository repository;
+
     @RequestMapping(value = "federated", method = RequestMethod.POST) // TODO make it more secured.
     public String processTermsAndConditions(
             @ModelAttribute("appUser") final AppUser appUser,
-            final HttpServletRequest request,
-            final HttpServletResponse response,
-            final SessionStatus sessionStatus,
-            final RedirectAttributes redirectAttributes,
             final Model model) {
         model.addAttribute("appUser", appUser);
 
@@ -55,6 +57,8 @@ public class ApplicationController {
 
     @RequestMapping(value = "secured/home", method = RequestMethod.GET)
     public String showHomePage(@ModelAttribute("appUser") final AppUser appUser, final Model model) {
+        final Iterable<Service> iterable = repository.findAll();
+        model.addAttribute("services", iterable);
         return "secured/home";
     }
 }

@@ -19,8 +19,13 @@
                 <div class="page-header">
                     <span class="h3" th:text="'Welcome ' + ${appUser.name}">Welcome User</span>
                 </div>
-
-                <a href="http://localhost:8080/alv">Apollo Library Viewer</a>
+                <h4>Here are our services</h4>
+                <ul>
+                    <li th:each="service : ${services}">
+                        <a th:href="${service.url}" th:text="${service.name}"></a>
+                        <span class='small' th:text="${service.description}"></span>
+                    </li>
+                </ul>
             </div>
         </div>
         <footer th:replace="secured/fragments/footer :: footer" />

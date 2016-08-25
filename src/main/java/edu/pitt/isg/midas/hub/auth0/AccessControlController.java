@@ -3,6 +3,7 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0CallbackHandler;
 import com.auth0.web.Auth0User;
+import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -38,7 +40,11 @@ public class AccessControlController extends Auth0CallbackHandler {
     private String bearerToken;
 
     @RequestMapping(value = "/secured/term-acceptance", method = RequestMethod.POST)
-    public String acceptTerms(String affiliationName, final HttpServletRequest request){
+    public String acceptTerms(final String affiliationName, final HttpServletRequest request, final RedirectAttributes redirectAttributes){
+        if (affiliationName == null) {
+            redirectAttributes.addFlashAttribute("error", "Organization is required!");
+            return "redirect:/auth0";
+        }
         final Auth0User auth0User = getAuth0User(request);
         saveUserMetaDataAffiliationAndIsgUserRole(auth0User, affiliationName);
         return "redirect:" + this.redirectOnSuccess;

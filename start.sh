@@ -1,3 +1,5 @@
-#!
-cp -n config/application.properties.blank config/application.properties
-mvn clean spring-boot:run
+#!/usr/bin/env bash
+cp -n config/application.properties.template config/application.properties
+mvn clean
+mvn spring-boot:run &
+echo $! > PID

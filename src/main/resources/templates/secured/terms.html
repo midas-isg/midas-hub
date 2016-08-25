@@ -28,9 +28,15 @@
                 <h4 class="pitt-color">MIDAS Terms and Conditions</h4>
             </div>
             <div class="panel-body">
+                <div class="bg-danger" th:text="${error}"></div>
+                <h5>Please select organization in MIDAS that is closest to you</h5>
                 <form id="term_form" role="form" method="POST" action="secured/term-acceptance">
                     <fieldset>
-                        <input name="affiliationName" type="text" />
+                        <div th:each="affiliation : ${affiliations}">
+                                <input type='radio' name='affiliationName' th:id='${affiliation.name}' th:value="${affiliation.name}" />
+                                <label th:for='${affiliation.name}' th:text="${affiliation.name}"></label>
+                                <span class='small' th:text="${affiliation.description}"></span>
+                        </div>
                         <button id="accept" type="submit" class="btn btn-lg btn-block btn-success">Submit</button>
                     </fieldset>
                 </form>

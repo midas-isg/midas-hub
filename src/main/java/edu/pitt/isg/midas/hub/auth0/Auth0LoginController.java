@@ -21,8 +21,10 @@ package edu.pitt.isg.midas.hub.auth0;
 import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
 import com.auth0.web.SessionUtils;
+import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -35,7 +37,6 @@ import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Collections;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
@@ -51,14 +52,15 @@ import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 public class Auth0LoginController {
     public static final String LOGIN_VIEW = "auth0Login";
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
+    @Autowired
+    private AffiliationRepository repo;
 
-    @RequestMapping(value = "auth0", method = RequestMethod.GET)
+    @RequestMapping(value = "/auth0", method = RequestMethod.GET)
     public String processAuth0Login(
             final HttpServletRequest request,
-            final HttpServletResponse response,
-            final RedirectAttributes redirectAttributes,
+            final String errorMessage,
             final Model model) {
-        final Auth0User auth0User = SessionUtils.getAuth0User(request); //authenticateUserAtAppLevel(request);
+        final Auth0User auth0User = SessionUtils.getAuth0User(request);
         String email = auth0User.getEmail().toLowerCase();
         AppUser appUser = new AppUser();
         appUser.setEmail(email);
@@ -67,9 +69,10 @@ public class Auth0LoginController {
         appUser.setLocalAccount(false);
         model.addAttribute("appUser", appUser);
         if (auth0User.getAppMetadata().get(AFFILIATION) == null) {
+            model.addAttribute("affiliations", repo.findAll());
             return "secured/terms";
         }
-        return "secured/home";
+        return "redirect:secured/home";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

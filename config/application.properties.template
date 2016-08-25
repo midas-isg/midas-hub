@@ -1,4 +1,4 @@
-# Your application settings:
+# application settings:
 server.port=
 server.context-path=
 
@@ -9,3 +9,6 @@ auth0.domain=
 auth0.issuer=
 
 app.auth0.secret.token=
+
+# Database settings:
+spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod
