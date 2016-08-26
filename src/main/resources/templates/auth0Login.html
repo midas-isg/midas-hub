@@ -10,7 +10,7 @@
         <link rel='icon' th:href="@{/public/favicon.ico}"/>
     </head>
     <body>
-        <script th:src="@{/webjars/auth0-lock/build/auth0-lock.js}"></script>
+        <script th:src="@{/webjars/auth0-lock/build/auth0-lock.min.js}"></script>
         <script th:inline="javascript">
             (function() {
                 var auth0ClientId = /*[[${@environment.getProperty('auth0.clientId')}]]*/ '';

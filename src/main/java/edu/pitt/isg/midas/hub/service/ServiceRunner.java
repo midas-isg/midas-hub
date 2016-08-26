@@ -1,6 +1,5 @@
 package edu.pitt.isg.midas.hub.service;
 
-import edu.pitt.isg.midas.hub.Application;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ public class ServiceRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        // reloadServices();
         loadServicesIfNotExist();
         logServices();
     }
@@ -23,11 +21,6 @@ public class ServiceRunner implements CommandLineRunner {
     private void loadServicesIfNotExist() {
         if (repository.count() <= 0)
             loadServices();
-    }
-
-    private void reloadServices() {
-        repository.deleteAll();
-        loadServices();
     }
 
     private void loadServices() {

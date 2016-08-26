@@ -3,7 +3,6 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0CallbackHandler;
 import com.auth0.web.Auth0User;
-import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Value;
@@ -39,7 +38,7 @@ public class AccessControlController extends Auth0CallbackHandler {
     @Value("${app.auth0.secret.token}")
     private String bearerToken;
 
-    @RequestMapping(value = "/secured/term-acceptance", method = RequestMethod.POST)
+    @RequestMapping(value = "/term-acceptance", method = RequestMethod.POST)
     public String acceptTerms(final String affiliationName, final HttpServletRequest request, final RedirectAttributes redirectAttributes){
         if (affiliationName == null) {
             redirectAttributes.addFlashAttribute("error", "Organization is required!");

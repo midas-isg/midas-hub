@@ -16,7 +16,6 @@ public class AffiliationRunner implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        //reloadAffiliations();
         loadAffiliationsIfNotExist();
         logAffiliations();
     }
@@ -33,11 +32,6 @@ public class AffiliationRunner implements CommandLineRunner {
             log.debug(aff.toString());
         }
         log.debug("");
-    }
-
-    private void reloadAffiliations() {
-        repository.deleteAll();
-        loadAffiliations();
     }
 
     private void loadAffiliations() {

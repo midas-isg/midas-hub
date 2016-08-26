@@ -1,21 +1,3 @@
-/*
- * Copyright (C) 2016 University of Pittsburgh.
- *
- * This library is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Lesser General Public
- * License as published by the Free Software Foundation; either
- * version 2.1 of the License, or (at your option) any later version.
- *
- * This library is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- * Lesser General Public License for more details.
- *
- * You should have received a copy of the GNU Lesser General Public
- * License along with this library; if not, write to the Free Software
- * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston,
- * MA 02110-1301  USA
- */
 package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0User;
@@ -41,45 +23,32 @@ import java.util.Collections;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 
-/**
- *
- * Feb 18, 2016 2:00:19 PM
- *
- * @author Kevin V. Bui (kvb2@pitt.edu)
- */
 @Controller
 @SessionAttributes("appUser")
 public class Auth0LoginController {
     public static final String LOGIN_VIEW = "auth0Login";
     private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
+
     @Autowired
     private AffiliationRepository repo;
 
     @RequestMapping(value = "/auth0", method = RequestMethod.GET)
     public String processAuth0Login(
             final HttpServletRequest request,
-            final String errorMessage,
             final Model model) {
         final Auth0User auth0User = SessionUtils.getAuth0User(request);
-        String email = auth0User.getEmail().toLowerCase();
-        AppUser appUser = new AppUser();
-        appUser.setEmail(email);
-        appUser.setFirstName(auth0User.getGivenName());
-        appUser.setLastName(auth0User.getFamilyName());
-        appUser.setLocalAccount(false);
-        model.addAttribute("appUser", appUser);
+        model.addAttribute("appUser", auth0User);
         if (auth0User.getAppMetadata().get(AFFILIATION) == null) {
             model.addAttribute("affiliations", repo.findAll());
-            return "secured/terms";
+            return "/terms";
         }
-        return "redirect:secured/home";
+        return "redirect:/secured/home";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String showLoginPage(
             final HttpServletRequest request,
-            final Model model)
-    {
+            final Model model) {
         NonceUtils.addNonceToStorage(request);
         String nonce = SessionUtils.getState(request);
 
@@ -89,8 +58,8 @@ public class Auth0LoginController {
         return LOGIN_VIEW;
     }
 
-    @RequestMapping(value = "/logout", method = RequestMethod.GET)
-    public RedirectView logOut(
+    @RequestMapping(value = "/logoutFromAuth0", method = RequestMethod.GET)
+    public RedirectView logout(
             @Value("${auth0.domain}") final String auth0Domain,
             final HttpServletRequest request,
             final SessionStatus sessionStatus,
