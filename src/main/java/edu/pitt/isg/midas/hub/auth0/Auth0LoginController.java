@@ -4,8 +4,6 @@ import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
 import com.auth0.web.SessionUtils;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
@@ -26,8 +24,7 @@ import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 @Controller
 @SessionAttributes("appUser")
 public class Auth0LoginController {
-    public static final String LOGIN_VIEW = "auth0Login";
-    private static final Logger LOGGER = LoggerFactory.getLogger(Auth0LoginController.class);
+    private static final String LOGIN_VIEW = "auth0Login";
 
     @Autowired
     private AffiliationRepository repo;

@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 @Controller
-public class CallbackController extends Auth0CallbackHandler {
+class CallbackController extends Auth0CallbackHandler {
     //private SsoConfig ssoConfig;
 
     /*@Autowired
@@ -63,7 +63,7 @@ public class CallbackController extends Auth0CallbackHandler {
         return isNonceValid && isTrustedExternalReturnUrl;
     }
 
-    protected String getExternalReturnUrl(final HttpServletRequest req) {
+    private String getExternalReturnUrl(final HttpServletRequest req) {
         final String stateFromRequest = req.getParameter("state");
         if (stateFromRequest == null) {
             throw new IllegalStateException("state missing in request");

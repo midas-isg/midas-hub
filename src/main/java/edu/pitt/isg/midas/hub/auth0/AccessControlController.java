@@ -32,7 +32,7 @@ import static java.util.Collections.singletonMap;
 import static org.springframework.http.HttpMethod.PATCH;
 
 @Controller
-public class AccessControlController extends Auth0CallbackHandler {
+class AccessControlController extends Auth0CallbackHandler {
     private static final String ROLES = "roles";
     private static final String APP_METADATA = "app_metadata";
     @Value("${app.auth0.secret.token}")
@@ -71,13 +71,16 @@ public class AccessControlController extends Auth0CallbackHandler {
     }
 
     private void updateAuth0UserToGainNewAuthorities(Auth0User user, ResponseEntity<HashMap> exchange) {
+        @SuppressWarnings("unchecked")
         final Map<String, Object> body = (Map<String, Object>)exchange.getBody();
+        @SuppressWarnings("unchecked")
         final Map<String, Object> appMetadata = (Map<String, Object>) body.get(APP_METADATA);
         user.getAppMetadata().putAll(appMetadata);
 
         final List<String> roles = user.getRoles();
         roles.clear();
-        List<String>list = (List<String>) appMetadata.get(ROLES);
+        @SuppressWarnings("unchecked")
+        final List<String>list = (List<String>) appMetadata.get(ROLES);
         roles.addAll(list);
     }
 
@@ -106,6 +109,7 @@ public class AccessControlController extends Auth0CallbackHandler {
         appMetadata.put(AFFILIATION, singletonMap("name", orgName));
     }
 
+    @SuppressWarnings("unchecked")
     private void addRole(Map<String, Object> appMetadata, String role) {
         final Set<String> roles =  new TreeSet<>();
         final Object obj = appMetadata.get(ROLES);
