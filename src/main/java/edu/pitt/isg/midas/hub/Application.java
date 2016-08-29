@@ -1,6 +1,5 @@
 package edu.pitt.isg.midas.hub;
 
-//import edu.pitt.isg.midas.hub.affiliation.AffiliationRunner;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationRunner;
 import edu.pitt.isg.midas.hub.service.ServiceRunner;
 import org.springframework.boot.CommandLineRunner;
