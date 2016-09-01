@@ -37,7 +37,7 @@ public class Auth0LoginController {
         model.addAttribute("appUser", auth0User);
         if (auth0User.getAppMetadata().get(AFFILIATION) == null) {
             model.addAttribute("affiliations", repo.findAll());
-            return "/terms";
+            return "terms";
         }
         return "redirect:/secured/home";
     }

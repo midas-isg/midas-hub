@@ -73,7 +73,7 @@ public class AffiliationTest {
         mvc.perform(get(path).with(user("aNewUser")).session(session))
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("affiliations", affiliates))
-                .andExpect(view().name("/terms"));
+                .andExpect(view().name("terms"));
     }
 
     @Test

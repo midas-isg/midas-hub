@@ -17,7 +17,7 @@ class ApplicationController {
     @RequestMapping(value = "/secured/home", method = RequestMethod.GET)
     public String showHomePage(final Model model) {
         model.addAttribute("services", repository.findAll());
-        return "/secured/home";
+        return "secured/home";
     }
 
     @RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=text/html")
