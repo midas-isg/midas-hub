@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <title>Login</title>
+    <script th:src="@{/webjars/auth0-lock/build/auth0-lock.min.js}"></script>
+</head>
+<body>
+<div class="container">
+    <script th:inline="javascript">
+        (function () {
+            var auth0ClientId = /*[[${@environment.getProperty('auth0.clientId')}]]*/ '';
+            var auth0Domain = /*[[${@environment.getProperty('auth0.domain')}]]*/ '';
+            var state = /*[[${state}]]*/ '';
+            var callbackUrl = /*[[${loginCallback}]]*/ '';
+            var lock = new Auth0Lock(auth0ClientId, auth0Domain);
+            lock.showSignin({
+                dict: {
+                    signin: {
+                        title: "MIDAS Network"
+                    }
+                },
+                authParams: {
+                    state: state,
+                    scope: 'openid roles user_id name nickname email picture'
+                },
+                sso: true,
+                responseType: 'code',
+                popup: false,
+                callbackURL: callbackUrl
+            });
+        })();
+    </script>
+</div>
+</body>
+</html>

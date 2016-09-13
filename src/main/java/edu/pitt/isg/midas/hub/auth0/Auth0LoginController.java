@@ -51,7 +51,11 @@ public class Auth0LoginController {
 
         model.addAttribute("callbackUrl", UrlAid.buildURI(request, "callback"));
         model.addAttribute("state", nonce);
-
+        final Auth0User auth0User = SessionUtils.getAuth0User(request);
+        if (auth0User != null) {
+            model.addAttribute("userId", auth0User.getUserId());
+            model.addAttribute("appUser", auth0User);
+        }
         return LOGIN_VIEW;
     }
 

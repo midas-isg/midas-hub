@@ -2,6 +2,7 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0CallbackHandler;
 import com.auth0.web.QueryParamUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -13,12 +14,12 @@ import java.io.IOException;
 
 @Controller
 class CallbackController extends Auth0CallbackHandler {
-    //private SsoConfig ssoConfig;
+    private SsoConfig ssoConfig;
 
-    /*@Autowired
+    @Autowired
     protected void setSsoConfig(final SsoConfig ssoConfig) {
         this.ssoConfig = ssoConfig;
-    }*/
+    }
 
     @RequestMapping(value = "${auth0.loginCallback}", method = RequestMethod.GET)
     protected void callback(final HttpServletRequest req, final HttpServletResponse res)
@@ -58,8 +59,8 @@ class CallbackController extends Auth0CallbackHandler {
     protected boolean isValidState(final HttpServletRequest req) {
         final boolean isNonceValid = super.isValidState(req);
         final String externalReturnUrl = getExternalReturnUrl(req);
-        final boolean isTrustedExternalReturnUrl = (externalReturnUrl == null) /*||
-                ssoConfig.getTrustedExternalReturnUrls().contains(externalReturnUrl)*/;
+        final boolean isTrustedExternalReturnUrl = (externalReturnUrl == null) ||
+                ssoConfig.getTrustedExternalReturnUrls().contains(externalReturnUrl);
         return isNonceValid && isTrustedExternalReturnUrl;
     }
 
