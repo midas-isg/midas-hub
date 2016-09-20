@@ -22,38 +22,31 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 
-/**
- *
- * Feb 18, 2016 12:18:13 PM
- *
- * @author Kevin V. Bui (kvb2@pitt.edu)
- */
 public class UrlAid {
-
     private UrlAid() {
     }
 
-    private static UriComponentsBuilder buildURI2(HttpServletRequest request) {
-        String serverName = request.getServerName();
-        int serverPort = request.getServerPort();
-        String scheme = (serverPort == 443) ? "https" : "http";  // http or https
-        String contextPath = request.getContextPath();  // /ccd
+    private static UriComponentsBuilder toContextUrlBuilder(HttpServletRequest request) {
+        final String serverName = request.getServerName();
+        final int serverPort = request.getServerPort();
+        final String scheme = (serverPort == 443) ? "https" : "http";
 
-        UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance()
+        final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance()
                 .scheme(scheme)
                 .host(serverName);
         if (!(serverPort == 80 || serverPort == 443)) {
-            uriBuilder = uriBuilder.port(serverPort);
+            uriBuilder.port(serverPort);
         }
+        final String contextPath = request.getContextPath();
         if (!(contextPath == null || contextPath.isEmpty())) {
-            uriBuilder = uriBuilder.path(contextPath);
+            uriBuilder.path(contextPath);
         }
 
         return uriBuilder;
     }
 
-    public static String buildURI(HttpServletRequest request, String... pathSegments) {
-        return buildURI2(request).pathSegment(pathSegments).build().normalize().toString();
+    public static String toAbsoluteUrl(HttpServletRequest request, String... pathSegments) {
+        return toContextUrlBuilder(request).pathSegment(pathSegments).build().normalize().toString();
     }
 
 }

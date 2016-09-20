@@ -1,6 +1,6 @@
 # application settings:
-server.port=9000
-server.context-path=/dev
+server.port=8900
+server.context-path=/hub
 
 # Auth0 application settings:
 auth0.clientSecret=obd5NC6RpVVu3FHMDFHWZ3hQAeaNw8Ch1FYDAKok6NiiLLK1vOygP54tf4rMlnja
@@ -12,3 +12,6 @@ app.auth0.secret.token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJOWTk0dWt3
 
 # Database settings:
 spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod
+
+# SSO
+sso.trustedExternalReturnUrls: http://localhost:4000/partner/home,http://app2.com:4000/partner/home

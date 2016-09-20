@@ -27,6 +27,7 @@ import java.util.TreeSet;
 
 import static com.auth0.web.SessionUtils.getAuth0User;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
 import static java.util.Collections.singletonMap;
 import static org.springframework.http.HttpMethod.PATCH;
@@ -46,6 +47,9 @@ class AccessControlController extends Auth0CallbackHandler {
         }
         final Auth0User auth0User = getAuth0User(request);
         saveUserMetaDataAffiliationAndIsgUserRole(auth0User, affiliationName);
+        final Object attribute = request.getSession().getAttribute(RETURN_TO_URL_KEY);
+        if (attribute != null)
+            return "redirect:" + attribute;
         return "redirect:" + this.redirectOnSuccess;
     }
 
@@ -55,7 +59,7 @@ class AccessControlController extends Auth0CallbackHandler {
         addRole(appMetadata, ISG_USER);
         Map<String, Object> userProfile = toUserProfileMap(appMetadata);
         final HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userProfile, toHttpHeaders());
-        String url = toUserUrl(user);
+        final String url = toUserUrl(user);
         final ResponseEntity<HashMap> exchange = toRestTemplate().exchange(url, PATCH, requestEntity, HashMap.class);
         if (exchange.getStatusCode().is2xxSuccessful()) {
             updateAuth0UserToGainNewAuthorities(user, exchange);
@@ -92,15 +96,15 @@ class AccessControlController extends Auth0CallbackHandler {
     }
 
     private Map<String, Object> toUserProfileMap(Map<String, Object> appMetadata) {
-        Map<String, Object> userProfile = new HashMap<>();
+        final Map<String, Object> userProfile = new HashMap<>();
         userProfile.put(APP_METADATA, appMetadata);
         return userProfile;
     }
 
     private HttpHeaders toHttpHeaders() {
-        HttpHeaders headers = new HttpHeaders();
+        final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
-        String bearer = "Bearer " + bearerToken;
+        final String bearer = "Bearer " + bearerToken;
         headers.set("Authorization", bearer);
         return headers;
     }
