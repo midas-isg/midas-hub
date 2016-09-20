@@ -64,13 +64,13 @@
                                 icon: icon,
                                 callbackURL: callbackUrl,
                                 responseType: 'code',
-                                rememberLastLogin: true,
+                                rememberLastLogin: false,
                                 closable: false,
                                 authParams: {
                                     state: state,
                                     scope: 'openid roles user_id name nickname email picture'
                                 }
-                            })
+                            });
                         }
                     }
                 });

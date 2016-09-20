@@ -2,34 +2,45 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta http-equiv="content-type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" type="text/css" th:href="@{/public/css/jquery.growl.css}"/>
     <title>Login</title>
     <script th:src="@{/webjars/auth0-lock/build/auth0-lock.min.js}"></script>
+    <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
+    <script th:src="@{/public/jquery.growl.js}"></script>
 </head>
 <body>
 <div class="container">
     <script th:inline="javascript">
-        (function () {
+        /*<![CDATA[*/
+        (function() {
             var auth0ClientId = /*[[${@environment.getProperty('auth0.clientId')}]]*/ '';
             var auth0Domain = /*[[${@environment.getProperty('auth0.domain')}]]*/ '';
             var state = /*[[${state}]]*/ '';
             var callbackUrl = /*[[${loginCallback}]]*/ '';
-            var lock = new Auth0Lock(auth0ClientId, auth0Domain);
-            lock.showSignin({
+            var title = /*[[${title}]]*/ '';
+            var message = /*[[${message}]]*/ '';
+            var icon = /*[[@{/public/logo.png}]]*/ '';
+            new Auth0Lock(auth0ClientId, auth0Domain).show({
                 dict: {
                     signin: {
                         title: "MIDAS Network"
                     }
                 },
+                sso: true,
+
+                icon: icon,
+                callbackURL: callbackUrl,
+                responseType: 'code',
+                rememberLastLogin: false,
+                closable: false,
                 authParams: {
                     state: state,
                     scope: 'openid roles user_id name nickname email picture'
-                },
-                sso: true,
-                responseType: 'code',
-                popup: false,
-                callbackURL: callbackUrl
+                }
             });
+            $.growl.notice({title: title, message: message});
         })();
+        /*]]>*/
     </script>
 </div>
 </body>
