@@ -12,3 +12,6 @@ app.auth0.secret.token=
 
 # Database settings:
 spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod
+
+# SSO
+sso.trustedExternalReturnUrls=http://betaweb.rods.pitt.edu/
