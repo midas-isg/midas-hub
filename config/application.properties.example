@@ -14,4 +14,4 @@ app.auth0.secret.token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdWQiOiJOWTk0dWt3
 spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod
 
 # SSO
-sso.trustedExternalReturnUrls: http://localhost:4000/partner/home,http://app2.com:4000/partner/home
+sso.trustedExternalReturnUrls=http://betaweb.rods.pitt.edu/,https://betaweb.rods.pitt.edu/
