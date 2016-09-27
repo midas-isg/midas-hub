@@ -10,7 +10,6 @@ import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
 import edu.pitt.isg.midas.hub.auth0.Auth0Configuration;
 import edu.pitt.isg.midas.hub.auth0.Auth0LoginController;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +29,12 @@ import java.util.Map;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.security.SecurityAid.assertLoginRequired;
 import static java.util.Arrays.asList;
-import static org.hamcrest.core.StringEndsWith.endsWith;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -66,15 +62,14 @@ public class AffiliationTest {
         assertLoginRequired(mvc.perform(get(path)));
     }
 
-    @Test @Ignore("TODO: fix broken test")
+    @Test
     public void testLoginWithoutAffiliation() throws Exception {
         MockHttpSession session = toMockHttpSession(null);
         List<Affiliation> affiliates = asList(new Affiliation("A", ""), new Affiliation("B", ""));
         when(mockRepo.findAll()).thenReturn(affiliates);
         mvc.perform(get(path).with(user("aNewUser")).session(session))
-                .andExpect(status().isOk())
-                .andExpect(model().attribute("affiliations", affiliates))
-                .andExpect(view().name("terms"));
+                .andExpect(status().is3xxRedirection())
+                .andExpect(header().string("Location", "/tos"));
     }
 
     @Test
@@ -82,7 +77,7 @@ public class AffiliationTest {
         MockHttpSession session = toMockHttpSession("affiliation");
         mvc.perform(get(path).with(user("aRegisteredUser")).session(session))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", endsWith(MvcTest.HOME_URL)));
+                .andExpect(header().string("Location", MvcTest.HOME_URL));
     }
 
     private MockHttpSession toMockHttpSession(String affiliation) {

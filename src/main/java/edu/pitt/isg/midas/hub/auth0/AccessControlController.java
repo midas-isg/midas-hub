@@ -19,6 +19,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -29,6 +30,7 @@ import static com.auth0.web.SessionUtils.getAuth0User;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
+import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UserUrl;
 import static java.util.Collections.singletonMap;
 import static org.springframework.http.HttpMethod.PATCH;
 
@@ -40,17 +42,17 @@ class AccessControlController extends Auth0CallbackHandler {
     private String bearerToken;
 
     @RequestMapping(value = "/term-acceptance", method = RequestMethod.POST)
-    public String acceptTerms(final String affiliationName, final HttpServletRequest request, final RedirectAttributes redirectAttributes){
+    public String acceptTerms(String affiliationName, HttpServletRequest request, RedirectAttributes redirectAttributes){
         if (affiliationName == null) {
-            redirectAttributes.addFlashAttribute("error", "Organization is required!");
-            return "redirect:/auth0";
+            return prepareLocationForErrorRequiringOrganization(redirectAttributes);
         }
-        final Auth0User auth0User = getAuth0User(request);
-        saveUserMetaDataAffiliationAndIsgUserRole(auth0User, affiliationName);
-        final Object attribute = request.getSession().getAttribute(RETURN_TO_URL_KEY);
-        if (attribute != null)
-            return "redirect:" + attribute;
-        return "redirect:" + this.redirectOnSuccess;
+        saveUserMetaDataAffiliationAndIsgUserRole(getAuth0User(request), affiliationName);
+        return "redirect:" + toReturnUrl(request.getSession());
+    }
+
+    private String prepareLocationForErrorRequiringOrganization(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", "Organization is required!");
+        return "redirect:" + Auth0LoginController.TOS;
     }
 
     private void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, String affiliationName) {
@@ -59,19 +61,11 @@ class AccessControlController extends Auth0CallbackHandler {
         addRole(appMetadata, ISG_USER);
         Map<String, Object> userProfile = toUserProfileMap(appMetadata);
         final HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userProfile, toHttpHeaders());
-        final String url = toUserUrl(user);
+        final String url = toAuth0UserUrl(appConfig.getDomain(), user.getUserId());
         final ResponseEntity<HashMap> exchange = toRestTemplate().exchange(url, PATCH, requestEntity, HashMap.class);
         if (exchange.getStatusCode().is2xxSuccessful()) {
             updateAuth0UserToGainNewAuthorities(user, exchange);
         }
-    }
-
-    private String toUserUrl(Auth0User user) {
-        return UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host(this.appConfig.getDomain())
-                .pathSegment("api", "v2", "users", user.getUserId())
-                .build().toString();
     }
 
     private void updateAuth0UserToGainNewAuthorities(Auth0User user, ResponseEntity<HashMap> exchange) {
@@ -121,5 +115,12 @@ class AccessControlController extends Auth0CallbackHandler {
             roles.addAll((List<String>) obj);
         roles.add(role);
         appMetadata.put(ROLES, roles);
+    }
+
+    private String toReturnUrl(HttpSession session) {
+        final Object attribute = session.getAttribute(RETURN_TO_URL_KEY);
+        if (attribute != null)
+            return attribute.toString();
+        return this.redirectOnSuccess;
     }
 }
