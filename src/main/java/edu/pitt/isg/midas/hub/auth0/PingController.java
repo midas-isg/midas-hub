@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.controllers;
+package edu.pitt.isg.midas.hub.auth0;
 
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;

@@ -1,7 +1,7 @@
-package edu.pitt.isg.security;
+package edu.pitt.isg.midas.hub.auth0;
 
 import edu.pitt.isg.midas.hub.auth0.Auth0Configuration;
-import edu.pitt.isg.midas.hub.controllers.PingController;
+import edu.pitt.isg.midas.hub.auth0.PingController;
 import org.junit.Before;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,14 +1,9 @@
-package edu.pitt.isg.security;
+package edu.pitt.isg.midas.hub.auth0;
 
 
-import com.auth0.authentication.result.UserProfile;
-import com.auth0.web.Auth0User;
-import com.auth0.web.SessionUtils;
-import edu.pitt.isg.MvcTest;
+import edu.pitt.isg.midas.hub.MvcTest;
 import edu.pitt.isg.midas.hub.affiliation.Affiliation;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
-import edu.pitt.isg.midas.hub.auth0.Auth0Configuration;
-import edu.pitt.isg.midas.hub.auth0.Auth0LoginController;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,12 +17,8 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.context.WebApplicationContext;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
-import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
-import static edu.pitt.isg.security.SecurityAid.assertLoginRequired;
 import static java.util.Arrays.asList;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -59,12 +50,12 @@ public class AffiliationTest {
 
     @Test
     public void testWithoutLogin() throws Exception {
-        assertLoginRequired(mvc.perform(get(path)));
+        SecurityAid.assertLoginRequired(mvc.perform(get(path)));
     }
 
     @Test
     public void testLoginWithoutAffiliation() throws Exception {
-        MockHttpSession session = toMockHttpSession(null);
+        MockHttpSession session = SecurityAid.toMockHttpSessionWithAffliation(null);
         List<Affiliation> affiliates = asList(new Affiliation("A", ""), new Affiliation("B", ""));
         when(mockRepo.findAll()).thenReturn(affiliates);
         mvc.perform(get(path).with(user("aNewUser")).session(session))
@@ -74,25 +65,11 @@ public class AffiliationTest {
 
     @Test
     public void testLoginWithAffiliation() throws Exception {
-        MockHttpSession session = toMockHttpSession("affiliation");
+        MockHttpSession session = SecurityAid.toMockHttpSessionWithAffliation("affiliation");
         mvc.perform(get(path).with(user("aRegisteredUser")).session(session))
                 .andExpect(status().is3xxRedirection())
                 .andExpect(header().string("Location", MvcTest.HOME_URL));
     }
 
-    private MockHttpSession toMockHttpSession(String affiliation) {
-        final MockHttpSession session = new MockHttpSession();
-        final Auth0User auth0User = toAuth0User(affiliation);
-        session.setAttribute(SessionUtils.AUTH0_USER, auth0User);
-        return session;
-    }
 
-    private Auth0User toAuth0User(String affiliation) {
-        final Map<String, Object> appMetadata = new HashMap<>();
-        appMetadata.put(AFFILIATION, affiliation);
-        final UserProfile profile = new UserProfile(null, null, null, null, "e@mail.com",
-                false, null, null, null, null,
-                null, appMetadata, null);
-        return new Auth0User(profile);
-    }
 }
