@@ -1,4 +1,4 @@
-package edu.pitt.isg.security;
+package edu.pitt.isg.midas.hub.auth0;
 
 
 import org.junit.Test;
@@ -6,14 +6,10 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_ADMIN;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
-import static edu.pitt.isg.midas.hub.controllers.PingController.ADMIN_PING_URL;
-import static edu.pitt.isg.midas.hub.controllers.PingController.AUTHENTICATED_PING_URL;
-import static edu.pitt.isg.midas.hub.controllers.PingController.PUBLIC_PING_URL;
-import static edu.pitt.isg.midas.hub.controllers.PingController.SECURED_PING_URL;
-import static edu.pitt.isg.security.SecurityAid.assertAuthenticatedPing;
-import static edu.pitt.isg.security.SecurityAid.assertAuthorizedSecuredPing;
-import static edu.pitt.isg.security.SecurityAid.assertPing;
-import static edu.pitt.isg.security.SecurityAid.toAuthorities;
+import static edu.pitt.isg.midas.hub.auth0.PingController.ADMIN_PING_URL;
+import static edu.pitt.isg.midas.hub.auth0.PingController.AUTHENTICATED_PING_URL;
+import static edu.pitt.isg.midas.hub.auth0.PingController.PUBLIC_PING_URL;
+import static edu.pitt.isg.midas.hub.auth0.PingController.SECURED_PING_URL;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
@@ -21,22 +17,22 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 public class PingByIsgAdminUserTest extends BasePingTest {
     private UserRequestPostProcessor asUser() {
-        return user("admin").authorities(toAuthorities(ISG_USER, ISG_ADMIN));
+        return user("admin").authorities(SecurityAid.toAuthorities(ISG_USER, ISG_ADMIN));
     }
 
     @Test
     public void testPingUrl() throws Exception {
-        assertPing(mvc.perform(get(PUBLIC_PING_URL).with(asUser())));
+        SecurityAid.assertPing(mvc.perform(get(PUBLIC_PING_URL).with(asUser())));
     }
 
     @Test
     public void testAuthenticatedPingUrl() throws Exception {
-        assertAuthenticatedPing(mvc.perform(get(AUTHENTICATED_PING_URL).with(asUser())));
+        SecurityAid.assertAuthenticatedPing(mvc.perform(get(AUTHENTICATED_PING_URL).with(asUser())));
     }
 
     @Test
     public void testSecuredPingUrl() throws Exception {
-        assertAuthorizedSecuredPing(mvc.perform(get(SECURED_PING_URL).with(asUser())));
+        SecurityAid.assertAuthorizedSecuredPing(mvc.perform(get(SECURED_PING_URL).with(asUser())));
     }
 
     @Test

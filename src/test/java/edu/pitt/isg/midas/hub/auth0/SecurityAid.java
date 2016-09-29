@@ -1,14 +1,29 @@
-package edu.pitt.isg.security;
+package edu.pitt.isg.midas.hub.auth0;
 
 
+import com.auth0.authentication.result.UserProfile;
+import com.auth0.web.Auth0User;
+import com.auth0.web.SessionUtils;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.http.MediaType;
+import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.io.IOException;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
+import static java.nio.charset.Charset.forName;
 import static org.hamcrest.core.StringEndsWith.endsWith;
+import static org.springframework.http.MediaType.APPLICATION_JSON;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -47,5 +62,21 @@ class SecurityAid {
         for (String role: roles)
             list.add(new SimpleGrantedAuthority(role));
         return list;
+    }
+
+    static MockHttpSession toMockHttpSessionWithAffliation(String affiliation) {
+        final MockHttpSession session = new MockHttpSession();
+        final Auth0User auth0User = toAuth0User(affiliation);
+        session.setAttribute(SessionUtils.AUTH0_USER, auth0User);
+        return session;
+    }
+
+    static Auth0User toAuth0User(String affiliation) {
+        final Map<String, Object> appMetadata = new HashMap<>();
+        appMetadata.put(AFFILIATION, affiliation);
+        final UserProfile profile = new UserProfile(null, null, null, null, "e@mail.com",
+                false, null, null, null, null,
+                null, appMetadata, null);
+        return new Auth0User(profile);
     }
 }

@@ -3,6 +3,8 @@ package edu.pitt.isg.midas.hub.auth0;
 import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
 import com.auth0.web.SessionUtils;
+import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,18 +16,60 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.io.IOException;
 import java.util.Collections;
+
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 
 @Controller
 @SessionAttributes("appUser")
 public class Auth0LoginController {
+    static final String TOS = "/tos";
     private static final String LOGIN_VIEW = "auth0Login";
 
+    private AffiliationRepository repo;
+
+    @Autowired
+    protected void setAffiliationRepository(final AffiliationRepository repo) {
+        this.repo = repo;
+    }
+
     @RequestMapping(value = "/auth0", method = RequestMethod.GET)
-    public String processAuth0Login(
-            final HttpServletRequest request) {
-        return "redirect:/secured/home";
+    public String processAuth0Login(HttpServletRequest req) {
+        return "redirect:" + prepareLocationToRedirect(req);
+    }
+
+    private String prepareLocationToRedirect(HttpServletRequest req) {
+        final Auth0User auth0User = SessionUtils.getAuth0User(req);
+        if (auth0User.getAppMetadata().get(AFFILIATION) == null) {
+            return TOS;
+        }
+        final Object partnerUrl = removeReturnToUrlAttribute(req.getSession());
+        if (partnerUrl != null) {
+            return partnerUrl.toString();
+        } else {
+            return "/secured/home";
+        }
+    }
+
+    private Object removeReturnToUrlAttribute(HttpSession session) {
+        final Object returnToUrl = session.getAttribute(RETURN_TO_URL_KEY);
+        session.removeAttribute(RETURN_TO_URL_KEY);
+        return returnToUrl;
+    }
+
+    @RequestMapping(value = TOS, method = RequestMethod.GET)
+    protected String termsOfServices(final HttpServletRequest req, final HttpServletResponse res,
+                                     final Model model)
+            throws ServletException, IOException {
+        final Auth0User auth0User = SessionUtils.getAuth0User(req);
+        model.addAttribute("affiliations", repo.findAll());
+        return "terms";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)

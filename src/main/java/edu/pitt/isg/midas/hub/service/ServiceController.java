@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.controllers;
+package edu.pitt.isg.midas.hub.service;
 
 import edu.pitt.isg.midas.hub.service.ServiceRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 
 @Controller
 @SessionAttributes("appUser")
-class ApplicationController {
+class ServiceController {
     @Autowired
     private ServiceRepository repository;
 
