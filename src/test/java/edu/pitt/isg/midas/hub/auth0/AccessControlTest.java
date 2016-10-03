@@ -1,10 +1,11 @@
 package edu.pitt.isg.midas.hub.auth0;
 
 
+import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Mock;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,10 +22,16 @@ import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import static edu.pitt.isg.midas.hub.auth0.SecurityAid.assertLoginRequired;
 import static edu.pitt.isg.midas.hub.auth0.SecurityAid.toMockHttpSessionWithAffliation;
+import static org.junit.Assert.assertEquals;
+import static org.mockito.ArgumentCaptor.forClass;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -35,16 +42,20 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @EnableWebMvc
 @ContextConfiguration(classes = {Auth0Configuration.class, AccessControlController.class, AccessControlTest.MockConfig.class})
 public class AccessControlTest {
+    private static final String affiliationName = "name";
+    private static final String description = "description";
+    private static final String secondaries = "additionalAffiliationNames";
+
     @Autowired
     private WebApplicationContext context;
     private MockMvc mvc;
-    @Mock
+    @Autowired
     private UserMetaDataRule mock;
 
     @Configuration
     static class MockConfig {
         @Bean
-        public UserMetaDataRule userMetaDataRule() {
+        UserMetaDataRule userMetaDataRule() {
             return Mockito.mock(UserMetaDataRule.class);
         }
     }
@@ -67,19 +78,53 @@ public class AccessControlTest {
     }
 
     @Test
-    public void testAcceptTermsWithAuthenticatedUserAndAffiliationName() throws Exception {
+    public void testAcceptTermsWithAuthenticatedUserAndAllofAffiliation() throws Exception {
         MockHttpSession session = toMockHttpSessionWithAffliation(null);
         final String returnToUrl = "returnToUrl";
         session.setAttribute(returnToUrl, returnToUrl);
-        final String affiliationName = "affiliationName";
+        final MockHttpServletRequestBuilder post = post("/term-acceptance")
+                .contentType(APPLICATION_FORM_URLENCODED)
+                .param(affiliationName, affiliationName)
+                .param(description, description)
+                .param(secondaries, secondaries)
+                .with(toUser())
+                .session(session);
+
+        mvc.perform(post)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(header().string("Location", returnToUrl));
+
+        ArgumentCaptor<AffiliationForm> captor = forClass(AffiliationForm.class);
+        verify(mock).saveUserMetaDataAffiliationAndIsgUserRole(any(), captor.capture());
+        final AffiliationForm form = captor.getValue();
+        assertEquals(affiliationName, form.getName());
+        assertEquals(description, form.getDescription());
+        assertEquals(secondaries, form.getAdditionalAffiliationNames());
+        verifyNoMoreInteractions(mock);
+    }
+
+@Test
+    public void testAcceptTermsWithAuthenticatedUserAndAffiliationName() throws Exception {
+        final String pathReadingFromCfgInto_Auth0CallbackHandler_redirectOnSuccess = "null";
+        MockHttpSession session = toMockHttpSessionWithAffliation(null);
         final MockHttpServletRequestBuilder post = post("/term-acceptance")
                 .contentType(APPLICATION_FORM_URLENCODED)
                 .param(affiliationName, affiliationName)
                 .with(toUser())
                 .session(session);
+
         mvc.perform(post)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", returnToUrl));
+                .andExpect(header().string("Location", pathReadingFromCfgInto_Auth0CallbackHandler_redirectOnSuccess))
+        ;
+
+        ArgumentCaptor<AffiliationForm> captor = forClass(AffiliationForm.class);
+        verify(mock).saveUserMetaDataAffiliationAndIsgUserRole(any(), captor.capture());
+        final AffiliationForm form = captor.getValue();
+        assertEquals(affiliationName, form.getName());
+        assertEquals(null, form.getDescription());
+        assertEquals(null, form.getAdditionalAffiliationNames());
+        verifyNoMoreInteractions(mock);
     }
 
     @Test

@@ -2,6 +2,7 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0Config;
 import com.auth0.web.Auth0User;
+import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +24,6 @@ import java.util.TreeSet;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
 import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UserUrl;
-import static java.util.Collections.singletonMap;
 import static org.springframework.http.HttpMethod.PATCH;
 
 @Service
@@ -35,9 +35,9 @@ public class UserMetaDataRule {
     @Autowired
     private Auth0Config auth0Config;
 
-    Void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, String affiliationName) {
+    void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, AffiliationForm form) {
         final Map<String, Object> appMetadata = user.getAppMetadata();
-        saveAffiliation(appMetadata, affiliationName);
+        saveAffiliation(appMetadata, form);
         addRole(appMetadata, ISG_USER);
         Map<String, Object> userProfile = toUserProfileMap(appMetadata);
         final HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userProfile, toHttpHeaders());
@@ -46,7 +46,6 @@ public class UserMetaDataRule {
         if (exchange.getStatusCode().is2xxSuccessful()) {
             updateAuth0UserToGainNewAuthorities(user, exchange);
         }
-        return null;
     }
 
     private void updateAuth0UserToGainNewAuthorities(Auth0User user, ResponseEntity<HashMap> exchange) {
@@ -84,8 +83,20 @@ public class UserMetaDataRule {
         return headers;
     }
 
-    private void saveAffiliation(Map<String, Object> appMetadata, String orgName) {
-        appMetadata.put(AFFILIATION, singletonMap("name", orgName));
+    private void saveAffiliation(Map<String, Object> appMetadata, AffiliationForm form) {
+        appMetadata.put(AFFILIATION, toMap(form));
+    }
+
+    private Map<String, String> toMap(AffiliationForm form) {
+        Map<String, String> map = new HashMap<>();
+        final String name = form.getName();
+        map.put("name", name);
+        final String description = name.equalsIgnoreCase("other")
+                ? form.getDescription()
+                : "";
+        map.put("description", description);
+        map.put("secondaries", form.getAdditionalAffiliationNames());
+        return map;
     }
 
     @SuppressWarnings("unchecked")
