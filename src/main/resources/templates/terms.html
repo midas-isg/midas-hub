@@ -30,25 +30,42 @@
             <div class="panel-heading">
                 <h4 class="pitt-color">MIDAS Terms and Conditions</h4>
             </div>
+            <form id="term-form" role="form" method="POST" action="term-acceptance">
             <div class="panel-body">
                 <div class="bg-danger" th:text="${error}"></div>
                 <h5>Please select organization in MIDAS that is closest to you</h5>
-                <form id="term_form" role="form" method="POST" action="term-acceptance">
                     <fieldset>
                         <div th:each="affiliation : ${affiliations}">
-                                <input type='radio' name='affiliationName'
-                                       ng-model='affiliationName'
-                                       th:id='${affiliation.name}' th:value="${affiliation.name}" />
-                                <label th:for='${affiliation.name}' th:text="${affiliation.name}"></label>
-                                <span class='small' th:text="${affiliation.description}"></span>
+                            <input type='radio' name='name'
+                                   ng-model='affiliationName'
+                                   th:id='${affiliation.name}' th:value="${affiliation.name}" />
+                            <label th:for='${affiliation.name}' th:text="${affiliation.name}"></label>
+                            <span class='small' th:text="${affiliation.description}"></span>
                         </div>
-                        <button id="accept" type="submit" class="btn btn-lg btn-block btn-success"
-                                ng-disabled='! affiliationName'>
-                            Submit
-                        </button>
+                        <div class='form-inline'>
+                            <input type='radio' name='name'
+                                   ng-model='affiliationName'
+                                   id='other' value="other" />
+                            <label for='other'>Other</label>
+                            <input type='text' name='description' placeholder="description"
+                                   class='form-control'
+                                   ng-model='affiliationDescription'/>
+                        </div>
+                        <div>
+                            <h5 for='addition'>Additional organizations</h5>
+                            <input id='addition' type='text' name='additionalAffiliationNames' placeholder="(optional) additional organizations"
+                                   class='form-control'
+                                   ng-model='addition'/>
+                        </div>
                     </fieldset>
-                </form>
-            </div>
+                </div>
+                <div class='panel-footer'>
+                    <button id="accept" type="submit" class="btn btn-lg btn-block btn-success"
+                            ng-disabled='!affiliationName'>
+                        Accept terms and conditions
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
     <footer th:replace="secured/fragments/footer :: footer"/>

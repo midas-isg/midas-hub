@@ -16,11 +16,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import java.io.IOException;
 import java.util.Collections;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
@@ -64,10 +61,7 @@ public class Auth0LoginController {
     }
 
     @RequestMapping(value = TOS, method = RequestMethod.GET)
-    protected String termsOfServices(final HttpServletRequest req, final HttpServletResponse res,
-                                     final Model model)
-            throws ServletException, IOException {
-        final Auth0User auth0User = SessionUtils.getAuth0User(req);
+    protected String termsOfServices(final Model model) throws Exception {
         model.addAttribute("affiliations", repo.findAll());
         return "terms";
     }
