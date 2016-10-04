@@ -30,7 +30,7 @@ public class Auth0Configuration extends Auth0SecurityConfig {
     @Override
     protected void authorizeRequests(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/public/**", "/webjars/**", "/logoutFromAuth0", "/callback", "/sso").permitAll()
+                .antMatchers("/api/user-profile/**", "/public/**", "/webjars/**", "/logoutFromAuth0", "/callback", "/sso").permitAll()
                 .antMatchers("/secured/**").hasAnyAuthority(ISG_USER)
                 .antMatchers("/admin/**").hasAnyAuthority(ISG_ADMIN)
                 .antMatchers(securedRoute).authenticated()

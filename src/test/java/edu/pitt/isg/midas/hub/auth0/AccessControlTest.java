@@ -2,6 +2,8 @@ package edu.pitt.isg.midas.hub.auth0;
 
 
 import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
+import edu.pitt.isg.midas.hub.user.Auth0Dao;
+import edu.pitt.isg.midas.hub.user.UserRule;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -50,13 +52,18 @@ public class AccessControlTest {
     private WebApplicationContext context;
     private MockMvc mvc;
     @Autowired
-    private UserMetaDataRule mock;
+    private UserRule mock;
 
     @Configuration
     static class MockConfig {
         @Bean
-        UserMetaDataRule userMetaDataRule() {
-            return Mockito.mock(UserMetaDataRule.class);
+        UserRule userMetaDataRule() {
+            return Mockito.mock(UserRule.class);
+        }
+
+        @Bean
+        Auth0Dao auth0Dao(){
+            return Mockito.mock(Auth0Dao.class);
         }
     }
 

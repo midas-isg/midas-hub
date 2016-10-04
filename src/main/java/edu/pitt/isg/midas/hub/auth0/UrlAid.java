@@ -4,7 +4,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 
-class UrlAid {
+public class UrlAid {
     private UrlAid() {
     }
 
@@ -34,7 +34,7 @@ class UrlAid {
         return req.getContextPath() + path;
     }
 
-    static String toAuth0UserUrl(String auth0Domain, String userId) {
+    public static String toAuth0UserUrl(String auth0Domain, String userId) {
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(auth0Domain)
