@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.auth0;
+package edu.pitt.isg.midas.hub.user;
 
 import com.auth0.web.Auth0Config;
 import com.auth0.web.Auth0User;
@@ -27,15 +27,22 @@ import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UserUrl;
 import static org.springframework.http.HttpMethod.PATCH;
 
 @Service
-public class UserMetaDataRule {
+public class UserRule {
     private static final String ROLES = "roles";
     private static final String APP_METADATA = "app_metadata";
     @Value("${app.auth0.secret.token}")
     private String bearerToken;
     @Autowired
     private Auth0Config auth0Config;
+    @Autowired
+    private Auth0Dao dao;
 
-    void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, AffiliationForm form) {
+    public Auth0User getUserProfileByUserId(String userId){
+        final String url = toAuth0UserUrl(auth0Config.getDomain(), userId);
+        return dao.getAuth0User(url, bearerToken);
+    }
+
+    public void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, AffiliationForm form) {
         final Map<String, Object> appMetadata = user.getAppMetadata();
         saveAffiliation(appMetadata, form);
         addRole(appMetadata, ISG_USER);

@@ -3,6 +3,7 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0CallbackHandler;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
+import edu.pitt.isg.midas.hub.user.UserRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -18,10 +19,10 @@ import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 
 @Controller
 public class AccessControlController extends Auth0CallbackHandler {
-    private UserMetaDataRule rule;
+    private UserRule rule;
 
     @Autowired
-    public AccessControlController(UserMetaDataRule userMetaDataRule) {
+    public AccessControlController(UserRule userMetaDataRule) {
         rule = userMetaDataRule;
     }
 
