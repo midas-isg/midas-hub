@@ -9,13 +9,10 @@ public class UrlAid {
     }
 
     private static UriComponentsBuilder toContextUrlBuilder(HttpServletRequest request) {
-        final String serverName = request.getServerName();
-        final int serverPort = request.getServerPort();
-        final String scheme = (serverPort == 443) ? "https" : "http";
-
         final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance()
-                .scheme(scheme)
-                .host(serverName);
+                .scheme(request.getScheme())
+                .host(request.getServerName());
+        final int serverPort = request.getServerPort();
         if (!(serverPort == 80 || serverPort == 443))
             uriBuilder.port(serverPort);
 
