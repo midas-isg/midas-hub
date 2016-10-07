@@ -1,17 +1,23 @@
+# This file is an template for production.
+# Some of the properties are secret and must override at deployment and not be committed.
+# All other properties should be maintained in this file for ease of deployment.
+# A tested example can be found in <ROOT>/src/main/resources/*.properties
+
+#######################################################
+### DO NOT COMMIT ANY SECRET PRODUCTION INFORMATION ###
+#######################################################
+
 # application settings:
-server.port=
-server.context-path=
-
-# Auth0 application settings:
-auth0.clientSecret=
-auth0.clientId=
-auth0.domain=
-auth0.issuer=
-
-app.auth0.secret.token=
+server.port=8900
+server.context-path=/hub
 
 # Database settings:
 spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod
 
-# SSO
-sso.trustedExternalReturnUrls=http://betaweb.rods.pitt.edu/
+# Auth0 application settings:
+auth0.clientId=cYbbROxMX2aMkLlRTu3dImco98f0QB3A
+auth0.domain=midas-sso.auth0.com
+​auth0.issuer=https://midas-sso.auth0.com/
+
+auth0.clientSecret=
+app.auth0.secret.token=
