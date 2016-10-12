@@ -4,6 +4,7 @@ package edu.pitt.isg.midas.hub.auth0;
 import edu.pitt.isg.midas.hub.MvcTest;
 import edu.pitt.isg.midas.hub.affiliation.Affiliation;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
+import edu.pitt.isg.midas.hub.auth0.a1.AuthenticationFilter;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,6 +21,7 @@ import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
 
 import static java.util.Arrays.asList;
+import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -40,12 +42,15 @@ public class AffiliationTest {
 
     @MockBean
     private AffiliationRepository mockRepo;
+    @MockBean
+    private AuthenticationFilter.Authenticator authenticator;
 
     @Before
     public void setUp() throws Exception {
         mvc = webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        when(authenticator.authenticate(any())).thenThrow(RuntimeException.class);
     }
 
     @Test
