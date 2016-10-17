@@ -2,6 +2,7 @@ package edu.pitt.isg.midas.hub.auth0;
 
 
 import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
+import edu.pitt.isg.midas.hub.auth0.a1.AuthenticationFilter;
 import edu.pitt.isg.midas.hub.user.Auth0Dao;
 import edu.pitt.isg.midas.hub.user.UserRule;
 import org.junit.Before;
@@ -10,8 +11,7 @@ import org.junit.runner.RunWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors;
 import org.springframework.test.context.ContextConfiguration;
@@ -29,6 +29,7 @@ import static org.mockito.ArgumentCaptor.forClass;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static org.mockito.Mockito.when;
 import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
@@ -42,30 +43,20 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
 @EnableWebMvc
-@ContextConfiguration(classes = {Auth0Configuration.class, AccessControlController.class, AccessControlTest.MockConfig.class})
+@ContextConfiguration(classes = {Auth0Configuration.class, AccessControlController.class})
 public class AccessControlTest {
     private static final String affiliationName = "name";
     private static final String description = "description";
     private static final String secondaries = "additionalAffiliationNames";
-
     @Autowired
     private WebApplicationContext context;
-    private MockMvc mvc;
-    @Autowired
+    @MockBean
     private UserRule mock;
-
-    @Configuration
-    static class MockConfig {
-        @Bean
-        UserRule userMetaDataRule() {
-            return Mockito.mock(UserRule.class);
-        }
-
-        @Bean
-        Auth0Dao auth0Dao(){
-            return Mockito.mock(Auth0Dao.class);
-        }
-    }
+    @MockBean
+    private Auth0Dao auth0Dao;
+    @MockBean
+    private AuthenticationFilter.Authenticator authenticator;
+    private MockMvc mvc;
 
     @Before
     public void setUp() throws Exception {
@@ -73,6 +64,7 @@ public class AccessControlTest {
         mvc = webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
+        when(authenticator.authenticate(any())).thenReturn(null);
     }
 
     @Test
@@ -110,7 +102,7 @@ public class AccessControlTest {
         verifyNoMoreInteractions(mock);
     }
 
-@Test
+    @Test
     public void testAcceptTermsWithAuthenticatedUserAndAffiliationName() throws Exception {
         final String pathReadingFromCfgInto_Auth0CallbackHandler_redirectOnSuccess = "null";
         MockHttpSession session = toMockHttpSessionWithAffliation(null);

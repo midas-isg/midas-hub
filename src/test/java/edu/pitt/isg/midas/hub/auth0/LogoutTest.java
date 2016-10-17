@@ -1,7 +1,7 @@
 package edu.pitt.isg.midas.hub.auth0;
 
 
-import edu.pitt.isg.midas.hub.auth0.Auth0Configuration;
+import edu.pitt.isg.midas.hub.Application;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {Auth0Configuration.class})
+@ContextConfiguration(classes = {Application.class})
 public class LogoutTest {
     @Autowired
     private WebApplicationContext context;

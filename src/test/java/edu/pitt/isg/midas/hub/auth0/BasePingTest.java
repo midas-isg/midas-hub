@@ -1,5 +1,6 @@
 package edu.pitt.isg.midas.hub.auth0;
 
+import edu.pitt.isg.midas.hub.Application;
 import edu.pitt.isg.midas.hub.auth0.Auth0Configuration;
 import edu.pitt.isg.midas.hub.auth0.PingController;
 import org.junit.Before;
@@ -16,7 +17,7 @@ import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppC
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @WebAppConfiguration
-@ContextConfiguration(classes = {Auth0Configuration.class, PingController.class})
+@ContextConfiguration(classes = {Application.class})
 public abstract class BasePingTest {
     protected MockMvc mvc;
     @Autowired
