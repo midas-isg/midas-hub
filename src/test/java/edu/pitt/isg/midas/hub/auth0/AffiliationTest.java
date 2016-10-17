@@ -50,7 +50,7 @@ public class AffiliationTest {
         mvc = webAppContextSetup(context)
                 .apply(springSecurity())
                 .build();
-        when(authenticator.authenticate(any())).thenThrow(RuntimeException.class);
+        when(authenticator.authenticate(any())).thenReturn(null);
     }
 
     @Test

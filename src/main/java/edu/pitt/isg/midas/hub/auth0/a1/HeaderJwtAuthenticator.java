@@ -20,7 +20,10 @@ class HeaderJwtAuthenticator implements AuthenticationFilter.Authenticator {
 
     @Override
     public Auth0JWTToken authenticate(HttpServletRequest request) throws Exception {
-        final String jwt = extractJwt(request.getHeader(AUTHORIZATION));
+        final String value = request.getHeader(AUTHORIZATION);
+        if (value == null)
+            return null;
+        final String jwt = extractJwt(value);
         final Map<String, Object> map = jwtVerifierFactory.make().verify(jwt);
         return principalFactory.make(jwt, map);
     }
