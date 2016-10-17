@@ -18,16 +18,17 @@ public class AuthenticationFilter extends Auth0AuthenticationFilter {
 
     @Override
     public void doFilter(ServletRequest req, ServletResponse res, FilterChain chain) throws IOException, ServletException {
+        Authentication authentication = null;
         try {
             final HttpServletRequest request = (HttpServletRequest) req;
-            final Authentication authentication = authenticator.authenticate(request);
+            authentication = authenticator.authenticate(request);
             if (authentication != null)
                 SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (Exception e) {
             logger.debug("Failed to authenticate via JWT in header.", e);
             SecurityContextHolder.clearContext();
         } finally {
-            if (SecurityContextHolder.getContext().getAuthentication() == null)
+            if (authentication == null)
                 super.doFilter(req, res, chain);
             else
                 chain.doFilter(req, res);
