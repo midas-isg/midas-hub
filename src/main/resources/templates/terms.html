@@ -8,6 +8,25 @@
 
     <link rel='icon' th:href="@{/public/favicon.ico}"/>
     <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+    <link rel='stylesheet' th:href="@{/public/css/font-awesome.min.css}"/>
+    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
+    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/public/css/smartadmin-production-plugins.min.css}" href="css/smartadmin-production-plugins.min.css"/>
+    <link rel='stylesheet' th:href="@{/public/css/smartadmin-production.min.css}"/>
+    <link rel='stylesheet' th:href="@{/public/css/smartadmin-skins.min.css}"/>
+
+    <!-- SmartAdmin RTL Support -->
+    <link rel='stylesheet' th:href="@{/public/css/smartadmin-rtl.min.css}"/>
+
+    <!-- We recommend you use "your_style.css" to override SmartAdmin
+         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
+    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
+
+    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
+    <link rel='stylesheet' media='screen'  th:href="@{/public/css/demo.min.css}"/>
+
+    <!-- GOOGLE FONT -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700" />
+
     <script th:src='@{/webjars/angular/angular.min.js}'/>
     <title>Terms and Conditions - MIDAS</title>
     <style>
@@ -16,7 +35,9 @@
         }
     </style>
 </head>
-<body ng-app=''>
+<body id='controller' ng-app='app' ng-controller='Term'>
+<script th:src='@{/public/js/ng/app.js}'/>
+<script th:src='@{/public/js/ng/Term.js}'/>
 <div class="container">
     <div class="row">
         <div class="col-lg-12">
@@ -25,50 +46,503 @@
             </div>
         </div>
     </div>
-    <div class="row">
-        <div id="terms" class="panel panel-primary">
-            <div class="panel-heading">
-                <h4 class="pitt-color">MIDAS Terms and Conditions</h4>
-            </div>
-            <form id="term-form" role="form" method="POST" action="term-acceptance">
-            <div class="panel-body">
-                <div class="bg-danger" th:text="${error}"></div>
-                <h5>Please select organization in MIDAS that is closest to you</h5>
-                    <fieldset>
-                        <div th:each="affiliation : ${affiliations}">
-                            <input type='radio' name='name'
-                                   ng-model='affiliationName'
-                                   th:id='${affiliation.name}' th:value="${affiliation.name}" />
-                            <label th:for='${affiliation.name}' th:text="${affiliation.name}"></label>
-                            <span class='small' th:text="${affiliation.description}"></span>
-                        </div>
-                        <div class='form-inline'>
-                            <input type='radio' name='name'
-                                   ng-model='affiliationName'
-                                   id='other' value="other" />
-                            <label for='other'>Other</label>
-                            <input type='text' name='description' placeholder="description"
-                                   class='form-control'
-                                   ng-model='affiliationDescription'/>
-                        </div>
+    <div id="content">
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-sm-12">
+                    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0" data-widget-editbutton="false" data-widget-deletebutton="false" data-widget-colorbutton="false">
+                        <!-- widget options:
+                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+
+                        data-widget-colorbutton="false"
+                        data-widget-editbutton="false"
+                        data-widget-togglebutton="false"
+                        data-widget-deletebutton="false"
+                        data-widget-fullscreenbutton="false"
+                        data-widget-custombutton="false"
+                        data-widget-collapsed="true"
+                        data-widget-sortable="false"
+                        -->
+                        <header>
+                            <h2>MIDAS Software Portal</h2>
+                        </header>
                         <div>
-                            <h5 for='addition'>Additional organizations</h5>
-                            <input id='addition' type='text' name='additionalAffiliationNames' placeholder="(optional) additional organizations"
-                                   class='form-control'
-                                   ng-model='addition'/>
-                        </div>
-                    </fieldset>
-                </div>
-                <div class='panel-footer'>
-                    <button id="accept" type="submit" class="btn btn-lg btn-block btn-success"
-                            ng-disabled='!affiliationName'>
-                        Accept terms and conditions
-                    </button>
-                </div>
-            </form>
-        </div>
+                            <!-- widget edit box -->
+                            <div class="jarviswidget-editbox">
+                                <!-- This area used as dropdown edit box -->
+                            </div> <!-- end widget edit box -->
+                            <!-- widget content -->
+                            <div class="widget-body">
+                                <div class="row">
+                                    <form id="wizard-1" novalidate="novalidate" role="form" method="POST" action="term-acceptance">
+                                        <div id="bootstrap-wizard-1" class="col-sm-12">
+                                            <div class="form-bootstrapWizard">
+                                                <ul class="bootstrapWizard form-wizard">
+                                                    <li class="active" data-target="#step1">
+                                                        <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Terms</span> </a>
+                                                    </li>
+                                                    <li data-target="#step2">
+                                                        <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Privacy</span> </a>
+                                                    </li>
+                                                    <li data-target="#step3">
+                                                        <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Affiliation</span> </a>
+                                                    </li>
+                                                    <li data-target="#step4">
+                                                        <a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Save</span> </a>
+                                                    </li>
+                                                </ul>
+                                                <div class="clearfix"></div>
+                                            </div>
+                                            <div class="tab-content">
+                                                <div class="tab-pane active" id="tab1">
+                                                    <br />
+                                                    <h3><strong>Step 1 </strong> - Terms and Conditions</h3>
+
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <h4><mark><strong>Please accept terms and conditions below.</strong></mark></h4>
+                                                            <p class='pre-scrollable well' style='white-space: pre-wrap;'>Welcome to the MIDAS Software Portal!
+
+These terms and conditions outline the rules and regulations for the use of the MIDAS software accessible from the portal.
+
+By accepting the terms and conditions stated on this page, you agree are granted permission to use the MIDAS software that is made available from this portal.  If you do not agree to these terms and conditions, you agree to cease all use of the MIDAS software that is made available from this portal.
+
+The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this website and compliant to the Company’s terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
+
+Cookies
+
+We employ the use of cookies. By accessing the MIDAS Software Portal, you agree to use cookies in agreement with the MIDAS Software privacy policy.
+
+Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our websites.
+
+License
+
+Unless otherwise stated, the investors of MIDAS software and/or its licensors own the intellectual property rights for all material made accessible from this portal. All intellectual property rights are reserved.
+
+You must not:
+
+Republish material from software made available from this portal.
+Sell, rent or sub-license material from software made available from this portal.
+Reproduce, duplicate or copy material from software made available from this portal.
+Redistribute content from software made available from this portal.
+This Agreement shall begin on the date hereof.
+
+
+Terms and Conditions.
+
+You warrant and represent that:
+
+Hyperlinking to our Content
+
+The following organizations may link to our Website without prior written approval:
+
+Government agencies;
+Search engines;
+News organizations;
+Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and
+System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.
+These organizations may link to the MIDAS Software Portal, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party’s site.
+
+Approved organizations may hyperlink to our Website as follows:
+
+By use of the uniform resource locator being linked to; or
+By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party’s site.
+No use of the MIDAS logo or other artwork will be allowed for linking absent a trademark license agreement.
+
+iFrames
+
+Without prior approval and written permission, you may not create frames around software made available from this portal.
+
+Content Liability
+
+The University of Pittsburgh shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.
+
+Reservation of Rights
+
+We reserve the right to request that you remove all links or any particular link to the MIDAS Software Portal. You approve to immediately remove all links to the MIDAS Software Portal upon request. We also reserve the right to amend these terms and conditions and it’s linking policy at any time. By continuously linking to the MIDAS Software Portal, you agree to be bound to and follow these linking terms and conditions.
+
+
+Disclaimer
+
+To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to software made available from this portal. Nothing in this disclaimer will:
+
+limit or exclude our or your liability for death or personal injury;
+limit or exclude our or your liability for fraud or fraudulent misrepresentation;
+limit any of our or your liabilities in any way that is not permitted under applicable law; or
+exclude any of our or your liabilities that may not be excluded under applicable law.
+The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
+
+BY USING ANY SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL YOU AGREE THAT NO WARRANTIES OF ANY KIND ARE MADE BY THE UNIVERSITY OF PITTSBURGH (UNIVERSITY), OR THE National Institutes of Health WITH RESPECT TO THE DATA PROVIDED IN SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL OR ANY USE THEREOF, AND THE UNIVERSITY HEREBY DISCLAIM THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. THE UNIVERSITY AND NATIONAL INSTITUTES OF HEALTH SHALL NOT BE LIABLE FOR ANY CLAIMS, LOSSES OR DAMAGES OF ANY KIND ARISING FROM THE DATA PROVIDED IN ANY MIDAS SOFTWARE OR ANY USE THEREOF.</p>
+                                                            <h5><mark>By clicking the next button, you agree to accept the terms and conditions.</mark></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tab2">
+                                                    <br />
+                                                    <h3><strong>Step 2</strong> - Privacy Policy</h3>
+
+                                                    <div class="row">
+                                                        <div class='col-sm-12'>
+                                                            <h4><mark><strong>Please accept privacy policy below.</strong></mark></h4>
+                                                            <p class='pre-scrollable well' style='white-space: pre-wrap;'>MIDAS Software Portal Privacy Policy
+
+This privacy policy has been compiled to better serve those who are concerned with how their 'Personally Identifiable Information' (PII) is being used online. PII, as described in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.
+
+What personal information do we collect from the people that visit our blog, website or app?
+
+When ordering or registering on our site, as appropriate, you may be asked to enter your name, email address, MIDAS Affiliation or other details to help you with your experience.
+
+When do we collect information?
+
+We collect information from you when you register on our site or enter information on our site.
+
+How do we use your information?
+
+We may use the information we collect from you when you register, make a purchase, sign up for our newsletter, respond to a survey or marketing communication, surf the website, or use certain other site features in the following ways:
+
+• To personalize your experience and to allow us to deliver the type of content and product offerings in which you are most interested.
+
+How do we protect your information?
+
+We do not use vulnerability scanning and/or scanning to PCI standards.
+We only provide articles and information. We never ask for credit card numbers.
+We use regular Malware Scanning.
+
+Your personal information is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems, and are required to keep the information confidential. In addition, all sensitive/credit information you supply is encrypted via Secure Socket Layer (SSL) technology.
+
+We implement a variety of security measures when a user enters, submits, or accesses their information to maintain the safety of your personal information.
+
+All transactions are processed through a gateway provider and are not stored or processed on our servers.
+
+Do we use 'cookies'?
+
+Yes. Cookies are small files that a site or its service provider transfers to your computer's hard drive through your Web browser (if you allow) that enables the site's or service provider's systems to recognize your browser and capture and remember certain information. For instance, we use cookies to help us remember and process the items in your shopping cart. They are also used to help us understand your preferences based on previous or current site activity, which enables us to provide you with improved services. We also use cookies to help us compile aggregate data about site traffic and site interaction so that we can offer better site experiences and tools in the future.
+
+We use cookies to:
+• Compile aggregate data about site traffic and site interactions in order to offer better site experiences and tools in the future. We may also use trusted third-party services that track this information on our behalf.
+
+You can choose to have your computer warn you each time a cookie is being sent, or you can choose to turn off all cookies. You do this through your browser settings. Since browser is a little different, look at your browser's Help Menu to learn the correct way to modify your cookies.
+
+If users disable cookies in their browser:
+
+If you turn cookies off, some features will be disabled. Some of the features that make your site experience more efficient and may not function properly.
+
+
+Third-party disclosure
+
+We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information.
+
+Third-party links
+
+We do not include or offer third-party products or services on our website.
+
+Google
+
+Google's advertising requirements can be summed up by Google's Advertising Principles. They are put in place to provide a positive experience for users. https://support.google.com/adwordspolicy/answer/1316548?hl=en
+
+We have not enabled Google AdSense on our site but we may do so in the future.
+
+COPPA (Children Online Privacy Protection Act)
+
+When it comes to the collection of personal information from children under the age of 13 years old, the Children's Online Privacy Protection Act (COPPA) puts parents in control. The Federal Trade Commission, United States' consumer protection agency, enforces the COPPA Rule, which spells out what operators of websites and online services must do to protect children's privacy and safety online.
+
+We do not specifically market to children under the age of 13 years old.
+
+Fair Information Practices
+
+The Fair Information Practices Principles form the backbone of privacy law in the United States and the concepts they include have played a significant role in the development of data protection laws around the globe. Understanding the Fair Information Practice Principles and how they should be implemented is critical to comply with the various privacy laws that protect personal information.
+
+In order to be in line with Fair Information Practices we will take the following responsive action, should a data breach occur:
+We will notify the users via in-site notification
+• Within 7 business days
+
+We also agree to the Individual Redress Principle which requires that individuals have the right to legally pursue enforceable rights against data collectors and processors who fail to adhere to the law. This principle requires not only that individuals have enforceable rights against data users, but also that individuals have recourse to courts or government agencies to investigate and/or prosecute non-compliance by data processors.
+
+CAN SPAM Act
+
+The CAN-SPAM Act is a law that sets the rules for commercial email, establishes requirements for commercial messages, gives recipients the right to have emails stopped from being sent to them, and spells out tough penalties for violations.
+
+We collect your email address in order to:
+
+To be in accordance with CANSPAM, we agree to the following:
+
+If at any time you would like to unsubscribe from receiving future emails, you can email us at
+and we will promptly remove you from ALL correspondence.
+
+
+Contacting Us
+
+If there are any questions regarding this privacy policy, you may contact us using the information below.
+
+http://www.epimodels.org/
+
+Mailing Address:
+Department of Biomedical Informatics, U. Pittsburgh
+5607 Baum Boulevard, 4th Floor
+Pittsburgh PA USA 15206-3701
+
+Email: cleats @ pitt.edu
+
+Last Edited on 2016-10-13</p>
+                                                            <h5><mark>By clicking the next button, you agree to accept the privacy policy.</mark></h5>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="tab-pane" id="tab3">
+                                                    <br />
+                                                    <h3><strong>Step 3</strong> - Your Affiliation</h3>
+
+                                                    <h4><mark><strong>Please select MIDAS organization below that is closest to you.</strong></mark></h4>
+                                                    <br />
+                                                    <fieldset>
+                                                        <div th:each="affiliation : ${affiliations}">
+                                                            <input type='radio' name='name'
+                                                                   th:id='${affiliation.name}' th:value="${affiliation.name}"
+                                                                   ng-model='affiliationName'/>
+                                                            <label th:for='${affiliation.name}' >
+                                                                <strong th:text="${affiliation.name}"></strong>
+                                                                <span class='small' th:text="${affiliation.description}"></span>
+                                                            </label>
+                                                        </div>
+                                                        <div class='form-inline'>
+                                                            <input type='radio' name='name' id='other' value="other"
+                                                                   ng-model='affiliationName'/>
+                                                            <label for='other' class='control-label'><strong>Other</strong></label>
+                                                            <input type='text' name='description' placeholder="(optional) name"
+                                                                        ng-model='affiliationDescription'/>
+                                                        </div>
+                                                        <div>
+                                                            <br />
+                                                            <label for='addition'><strong>Please provide additional organizations if any.</strong></label>
+                                                            <br />
+                                                            <input id='addition' type='text' name='additionalAffiliationNames' placeholder="(optional) additional organizations"
+                                                                   class='form-control'
+                                                                   ng-model='addition'/>
+                                                        </div>
+                                                    </fieldset>
+                                                </div>
+                                                <div class="tab-pane" id="tab4">
+                                                    <br />
+                                                    <h3><strong>Step 4</strong> - Save and Start Using Services</h3>
+
+                                                    <h4 ng-show='! isReadyToSave()'><mark><strong>Please go back to complete any incomplete step(s) by clicking the step number above.</strong></mark></h4>
+                                                    <br />
+                                                    <table class='table table-bordered table-striped'>
+                                                        <tr ng-repeat='ok in completedSteps track by $index'>
+                                                            <td>
+                                                                <span ng-if="ok" class="text-center text-success"><strong><i class="fa fa-check fa-lg"></i> Complete</strong></span>
+                                                                <span ng-if=" !ok" class="text-center text-danger"><strong><i class="fa fa-warning fa-lg"></i> Incomplete</strong></span>
+                                                                Step {{$index + 1}}
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                    <br />
+                                                    <div class='panel-footer'>
+                                                        <h5 ng-show='isReadyToSave()'>Please click the below button to save and start using services.</h5>
+                                                        <button id="accept" type="submit" class="btn btn-lg btn-block btn-success"
+                                                                ng-disabled='! isReadyToSave()'>
+                                                            Start using services
+                                                        </button>
+                                                    </div>
+                                                </div>
+
+                                                <div class="form-actions">
+                                                    <div class="row">
+                                                        <div class="col-sm-12">
+                                                            <ul class="pager wizard no-margin">
+                                                                <li class="previous disabled">
+                                                                    <a href="javascript:void(0);" class="btn btn-lg btn-default"
+                                                                       ng-show='!isFirstStep' ng-init='isFirstStep=true'> Previous </a>
+                                                                </li>
+                                                                <li class="next">
+                                                                    <a href="javascript:void(0);" class="btn btn-lg txt-color-darken"
+                                                                       ng-show='!isLastStep'> Next </a>
+                                                                </li>
+                                                            </ul>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </form>
+                                </div>
+                            </div><!-- end widget content -->
+                        </div><!-- end widget div -->
+                    </div><!-- end widget -->
+                </article><!-- WIDGET END -->
+            </div><!-- end row -->
+        </section><!-- end widget grid -->
     </div>
     <footer th:replace="secured/fragments/footer :: footer"/>
 </div>
+<!--================================================== -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+<!-- IMPORTANT: APP CONFIG -->
+<script th:src='@{/public/js/app.config.js}'/>
+
+<!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
+<script th:src='@{/public/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js}'/>
+
+<!-- BOOTSTRAP JS -->
+<script th:src='@{/webjars/bootstrap/bootstrap.min.js}'/>
+
+<!-- CUSTOM NOTIFICATION -->
+<script th:src='@{/public/js/notification/SmartNotification.min.js}'/>
+
+<!-- JARVIS WIDGETS -->
+<script th:src='@{/public/js/smartwidgets/jarvis.widget.min.js}'/>
+
+<!-- EASY PIE CHARTS -->
+<script th:src='@{/public/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js}'/>
+
+<!-- SPARKLINES -->
+<script th:src='@{/public/js/plugin/sparkline/jquery.sparkline.min.js}'/>
+
+<!-- JQUERY VALIDATE -->
+<script th:src='@{/public/js/plugin/jquery-validate/jquery.validate.min.js}'/>
+
+<!-- JQUERY MASKED INPUT -->
+<script th:src='@{/public/js/plugin/masked-input/jquery.maskedinput.min.js}'/>
+
+<!-- JQUERY SELECT2 INPUT -->
+<script th:src='@{/public/js/plugin/select2/select2.min.js}'/>
+
+<!-- JQUERY UI + Bootstrap Slider -->
+<script th:src='@{/public/js/plugin/bootstrap-slider/bootstrap-slider.min.js}'/>
+
+<!-- browser msie issue fix -->
+<script th:src='@{/public/js/plugin/msie-fix/jquery.mb.browser.min.js}'/>
+
+<!-- FastClick: For mobile devices -->
+<script th:src='@{/public/js/plugin/fastclick/fastclick.min.js}'/>
+
+<!-- MAIN APP JS FILE -->
+<script th:src='@{/public/js/app.min.js}'/>
+
+<!-- PAGE RELATED PLUGIN(S) -->
+<script th:src='@{/public/js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js}'/>
+<script th:src='@{/public/js/plugin/fuelux/wizard/wizard.min.js}'/>
+
+<!--[if IE 8]>
+		<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
+<![endif]-->
+
+<script type="text/javascript">
+    /*<![CDATA[*/
+    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    $(document).ready(function() {
+        pageSetUp();
+        //Bootstrap Wizard Validations
+        var $validator = $("#wizard-1").validate({
+            rules: {
+                email: {
+                    required: true,
+                    email: "Your email address must be in the format of name@domain.com"
+                },
+                name: {
+                    required: true
+                },
+                fname: {
+                    required: true
+                },
+                lname: {
+                    required: true
+                },
+                country: {
+                    required: true
+                },
+                city: {
+                    required: true
+                },
+                postal: {
+                    required: true,
+                    minlength: 4
+                },
+                wphone: {
+                    required: true,
+                    minlength: 10
+                },
+                hphone: {
+                    required: true,
+                    minlength: 10
+                }
+            },
+
+            messages: {
+                name: "Please specify your affiliation",
+                fname: "Please specify your First name",
+                lname: "Please specify your Last name",
+                email: {
+                    required: "We need your email address to contact you",
+                    email: "Your email address must be in the format of name@domain.com"
+                }
+            },
+
+            highlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
+            },
+            unhighlight: function (element) {
+                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
+            },
+            errorElement: 'span',
+            errorClass: 'help-block bg-danger',
+            errorPlacement: function (error, element) {
+                if (element.parent('.input-group').length) {
+                    error.insertBefore(element.parent());
+                } else {
+                    error.insertBefore(element);
+                }
+            }
+        });
+
+        $('#bootstrap-wizard-1').bootstrapWizard({
+            'tabClass': 'form-wizard',
+            'onTabShow': function (tab, navigation, index) {
+                var scope = angular.element(document.getElementById('controller')).scope();
+                scope.$apply(function(){
+                    scope.isFirstStep = index <= 0;
+                    scope.isLastStep = index >= 3;
+                });
+            },
+            'onNext': function (tab, navigation, index) {
+                var step = index - 1;
+                var $valid = $("#wizard-1").valid();
+                if (!$valid) {
+                    $validator.focusInvalid();
+                    return false;
+                } else {
+                    $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).addClass(
+                            'complete');
+                    $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).find('.step')
+                            .html('<i class="fa fa-check"></i>');
+                    var scope = angular.element(document.getElementById('controller')).scope();
+                    scope.$apply(function(){
+                        scope.completeStep(step);
+                    });
+                }
+            }
+        });
+
+
+        // fuelux wizard
+        var wizard = $('.wizard').wizard();
+
+        wizard.on('finished', function (e, data) {
+            //$("#fuelux-wizard").submit();
+            //console.log("submitted!");
+            $.smallBox({
+                title: "Congratulations! Your form was submitted",
+                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
+                color: "#5F895F",
+                iconSmall: "fa fa-check bounce animated",
+                timeout: 4000
+            });
+        });
+    })
+    /*]]>*/
+</script>
 </body>
 </html>
