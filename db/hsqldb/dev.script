@@ -50,9 +50,9 @@ GRANT DBA TO SA
 SET SCHEMA SYSTEM_LOBS
 INSERT INTO BLOCKS VALUES(0,2147483647,0)
 SET SCHEMA PUBLIC
-INSERT INTO AFFILIATION VALUES(1,'High Performance Computing','HPC')
-INSERT INTO AFFILIATION VALUES(2,'MIDAS SDS','SDS')
-INSERT INTO AFFILIATION VALUES(3,'Networking and education arm of the ISG','MISSION')
-INSERT INTO AFFILIATION VALUES(4,'Synthetic Populations and Ecosystems','SYNECO')
+INSERT INTO AFFILIATION VALUES(1,'High Performance Computing - ISG','ISG:HPC')
+INSERT INTO AFFILIATION VALUES(2,'Software Development Services - ISG','ISG:SDS')
+INSERT INTO AFFILIATION VALUES(3,'Networking and education arm of the ISG','ISG:MISSION')
+INSERT INTO AFFILIATION VALUES(4,'Synthetic Populations and Ecosystems - ISG','ISG:SYNECO')
 INSERT INTO SERVICE VALUES(1,'Apollo Library of Standardized Machine Interpretable Information','Apollo Library','http://localhost:8080/alv')
 INSERT INTO SERVICE VALUES(2,'SPEW Web Service','SPEW Service','http://localhost:9000/syneco')

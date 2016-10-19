@@ -1,58 +1,22 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="utf-8" />
-    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="description" content="" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-    <link rel='icon' th:href="@{/public/favicon.ico}"/>
-    <link rel='stylesheet' th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
-    <link rel='stylesheet' th:href="@{/public/css/font-awesome.min.css}"/>
-    <!-- SmartAdmin Styles : Caution! DO NOT change the order -->
-    <link rel="stylesheet" type="text/css" media="screen" th:href="@{/public/css/smartadmin-production-plugins.min.css}" href="css/smartadmin-production-plugins.min.css"/>
-    <link rel='stylesheet' th:href="@{/public/css/smartadmin-production.min.css}"/>
-    <link rel='stylesheet' th:href="@{/public/css/smartadmin-skins.min.css}"/>
-
-    <!-- SmartAdmin RTL Support -->
-    <link rel='stylesheet' th:href="@{/public/css/smartadmin-rtl.min.css}"/>
-
-    <!-- We recommend you use "your_style.css" to override SmartAdmin
-         specific styles this will also ensure you retrain your customization with each SmartAdmin update.
-    <link rel="stylesheet" type="text/css" media="screen" href="css/your_style.css"> -->
-
-    <!-- Demo purpose only: goes with demo.js, you can delete this css when designing your own WebApp -->
-    <link rel='stylesheet' media='screen'  th:href="@{/public/css/demo.min.css}"/>
-
-    <!-- GOOGLE FONT -->
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,300,400,700" />
-
+    <thymeleaf th:replace="tags/head-remove-tag :: head" />
     <script th:src='@{/webjars/angular/angular.min.js}'/>
-    <title>Terms and Conditions - MIDAS</title>
-    <style>
-        textarea {
-            width:100%;
-        }
-    </style>
+    <title>Terms of Services - MIDAS Hub</title>
 </head>
 <body id='controller' ng-app='app' ng-controller='Term'>
 <script th:src='@{/public/js/ng/app.js}'/>
 <script th:src='@{/public/js/ng/Term.js}'/>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="page-header">
-                <span class="h3" th:text="'Welcome ' + ${appUser.name}">Welcome User</span>
-            </div>
-        </div>
-    </div>
+<header th:replace="tags/header :: header"/>
+<div class="">
     <div id="content">
         <section id="widget-grid" class="">
             <div class="row">
-                <article class="col-sm-12">
+                <article class="col-xs-12">
                     <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
                          data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false"
-                         data-widget-colorbutton="false">
+                         data-widget-colorbutton="false" data-widget-fullscreenbutton="false">
                         <!-- widget options:
                         usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
 
@@ -102,7 +66,7 @@
 
                                                     <div class="row">
                                                         <div class="col-sm-12">
-                                                            <h4><mark><strong>Please accept terms and conditions below.</strong></mark></h4>
+                                                            <h4><strong>Please accept terms and conditions below or logout:</strong></h4>
                                                             <p class='pre-scrollable well' style='white-space: pre-wrap;'>Welcome to the MIDAS Software Portal!
 
 These terms and conditions outline the rules and regulations for the use of the MIDAS software accessible from the portal.
@@ -175,7 +139,11 @@ exclude any of our or your liabilities that may not be excluded under applicable
 The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
 
 BY USING ANY SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL YOU AGREE THAT NO WARRANTIES OF ANY KIND ARE MADE BY THE UNIVERSITY OF PITTSBURGH (UNIVERSITY), OR THE National Institutes of Health WITH RESPECT TO THE DATA PROVIDED IN SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL OR ANY USE THEREOF, AND THE UNIVERSITY HEREBY DISCLAIM THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. THE UNIVERSITY AND NATIONAL INSTITUTES OF HEALTH SHALL NOT BE LIABLE FOR ANY CLAIMS, LOSSES OR DAMAGES OF ANY KIND ARISING FROM THE DATA PROVIDED IN ANY MIDAS SOFTWARE OR ANY USE THEREOF.</p>
-                                                            <h5><mark>By clicking the next button, you agree to accept the terms and conditions.</mark></h5>
+                                                            <label>
+                                                                <input type='checkbox' name='accepted' ng-model='accepted' ng-disabled='accepted' />
+                                                                I accept the terms and conditions.
+                                                            </label>
+                                                            <div>To decline, please logout or close this page.</div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -185,7 +153,7 @@ BY USING ANY SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL YOU AGREE THAT
 
                                                     <div class="row">
                                                         <div class='col-sm-12'>
-                                                            <h4><mark><strong>Please accept privacy policy below.</strong></mark></h4>
+                                                            <h4><strong>Please review our privacy policy:</strong></h4>
                                                             <p class='pre-scrollable well' style='white-space: pre-wrap;'>MIDAS Software Portal Privacy Policy
 
 This privacy policy has been compiled to better serve those who are concerned with how their 'Personally Identifiable Information' (PII) is being used online. PII, as described in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.
@@ -286,7 +254,6 @@ Pittsburgh PA USA 15206-3701
 Email: cleats @ pitt.edu
 
 Last Edited on 2016-10-13</p>
-                                                            <h5><mark>By clicking the next button, you agree to accept the privacy policy.</mark></h5>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -294,30 +261,67 @@ Last Edited on 2016-10-13</p>
                                                     <br />
                                                     <h3><strong>Step 3</strong> - Your Affiliation</h3>
 
-                                                    <h4><mark><strong>Please select MIDAS organization below that is closest to you.</strong></mark></h4>
+                                                    <h4><strong>Please select your primary MIDAS affiliation:</strong></h4>
                                                     <br />
+
+                                                    <!-- widget div-->
+                                                    <div>
+                                                        <!-- widget edit box -->
+                                                        <div class="jarviswidget-editbox">
+                                                            <!-- This area used as dropdown edit box -->
+                                                        </div><!-- end widget edit box -->
+                                                        <!-- widget content -->
+                                                        <div class="widget-body no-padding">
+                                                            <table id="datatable_fixed_column" class="table table-striped table-bordered" width="100%">
+                                                                <thead>
+                                                                    <tr>
+                                                                        <th>Name</th>
+                                                                        <th>Description</th>
+                                                                    </tr>
+                                                                </thead>
+                                                                <tbody>
+                                                                    <tr th:each="affiliation : ${affiliations}">
+                                                                        <td>
+                                                                            <input type='radio' name='name'
+                                                                                   th:id='${affiliation.name}' th:value="${affiliation.name}"
+                                                                                   ng-model='affiliationName'/>
+                                                                            <label th:for='${affiliation.name}' >
+                                                                                <strong th:text="${affiliation.name}"></strong>
+                                                                            </label>
+                                                                        </td>
+                                                                        <td>
+                                                                            <label th:for='${affiliation.name}' >
+                                                                                <span class='' th:text="${affiliation.description}"></span>
+                                                                            </label>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tbody>
+                                                                <tfoot>
+                                                                    <tr>
+                                                                        <td>
+                                                                            <input type='radio' name='name' id='other' value="other"
+                                                                                   ng-model='affiliationName'/>
+                                                                            <label for='other' class='control-label'><strong>Other</strong></label>
+
+                                                                        </td>
+                                                                        <td>
+                                                                            <input type='text' name='description' placeholder="(optional) name"
+                                                                                   ng-model='affiliationDescription'/>
+                                                                        </td>
+                                                                    </tr>
+                                                                </tfoot>
+                                                            </table>
+                                                        </div>
+                                                        <!-- end widget content -->
+                                                    </div>
+                                                    <!-- end widget div -->
+
                                                     <fieldset>
-                                                        <div th:each="affiliation : ${affiliations}">
-                                                            <input type='radio' name='name'
-                                                                   th:id='${affiliation.name}' th:value="${affiliation.name}"
-                                                                   ng-model='affiliationName'/>
-                                                            <label th:for='${affiliation.name}' >
-                                                                <strong th:text="${affiliation.name}"></strong>
-                                                                <span class='small' th:text="${affiliation.description}"></span>
-                                                            </label>
-                                                        </div>
-                                                        <div class='form-inline'>
-                                                            <input type='radio' name='name' id='other' value="other"
-                                                                   ng-model='affiliationName'/>
-                                                            <label for='other' class='control-label'><strong>Other</strong></label>
-                                                            <input type='text' name='description' placeholder="(optional) name"
-                                                                        ng-model='affiliationDescription'/>
-                                                        </div>
                                                         <div>
                                                             <br />
-                                                            <label for='addition'><strong>Please provide additional organizations if any.</strong></label>
+                                                            <label for='addition'><strong>Please provide additional affiliations if any:</strong></label>
                                                             <br />
-                                                            <input id='addition' type='text' name='additionalAffiliationNames' placeholder="(optional) additional organizations"
+                                                            <input id='addition' type='text' name='additionalAffiliationNames' placeholder="(optional) additional affiliations"
                                                                    class='form-control'
                                                                    ng-model='addition'/>
                                                         </div>
@@ -334,7 +338,7 @@ Last Edited on 2016-10-13</p>
                                                             <td>
                                                                 <span ng-if="ok" class="text-center text-success"><strong><i class="fa fa-check fa-lg"></i> Complete</strong></span>
                                                                 <span ng-if=" !ok" class="text-center text-danger"><strong><i class="fa fa-warning fa-lg"></i> Incomplete</strong></span>
-                                                                Step {{$index + 1}}
+                                                                Step {{$index + 1}}: {{stepNames[$index]}}
                                                             </td>
                                                         </tr>
                                                     </table>
@@ -375,174 +379,250 @@ Last Edited on 2016-10-13</p>
             </div><!-- end row -->
         </section><!-- end widget grid -->
     </div>
-    <footer th:replace="secured/fragments/footer :: footer"/>
 </div>
+<footer th:replace="tags/footer :: footer"/>
 <!--================================================== -->
-
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
-<!-- IMPORTANT: APP CONFIG -->
-<script th:src='@{/public/js/app.config.js}'/>
-
-<!-- JS TOUCH : include this plugin for mobile drag / drop touch events-->
-<script th:src='@{/public/js/plugin/jquery-touch/jquery.ui.touch-punch.min.js}'/>
-
-<!-- BOOTSTRAP JS -->
-<script th:src='@{/webjars/bootstrap/bootstrap.min.js}'/>
-
-<!-- CUSTOM NOTIFICATION -->
-<script th:src='@{/public/js/notification/SmartNotification.min.js}'/>
-
-<!-- JARVIS WIDGETS -->
-<script th:src='@{/public/js/smartwidgets/jarvis.widget.min.js}'/>
-
-<!-- EASY PIE CHARTS -->
-<script th:src='@{/public/js/plugin/easy-pie-chart/jquery.easy-pie-chart.min.js}'/>
-
-<!-- SPARKLINES -->
-<script th:src='@{/public/js/plugin/sparkline/jquery.sparkline.min.js}'/>
-
-<!-- JQUERY VALIDATE -->
-<script th:src='@{/public/js/plugin/jquery-validate/jquery.validate.min.js}'/>
-
-<!-- JQUERY MASKED INPUT -->
-<script th:src='@{/public/js/plugin/masked-input/jquery.maskedinput.min.js}'/>
-
-<!-- JQUERY SELECT2 INPUT -->
-<script th:src='@{/public/js/plugin/select2/select2.min.js}'/>
-
-<!-- JQUERY UI + Bootstrap Slider -->
-<script th:src='@{/public/js/plugin/bootstrap-slider/bootstrap-slider.min.js}'/>
-
-<!-- browser msie issue fix -->
-<script th:src='@{/public/js/plugin/msie-fix/jquery.mb.browser.min.js}'/>
-
-<!-- FastClick: For mobile devices -->
-<script th:src='@{/public/js/plugin/fastclick/fastclick.min.js}'/>
-
-<!-- MAIN APP JS FILE -->
-<script th:src='@{/public/js/app.min.js}'/>
-
+<thymeleaf th:replace="tags/body-tail-remove-tag :: tail" />
 <!-- PAGE RELATED PLUGIN(S) -->
-<script th:src='@{/public/js/plugin/bootstrap-wizard/jquery.bootstrap.wizard.min.js}'/>
-<script th:src='@{/public/js/plugin/fuelux/wizard/wizard.min.js}'/>
-
-<!--[if IE 8]>
-		<h1>Your browser is out of date, please update your browser by going to www.microsoft.com/download</h1>
-<![endif]-->
+<script src="public/js/plugin/datatables/jquery.dataTables.min.js"></script>
+<script src="public/js/plugin/datatables/dataTables.colVis.min.js"></script>
+<script src="public/js/plugin/datatables/dataTables.tableTools.min.js"></script>
+<script src="public/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
+<script src="public/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
 
 <script type="text/javascript">
-    /*<![CDATA[*/
-    // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
     $(document).ready(function() {
         pageSetUp();
-        //Bootstrap Wizard Validations
-        var $validator = $("#wizard-1").validate({
-            rules: {
-                email: {
-                    required: true,
-                    email: "Your email address must be in the format of name@domain.com"
+        initWizard();
+        initDataTable();
+
+        function initWizard() {
+            var $bootstrapValidator = $("#wizard-1").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    accepted: {
+                        required: true
+                    }
                 },
-                name: {
-                    required: true
+                messages: {
+                    name: "Please select one of the below affiliations.",
+                    accepted: "Please accept our terms and condition by check the box below and proceed."
                 },
-                fname: {
-                    required: true
+                highlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
                 },
-                lname: {
-                    required: true
+                unhighlight: function (element) {
+                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
                 },
-                country: {
-                    required: true
-                },
-                city: {
-                    required: true
-                },
-                postal: {
-                    required: true,
-                    minlength: 4
-                },
-                wphone: {
-                    required: true,
-                    minlength: 10
-                },
-                hphone: {
-                    required: true,
-                    minlength: 10
+                errorElement: 'span',
+                errorClass: 'help-block bg-danger',
+                errorPlacement: function (error, element) {
+                    if (element.parent('.input-group').length) {
+                        error.insertBefore(element.parent());
+                    } else {
+                        error.insertBefore(element);
+                    }
                 }
-            },
-
-            messages: {
-                name: "Please specify your affiliation",
-                fname: "Please specify your First name",
-                lname: "Please specify your Last name",
-                email: {
-                    required: "We need your email address to contact you",
-                    email: "Your email address must be in the format of name@domain.com"
-                }
-            },
-
-            highlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-            },
-            unhighlight: function (element) {
-                $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-            },
-            errorElement: 'span',
-            errorClass: 'help-block bg-danger',
-            errorPlacement: function (error, element) {
-                if (element.parent('.input-group').length) {
-                    error.insertBefore(element.parent());
-                } else {
-                    error.insertBefore(element);
-                }
-            }
-        });
-
-        $('#bootstrap-wizard-1').bootstrapWizard({
-            'tabClass': 'form-wizard',
-            'onTabShow': function (tab, navigation, index) {
-                var scope = angular.element(document.getElementById('controller')).scope();
-                scope.$apply(function(){
-                    scope.isFirstStep = index <= 0;
-                    scope.isLastStep = index >= 3;
-                });
-            },
-            'onNext': function (tab, navigation, index) {
-                var step = index - 1;
-                var $valid = $("#wizard-1").valid();
-                if (!$valid) {
-                    $validator.focusInvalid();
-                    return false;
-                } else {
-                    $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).addClass(
-                            'complete');
-                    $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).find('.step')
-                            .html('<i class="fa fa-check"></i>');
-                    var scope = angular.element(document.getElementById('controller')).scope();
-                    scope.$apply(function(){
-                        scope.completeStep(step);
-                    });
-                }
-            }
-        });
-
-
-        // fuelux wizard
-        var wizard = $('.wizard').wizard();
-
-        wizard.on('finished', function (e, data) {
-            //$("#fuelux-wizard").submit();
-            //console.log("submitted!");
-            $.smallBox({
-                title: "Congratulations! Your form was submitted",
-                content: "<i class='fa fa-clock-o'></i> <i>1 seconds ago...</i>",
-                color: "#5F895F",
-                iconSmall: "fa fa-check bounce animated",
-                timeout: 4000
             });
+            var ngScope = angular.element(document.getElementById('controller')).scope();
+
+            $('#bootstrap-wizard-1').bootstrapWizard({
+                'tabClass': 'form-wizard',
+                'onTabShow': function (tab, navigation, index) {
+                    ngScope.$apply(function () {
+                        ngScope.isFirstStep = index <= 0;
+                        ngScope.isLastStep = index >= 3;
+                    });
+                },
+                'onNext': function (tab, navigation, index) {
+                    var step = index - 1;
+                    var $valid = $("#wizard-1").valid();
+                    if (!$valid) {
+                        $bootstrapValidator.focusInvalid();
+                        return false;
+                    } else {
+                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).addClass(
+                                'complete');
+                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).find('.step')
+                                .html('<i class="fa fa-check"></i>');
+                        ngScope.$apply(function () {
+                            ngScope.completeStep(step);
+                        });
+                    }
+                }
+            });
+        }
+    });
+
+    function initDataTable() {
+        /* // DOM Position key index //
+
+        l - Length changing (dropdown)
+        f - Filtering input (search)
+        t - The Table! (datatable)
+        i - Information (records)
+        p - Pagination (paging)
+        r - pRocessing
+        < and > - div elements
+        <"#id" and > - div with an id
+        <"class" and > - div with a class
+        <"#id.class" and > - div with an id and class
+
+        Also see: http://legacy.datatables.net/usage/features
+        */
+
+        /* BASIC ;*/
+        var responsiveHelper_dt_basic = undefined;
+        var responsiveHelper_datatable_fixed_column = undefined;
+        var responsiveHelper_datatable_col_reorder = undefined;
+        var responsiveHelper_datatable_tabletools = undefined;
+
+        var breakpointDefinition = {
+            tablet: 1024,
+            phone: 480
+        };
+
+        $('#dt_basic').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
+            "t" +
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "oLanguage": {
+                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+            },
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_dt_basic) {
+                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_dt_basic.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_dt_basic.respond();
+            }
+        }); /* END BASIC */
+
+        /* COLUMN FILTER  */
+        var otable = $('#datatable_fixed_column').DataTable({
+            //"bFilter": false,
+            //"bInfo": false,
+            //"bLengthChange": false
+            //"bAutoWidth": false,
+            //"bPaginate": false,
+            //"bStateSave": true // saves sort state using localStorage
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>" +
+            "t" +
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
+            "autoWidth": true,
+            "oLanguage": {
+                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+            },
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_fixed_column) {
+                    responsiveHelper_datatable_fixed_column = new ResponsiveDatatablesHelper($('#datatable_fixed_column'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_fixed_column.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_fixed_column.respond();
+            }
+
         });
+
+        // custom toolbar
+        //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
+
+        // Apply the filter
+        $("#datatable_fixed_column thead th input[type=text]").on('keyup change', function () {
+            otable
+                    .column($(this).parent().index() + ':visible')
+                    .search(this.value)
+                    .draw();
+
+        }); /* END COLUMN FILTER */
+
+        /* COLUMN SHOW - HIDE */
+        $('#datatable_col_reorder').dataTable({
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>" +
+            "t" +
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "autoWidth": true,
+            "oLanguage": {
+                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+            },
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_col_reorder) {
+                    responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datatable_col_reorder'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_col_reorder.respond();
+            }
+        }); /* END COLUMN SHOW - HIDE */
+
+        /* TABLETOOLS */
+        $('#datatable_tabletools').dataTable({
+            // Tabletools options:
+            //   https://datatables.net/extensions/tabletools/button_options
+            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
+            "t" +
+            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
+            "oLanguage": {
+                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+            },
+            "oTableTools": {
+                "aButtons": [
+                    "copy",
+                    "csv",
+                    "xls",
+                    {
+                        "sExtends": "pdf",
+                        "sTitle": "SmartAdmin_PDF",
+                        "sPdfMessage": "SmartAdmin PDF Export",
+                        "sPdfSize": "letter"
+                    },
+                    {
+                        "sExtends": "print",
+                        "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
+                    }
+                ],
+                "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
+            },
+            "autoWidth": true,
+            "preDrawCallback": function () {
+                // Initialize the responsive datatables helper once.
+                if (!responsiveHelper_datatable_tabletools) {
+                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
+                }
+            },
+            "rowCallback": function (nRow) {
+                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
+            },
+            "drawCallback": function (oSettings) {
+                responsiveHelper_datatable_tabletools.respond();
+            }
+        }); /* END TABLETOOLS */
+    }
+    /*]]>*/
+</script>
+
+<script type="text/javascript">
+    /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
+    $(document).ready(function() {
+
+
     })
     /*]]>*/
 </script>
