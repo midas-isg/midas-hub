@@ -45,16 +45,16 @@
                                             <div class="form-bootstrapWizard">
                                                 <ul class="bootstrapWizard form-wizard">
                                                     <li class="active" data-target="#step1">
-                                                        <a href="#tab1" data-toggle="tab"> <span class="step">1</span> <span class="title">Terms</span> </a>
+                                                        <a href="#tab1" data-toggle="tab" class="wizard-circle-button"> <span class="step">1</span> <span class="title">Terms</span> </a>
                                                     </li>
                                                     <li data-target="#step2">
-                                                        <a href="#tab2" data-toggle="tab"> <span class="step">2</span> <span class="title">Privacy</span> </a>
+                                                        <a href="#tab2" data-toggle="tab" class="wizard-circle-button"> <span class="step">2</span> <span class="title">Privacy</span> </a>
                                                     </li>
                                                     <li data-target="#step3">
-                                                        <a href="#tab3" data-toggle="tab"> <span class="step">3</span> <span class="title">Affiliation</span> </a>
+                                                        <a href="#tab3" data-toggle="tab" class="wizard-circle-button"> <span class="step">3</span> <span class="title">Affiliation</span> </a>
                                                     </li>
                                                     <li data-target="#step4">
-                                                        <a href="#tab4" data-toggle="tab"> <span class="step">4</span> <span class="title">Save</span> </a>
+                                                        <a href="#tab4" data-toggle="tab" class="wizard-circle-button"> <span class="step">4</span> <span class="title">Save</span> </a>
                                                     </li>
                                                 </ul>
                                                 <div class="clearfix"></div>
@@ -140,7 +140,7 @@ The limitations and prohibitions of liability set in this Section and elsewhere 
 
 BY USING ANY SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL YOU AGREE THAT NO WARRANTIES OF ANY KIND ARE MADE BY THE UNIVERSITY OF PITTSBURGH (UNIVERSITY), OR THE National Institutes of Health WITH RESPECT TO THE DATA PROVIDED IN SOFTWARE MADE AVAILABLE BY THE MIDAS SOFTWARE PORTAL OR ANY USE THEREOF, AND THE UNIVERSITY HEREBY DISCLAIM THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. THE UNIVERSITY AND NATIONAL INSTITUTES OF HEALTH SHALL NOT BE LIABLE FOR ANY CLAIMS, LOSSES OR DAMAGES OF ANY KIND ARISING FROM THE DATA PROVIDED IN ANY MIDAS SOFTWARE OR ANY USE THEREOF.</p>
                                                             <label>
-                                                                <input type='checkbox' name='accepted' ng-model='accepted' ng-disabled='accepted' />
+                                                                <input type='checkbox' name='accepted' ng-model='accepted' />
                                                                 I accept the terms and conditions.
                                                             </label>
                                                             <div>To decline, please logout or close this page.</div>
@@ -259,7 +259,7 @@ Last Edited on 2016-10-13</p>
                                                 </div>
                                                 <div class="tab-pane" id="tab3">
                                                     <br />
-                                                    <h3><strong>Step 3</strong> - Your Affiliation</h3>
+                                                    <h3><strong>Step 3</strong> - Midas Affiliation</h3>
 
                                                     <h4><strong>Please select your primary MIDAS affiliation:</strong></h4>
                                                     <br />
@@ -397,11 +397,32 @@ Last Edited on 2016-10-13</p>
         initWizard();
         initDataTable();
 
+        var classname = document.getElementsByClassName("wizard-circle-button");
+
+        var myFunction = function() {
+            event.stopPropagation();
+        };
+
+        for (var i = 0; i < classname.length; i++) {
+            classname[i].addEventListener('click', myFunction, false);
+        }
+
         function initWizard() {
             var $bootstrapValidator = $("#wizard-1").validate({
                 rules: {
                     name: {
-                        required: true
+                        required: {
+                            depends: function () {
+                                var selected = $('input[name=name]:checked', '#datatable_fixed_column_wrapper').val();
+                                console.log(selected);
+                                if(typeof selected != 'undefined') {
+                                    return false;
+                                }
+                                else {
+                                    return true;
+                                }
+                            }
+                        }
                     },
                     accepted: {
                         required: true
@@ -420,8 +441,8 @@ Last Edited on 2016-10-13</p>
                 errorElement: 'span',
                 errorClass: 'help-block bg-danger',
                 errorPlacement: function (error, element) {
-                    if (element.parent('.input-group').length) {
-                        error.insertBefore(element.parent());
+                    if (element.is(":radio")) {
+                        error.insertBefore( element.parents('.table') );
                     } else {
                         error.insertBefore(element);
                     }
@@ -491,7 +512,7 @@ Last Edited on 2016-10-13</p>
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
             "autoWidth": true,
             "oLanguage": {
-                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+//                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             },
             "preDrawCallback": function () {
                 // Initialize the responsive datatables helper once.
@@ -509,11 +530,11 @@ Last Edited on 2016-10-13</p>
 
         /* COLUMN FILTER  */
         var otable = $('#datatable_fixed_column').DataTable({
-            //"bFilter": false,
-            //"bInfo": false,
+            "bFilter": false,
+            "bInfo": false,
             //"bLengthChange": false
             //"bAutoWidth": false,
-            //"bPaginate": false,
+            "bPaginate": false,
             //"bStateSave": true // saves sort state using localStorage
             "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>" +
             "t" +
@@ -556,7 +577,7 @@ Last Edited on 2016-10-13</p>
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
             "autoWidth": true,
             "oLanguage": {
-                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+//                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             },
             "preDrawCallback": function () {
                 // Initialize the responsive datatables helper once.
@@ -580,7 +601,7 @@ Last Edited on 2016-10-13</p>
             "t" +
             "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
             "oLanguage": {
-                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
+//                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
             },
             "oTableTools": {
                 "aButtons": [

@@ -22,3 +22,7 @@
     width: 30px;
     vertical-align: top;
 }
+
+.input-group-addon {
+    height: 34px !important;
+}
