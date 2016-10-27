@@ -103,14 +103,15 @@ public class UserRule {
         appMetadata.put(AFFILIATION, toMap(form));
     }
 
-    private Map<String, String> toMap(AffiliationForm form) {
-        Map<String, String> map = new HashMap<>();
+    private Map<String, Object> toMap(AffiliationForm form) {
+        Map<String, Object> map = new HashMap<>();
         final String name = form.getName();
         map.put("name", name);
         final String description = name.equalsIgnoreCase("other")
-                ? form.getDescription()
-                : "";
+                ? ""
+                : form.getDescription();
         map.put("description", description);
+        map.put("groups", form.getAffiliationGroups());
         map.put("secondaries", form.getAdditionalAffiliationNames());
         return map;
     }
