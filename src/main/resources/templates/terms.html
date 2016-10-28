@@ -281,18 +281,25 @@ Last Edited on 2016-10-21</p>
                                                                                 <span th:text="${affiliation.description} +' (' + ${affiliation.name} + ')'"></span>
                                                                             </label>
                                                                         </option>
+                                                                        <option id="other" value="other">
+                                                                            Other
+                                                                        </option>
                                                                     </select>
-                                                                    <input type="hidden" id="name" name="name"
-                                                                           ng-model='affiliationName'/>
-                                                                    <input type="hidden" id="description"
-                                                                           name="description"
-                                                                           ng-model='affiliationDescription'/>
-                                                                    <input type="hidden" id="affiliationGroups"
-                                                                           value=""
-                                                                           name="affiliationGroups"
-                                                                           ng-model='affiliationGroups'/>
-
                                                                 </div>
+                                                                <div id="otherName" style="display:none" class="col-md-5 col-sm-12">
+                                                                    <br/>
+                                                                    <input class="form-control" name="name" id="otherNameValue"
+                                                                           ng-model='affiliationName' placeholder="Please enter the affiliation name"/>
+                                                                </div>
+                                                                <input type="hidden" id="name" name="name"
+                                                                       ng-model='affiliationName'/>
+                                                                <input type="hidden" id="description"
+                                                                       name="description"
+                                                                       ng-model='affiliationDescription'/>
+                                                                <input type="hidden" id="affiliationGroups"
+                                                                       value=""
+                                                                       name="affiliationGroups"
+                                                                       ng-model='affiliationGroups'/>
                                                             </div>
                                                             <div class="row">
                                                                 <br/>
@@ -479,7 +486,10 @@ Last Edited on 2016-10-21</p>
 
 
             var selected = $(this).find("option:selected").text().trim();
-            var selectedName = (selected.match(/\((.*)\)/)[1]).trim();
+            var selectedName = "";
+            if(selected.includes("(")) {
+                selectedName = (selected.match(/\((.*)\)/)[1]).trim();
+            }
             var selectedDescription = (selected.replace(/ *\([^)]*\) */g, "")).trim();
 
 
@@ -489,16 +499,25 @@ Last Edited on 2016-10-21</p>
             document.getElementById('optional').innerHTML = '<strong> Optionally, please indicate any groups you belong to inside: ' + selectedDescription +'</strong>';
 
             var dataset = [];
-            $(jQuery.parseJSON(affiliations)).each(function() {
-                var ID = this.id;
-                var NAME = this.name;
-                var DESCRIPTION = this.description;
 
-                if(NAME.includes(selectedName) && !selected.includes(DESCRIPTION)) {
-                    NAME = NAME.substring(NAME.indexOf(":") + 1);
-                    dataset.push(["", NAME, DESCRIPTION]);
-                }
-            });
+            if(selectedDescription == "Other") {
+                $("#otherName").show();
+            } else {
+                $("#otherName").hide();
+                document.getElementById('otherNameValue').value = "";
+
+                $(jQuery.parseJSON(affiliations)).each(function() {
+                    var ID = this.id;
+                    var NAME = this.name;
+                    var DESCRIPTION = this.description;
+
+                    if(NAME.includes(selectedName) && !selected.includes(DESCRIPTION)) {
+                        NAME = NAME.substring(NAME.indexOf(":") + 1);
+                        dataset.push(["", NAME, DESCRIPTION]);
+                    }
+                });
+            }
+
 
             //manages disabled look
             if(dataset.length > 0) {
@@ -553,11 +572,15 @@ Last Edited on 2016-10-21</p>
         function initWizard() {
             var $bootstrapValidator = $("#wizard-1").validate({
                 rules: {
+                    name: {
+                        required: true
+                    },
                     accepted: {
                         required: true
                     }
                 },
                 messages: {
+                    name: "Please enter your affiliation",
                     accepted: "Please accept our terms and condition by check the box below and proceed."
                 },
                 highlight: function (element) {
