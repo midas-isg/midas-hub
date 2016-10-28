@@ -418,25 +418,25 @@ Last Edited on 2016-10-21</p>
         initDataTable();
         var groups = [];
 
-        $('#example-select-all').on('click', function(){
-            // Check/uncheck all checkboxes in the table
-            var rows = $("#datatable_groups").rows({ 'search': 'applied' }).nodes();
-            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-        });
-
-        // Handle click on checkbox to set state of "Select all" control
-        $('#datatable_groups').on('change', 'input[type="checkbox"]', function(){
-            // If checkbox is not checked
-            if(!this.checked){
-                var el = $('#example-select-all').get(0);
-                // If "Select all" control is checked and has 'indeterminate' property
-                if(el && el.checked && ('indeterminate' in el)){
-                    // Set visual state of "Select all" control
-                    // as 'indeterminate'
-                    el.indeterminate = true;
-                }
-            }
-        });
+//        $('#example-select-all').on('click', function(){
+//            // Check/uncheck all checkboxes in the table
+//            var rows = $("#datatable_groups").rows({ 'search': 'applied' }).nodes();
+//            $('input[type="checkbox"]', rows).prop('checked', this.checked);
+//        });
+//
+//        // Handle click on checkbox to set state of "Select all" control
+//        $('#datatable_groups').on('change', 'input[type="checkbox"]', function(){
+//            // If checkbox is not checked
+//            if(!this.checked){
+//                var el = $('#example-select-all').get(0);
+//                // If "Select all" control is checked and has 'indeterminate' property
+//                if(el && el.checked && ('indeterminate' in el)){
+//                    // Set visual state of "Select all" control
+//                    // as 'indeterminate'
+//                    el.indeterminate = true;
+//                }
+//            }
+//        });
 
         //prevents user from going to pages by selecting the number in the wizard
         var classname = document.getElementsByClassName("wizard-circle-button");
@@ -483,15 +483,10 @@ Last Edited on 2016-10-21</p>
             var selectedDescription = (selected.replace(/ *\([^)]*\) */g, "")).trim();
 
 
+            //sets hidden input for form submit
             document.getElementById('name').value = selectedName;
             document.getElementById('description').value = selectedDescription;
             document.getElementById('optional').innerHTML = '<strong> Optionally, please indicate any groups you belong to inside: ' + selectedDescription +'</strong>';
-
-//            var scope = angular.element($(this)).scope();
-//            scope.$apply(function(){
-//                scope.affiliationName = selectedName;
-//                scope.affiliationDescription = selectedDescription;
-//            });
 
             var dataset = [];
             $(jQuery.parseJSON(affiliations)).each(function() {
@@ -505,7 +500,7 @@ Last Edited on 2016-10-21</p>
                 }
             });
 
-            console.log(dataset);
+            //manages disabled look
             if(dataset.length > 0) {
                 document.getElementById('optional').classList.remove("disabler");
                 document.getElementById('datatable_groups').classList.remove("disabler");
@@ -514,7 +509,7 @@ Last Edited on 2016-10-21</p>
                 document.getElementById('datatable_groups').classList.add("disabler");
             }
 
-
+            //generates table of affilated groups
             var table = $('#datatable_groups').DataTable({
                 data: dataset,
                 "bPaginate": false,
@@ -538,6 +533,7 @@ Last Edited on 2016-10-21</p>
                 'order': [1, 'asc']
             });
 
+            //sets hidden input of affiliation groups for form submit
             $('#datatable_groups').on('change', 'input[type="checkbox"]', function() {
                 var data = table.row($(this).parents('tr')).data();
                 var name = data[1];
