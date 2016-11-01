@@ -3,7 +3,6 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
 import edu.pitt.isg.midas.hub.auth0.a1.AuthenticationFilter;
-import edu.pitt.isg.midas.hub.user.Auth0Dao;
 import edu.pitt.isg.midas.hub.user.UserRule;
 import org.junit.Before;
 import org.junit.Test;
@@ -34,7 +33,6 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.flash;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -137,4 +135,3 @@ public class AccessControlTest {
                 .andExpect(header().string("Location", "/tos"));
     }
 }
-

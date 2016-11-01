@@ -10,11 +10,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import springfox.documentation.annotations.ApiIgnore;
@@ -36,7 +34,7 @@ class UserController {
     @RequestMapping(value = "/admin/api/user-profile/{userId}", method = GET, produces = APPLICATION_JSON_VALUE)
     public Auth0User getUserProfileViaUserId(@PathVariable String userId) {
         try {
-            return rule.getUserProfileByUserId(userId);
+            return rule.toUserProfileByUserId(userId);
         } catch (Exception e){
             throw new UserNotFoundException(e);
         }

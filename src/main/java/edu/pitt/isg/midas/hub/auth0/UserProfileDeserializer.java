@@ -1,10 +1,8 @@
-package edu.pitt.isg.midas.hub.user;
+package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.authentication.result.UserIdentity;
 import com.auth0.authentication.result.UserProfile;
-import com.auth0.request.internal.RequestFactory;
 import com.auth0.util.JsonRequiredTypeAdapterFactory;
-import com.auth0.web.Auth0User;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -13,36 +11,21 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParseException;
 import com.google.gson.reflect.TypeToken;
-import com.squareup.okhttp.HttpUrl;
-import com.squareup.okhttp.OkHttpClient;
-import org.springframework.stereotype.Service;
 
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Service
-public class Auth0Dao {
-    public Auth0User getAuth0User(String url, String bearerToken) {
-        final HttpUrl httpUrl = HttpUrl.parse(url).newBuilder().build();
-        final Gson gson = makeGson();
-        final UserProfile userProfile = new RequestFactory().GET(httpUrl, new OkHttpClient(), gson, UserProfile.class)
-                .addHeader("Authorization","Bearer " + bearerToken)
-                .execute();
-        return new Auth0User(userProfile);
-    }
-
-    private Gson makeGson() {
+class UserProfileDeserializer implements JsonDeserializer<UserProfile> {
+    static Gson makeGson() {
         return new GsonBuilder()
                 .registerTypeAdapterFactory(new JsonRequiredTypeAdapterFactory())
                 .registerTypeAdapter(UserProfile.class, new UserProfileDeserializer())
                 .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
                 .create();
     }
-}
 
-class UserProfileDeserializer implements JsonDeserializer<UserProfile> {
     @Override
     public UserProfile deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         if (!json.isJsonObject() || json.isJsonNull()) {
