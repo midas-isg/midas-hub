@@ -259,7 +259,7 @@ Last Edited on 2016-10-21</p>
                                                 </div>
                                                 <div class="tab-pane" id="tab3">
                                                     <br />
-                                                    <h3><strong>Step 3</strong> - MIDAS Affiliation</h3>
+                                                    <h3><strong>Step 3</strong> - Set MIDAS Affiliation</h3>
 
                                                     <h4><strong>Please select your primary MIDAS affiliation:</strong></h4>
                                                     <br/>
@@ -307,7 +307,7 @@ Last Edited on 2016-10-21</p>
                                                                     groups
                                                                     you belong to inside: (please choose MIDAS affiliation)
                                                                 </strong></h4>
-                                                                <div class="col-md-5 col-sm-12">
+                                                                <div class="col-md-12 col-lg-6 col-sm-12">
                                                                     <br/>
                                                                     <table id="datatable_groups"
                                                                            class="table table-bordered display disabler"
@@ -368,20 +368,24 @@ Last Edited on 2016-10-21</p>
                                                         </button>
                                                     </div>
                                                 </div>
-
-                                                <div class="form-actions">
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <ul class="pager wizard no-margin">
-                                                                <li class="previous disabled">
-                                                                    <a href="javascript:void(0);" class="btn btn-lg btn-default"
-                                                                       ng-show='!isFirstStep' ng-init='isFirstStep=true'> Previous </a>
-                                                                </li>
-                                                                <li class="next">
-                                                                    <a href="javascript:void(0);" class="btn btn-lg txt-color-darken"
-                                                                       ng-show='!isLastStep'> Next </a>
-                                                                </li>
-                                                            </ul>
+                                                <div class="form-actions bottom">
+                                                    <div class="container-fluid">
+                                                        <div class="row">
+                                                            <div class="col-sm-12">
+                                                                <ul class="pager wizard no-margin">
+                                                                    <li class="previous disabled">
+                                                                        <a href="javascript:void(0);"
+                                                                           class="btn btn-lg btn-default"
+                                                                           ng-show='!isFirstStep'
+                                                                           ng-init='isFirstStep=true'><i class="fa fa-arrow-circle-left"></i> Previous </a>
+                                                                    </li>
+                                                                    <li class="next">
+                                                                        <a href="javascript:void(0);"
+                                                                           class="btn btn-lg txt-color-darken"
+                                                                           ng-show='!isLastStep'> Next <i class="fa fa-arrow-circle-right"></i> </a>
+                                                                    </li>
+                                                                </ul>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -397,7 +401,6 @@ Last Edited on 2016-10-21</p>
         </section><!-- end widget grid -->
     </div>
 </div>
-<footer th:replace="tags/footer :: footer"/>
 <!--================================================== -->
 <thymeleaf th:replace="tags/body-tail-remove-tag :: tail" />
 <!-- PAGE RELATED PLUGIN(S) -->
@@ -413,13 +416,14 @@ Last Edited on 2016-10-21</p>
 <!--<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>-->
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+<footer th:replace="tags/footer :: footer"/>
 
 <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-
 
 <script type="text/javascript">
     /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
     $(document).ready(function() {
+        $("#version").load("/hub/public/MidashubVersion.txt");
         pageSetUp();
         initWizard();
         initDataTable();
@@ -534,10 +538,9 @@ Last Edited on 2016-10-21</p>
                 "bPaginate": false,
                 "bFilter": false,
                 columns: [
-//                    {title: '<input name="select_all" value="1" id="example-select-all" type="checkbox"/>'},
-                    {title: ''},
-                    {title: "Name"},
-                    {title: "Description"}
+                    {title: '', width: "5%"},
+                    {title: "Name", width: "35%"},
+                    {title: "Description", width: "55%"}
                 ],
                 'columnDefs': [{
                     'targets': 0,

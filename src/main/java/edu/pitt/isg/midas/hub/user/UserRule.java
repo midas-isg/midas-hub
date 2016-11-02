@@ -16,20 +16,18 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-import java.util.TreeSet;
+import java.util.*;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
+
 import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UserUrl;
 import static org.springframework.http.HttpMethod.PATCH;
 
 @Service
 public class UserRule {
     private static final String ROLES = "roles";
+    private static final String ALLOWED_SERVICES = "allowedServices";
     private static final String APP_METADATA = "app_metadata";
     @Value("${app.auth0.secret.token}")
     private String bearerToken;
@@ -55,6 +53,7 @@ public class UserRule {
         final Map<String, Object> appMetadata = user.getAppMetadata();
         saveAffiliation(appMetadata, form);
         addRole(appMetadata, ISG_USER);
+        addAllowedServices(appMetadata);
         Map<String, Object> userProfile = toUserProfileMap(appMetadata);
         final HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userProfile, toHttpHeaders());
         final String url = toAuth0UserUrl(auth0Config.getDomain(), user.getUserId());
@@ -121,8 +120,26 @@ public class UserRule {
         final Set<String> roles =  new TreeSet<>();
         final Object obj = appMetadata.get(ROLES);
         if (obj != null)
-            roles.addAll((List<String>) obj);
+            roles.addAll((TreeSet) obj);
         roles.add(role);
         appMetadata.put(ROLES, roles);
+    }
+
+    private void addAllowedServices(Map<String, Object> appMetadata) {
+        final List<Object> services =  new ArrayList<>();
+        Map<String, String> service = new HashMap<>();
+
+        service.put("d", "UPitt");
+        service.put("n", "SEIR");
+        service.put("v", "3.0");
+        services.add(service);
+
+        service = new HashMap<>();
+        service.put("d", "UPitt,PSC,CMU");
+        service.put("n", "FRED");
+        service.put("v", "2.0.1_i");
+        services.add(service);
+
+        appMetadata.put(ALLOWED_SERVICES, services);
     }
 }

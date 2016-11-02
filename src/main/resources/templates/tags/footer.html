@@ -1,8 +1,12 @@
 <footer xmlns:th="http://www.thymeleaf.org">
-    <div class="page-footer">
-        <div class="row">
-            <div class="col-xs-12 col-sm-6">
-                <span class="txt-color-white" th:inline="text">Copyright &copy; [[${#dates.year(#dates.createNow())}]]</span>
+    <div class="page-footer padding-left-0">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-md-12">
+                    <span class="txt-color-white" id="version" th:inline="text"></span>
+                    <span class="txt-color-white pull-right" th:inline="text">Copyright &copy;
+                        [[${#dates.year(#dates.createNow())}]]</span>
+                </div>
             </div>
         </div>
     </div>

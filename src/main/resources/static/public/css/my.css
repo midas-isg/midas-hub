@@ -39,3 +39,20 @@ fieldset {
     /*background-color: #bbb !important;*/
     opacity: 0.5 !important;
 }
+
+.padding-left-0 {
+    padding-left: 0px !important;
+}
+
+.bottom {
+    position: fixed;
+    bottom: 65px;
+    width: 100%;
+    margin-left: -28px;
+}
+
+#list  p {
+    font: arial;
+    font-size: 14px;
+    background-color: yellow ;
+}
