@@ -51,8 +51,27 @@ fieldset {
     margin-left: -28px;
 }
 
-#list  p {
-    font: arial;
-    font-size: 14px;
-    background-color: yellow ;
+@media only screen and (min-width: 1024px) {
+    /* Add your custom styles here for Desktop */
+}
+@media only screen and (max-width: 1023px) {
+    /* Add your custom styles here for Tablet */
+}
+@media only screen and (max-width: 640px) {
+    h2 { font-size: 20px !important; }
+}
+@media only screen and (max-width: 480px) {
+    h2 { font-size: 14px !important; }
+}
+
+#logo {
+    display: inline-block;
+    width: 360px;
+    margin-top: 10px;
+    margin-left: 9px;
+}
+
+.datatable-scroll {
+    overflow-x: auto;
+    overflow-y: visible;
 }

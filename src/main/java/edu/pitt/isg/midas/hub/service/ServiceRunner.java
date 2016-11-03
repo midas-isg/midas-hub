@@ -26,10 +26,10 @@ public class ServiceRunner implements CommandLineRunner {
     private void loadServices() {
         repository.save(new Service("Apollo Library",
                 "http://www.epimodels.org/apolloLibraryViewer/",
-                "Apollo Library of Standardized Machine Interpretable Information"));
+                "Apollo Library of Standardized Machine Interpretable Information", null, null, null));
         repository.save(new Service("SPEW Service",
                 "http://spew.olympus.psc.edu/syneco/spe",
-                "SPEW Web Service"));
+                "SPEW Web Service", null, null, null));
     }
 
     private void logServices() {

@@ -12,14 +12,20 @@ public class Service {
     private String name;
     private String description;
     private String url;
+    private String softwareType;
+    private String developmentGroup;
+    private String contact;
 
     Service() {
     }
 
-    public Service(String name, String url, String description) {
+    public Service(String name, String url, String description, String softwareType, String developmentGroup, String contact) {
         this.name = name;
         this.url = url;
         this.description = description;
+        this.softwareType = softwareType;
+        this.developmentGroup = developmentGroup;
+        this.contact = contact;
     }
 
     @Id
@@ -57,6 +63,30 @@ public class Service {
         this.url = url;
     }
 
+    public String getSoftwareType() {
+        return softwareType;
+    }
+
+    public void setSoftwareType(String softwareType) {
+        this.softwareType = softwareType;
+    }
+
+    public String getDevelopmentGroup() {
+        return developmentGroup;
+    }
+
+    public void setDevelopmentGroup(String developmentGroup) {
+        this.developmentGroup = developmentGroup;
+    }
+
+    public String getContact() {
+        return contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
@@ -64,6 +94,9 @@ public class Service {
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", url='" + url + '\'' +
+                ", softwareType='" + softwareType + '\'' +
+                ", developmentGroup='" + developmentGroup + '\'' +
+                ", contact='" + contact + '\'' +
                 '}';
     }
 }
