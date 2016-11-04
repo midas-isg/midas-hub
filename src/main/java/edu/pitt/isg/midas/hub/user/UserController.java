@@ -34,7 +34,7 @@ class UserController {
     @RequestMapping(value = "/admin/api/user-profile/{userId}", method = GET, produces = APPLICATION_JSON_VALUE)
     public Auth0User getUserProfileViaUserId(@PathVariable String userId) {
         try {
-            return rule.toUserProfileByUserId(userId);
+            return rule.getUserProfileByUserId(userId);
         } catch (Exception e){
             throw new UserNotFoundException(e);
         }
