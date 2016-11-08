@@ -1,8 +1,6 @@
 <thymeleaf xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
            th:fragment="tail" th:remove="tag">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.3/jquery-ui.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.8.3/underscore-min.js"></script>
+    <script th:src='@{/webjars/jquery-ui/jquery-ui.min.js}'></script>
     <!-- IMPORTANT: APP CONFIG -->
     <script th:src='@{/public/js/app.config.js}'/>
 

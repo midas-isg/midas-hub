@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <thymeleaf th:replace="tags/head-remove-tag :: head" />
+    <thymeleaf th:replace="tags/head-remove-tag-ng-app-resources :: head" />
+    <title>Report - MIDAS Hub</title>
+</head>
+<body id='controller' ng-app='app' ng-controller='Report'>
+<script type="text/javascript"  th:inline="javascript">
+    /*<![CDATA[*/
+    var logs = [[${logs}]];
+    var users = [[${users}]];
+    /*]]>*/
+</script>
+<script th:src='@{/public/js/ng/Report.js}'/>
+<header th:replace="tags/header :: header"/>
+<div class="">
+    <div id="content">
+        <section id="widget-grid" class="">
+            <div class="row">
+                <article class="col-xs-12">
+                    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0">
+                        <header>
+                            <h2>Report</h2>
+                        </header>
+                        <div class="widget-body">
+                            <div class="row">
+                                <ul id="myTab1" class="nav nav-tabs bordered">
+                                    <li class="active">
+                                        <a href="#s1" data-toggle="tab">Activities</a>
+                                    </li>
+                                    <li class="dropdown">
+                                        <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
+                                        <ul class="dropdown-menu">
+                                            <li>
+                                                <a href="#s2" data-toggle="tab">by Application</a>
+                                            </li>
+                                            <li>
+                                                <a href="#s3" data-toggle="tab">by Affiliation</a>
+                                            </li>
+                                            <li>
+                                                <a href="#s4" data-toggle="tab">by User</a>
+                                            </li>
+                                        </ul>
+                                    </li>
+                                </ul>
+                                <div id="myTabContent1" class="tab-content padding-10">
+                                    <div class="tab-pane fade in active" id="s1">
+                                        <h3><strong>Activities</strong></h3>
+                                        <div><!-- widget div-->
+                                            <div class="jarviswidget-editbox">
+                                                <!-- This area used as dropdown edit box -->
+                                            </div><!-- end widget edit box -->
+                                            <div class="widget-body"><!-- widget content -->
+                                                <table datatable="ng" dt-options="dtOptions" id="datatable_fixed_column" class="table table-striped table-bordered row-border hover" width="100%">
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="hidden-mobile">Local Timestamp</th>
+                                                        <th><span class="hidden-mobile">Local </span>Date</th>
+                                                        <th class="hidden-mobile">Local Time</th>
+                                                        <th class="hidden-mobile">User</th>
+                                                        <th class="hidden-mobile">Connection</th>
+                                                        <th>Aff<span class="hidden-mobile">iliation</span></th>
+                                                        <th>Event</th>
+                                                        <th>App<span class="hidden-mobile">lication</span></th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr ng-repeat="log in logs">
+                                                        <td class="hidden-mobile">
+                                                            {{log.timestamp |date:'yyyy-MM-dd HH:mm'}}
+                                                        </td>
+                                                        <td>
+                                                            {{log.timestamp |date:"d MMM yyyy"}}
+                                                        </td>
+                                                        <td class="hidden-mobile">
+                                                            {{log.timestamp |date:'HH:mm'}}
+                                                        </td>
+                                                        <td class="hidden-mobile">
+                                                            {{log.userName}}
+                                                        </td>
+                                                        <td class="hidden-mobile">
+                                                            {{log.userConnection}}
+                                                        </td>
+                                                        <td>
+                                                            {{log.userAffiliation}}
+                                                        </td>
+                                                        <td>
+                                                            {{log.event}}
+                                                        </td>
+                                                        <td>
+                                                            {{log.applicationName}}
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div><!-- end widget content -->
+                                        </div><!-- end widget div -->
+                                    </div>
+                                    <div class="tab-pane fade" id="s2">
+                                        <h3><strong>Report by Application</strong></h3>
+                                        <h4><strong>Logins</strong></h4>
+                                        <table class='table table-striped table-bordered'>
+                                            <thead>
+                                            <tr>
+                                                <th>Application</th>
+                                                <th>Number of Logins</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="(key, value) in loginsGroupByApplication">
+                                                <td> {{key}} </td>
+                                                <td> {{ value.length }} </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="s3">
+                                        <h3><strong>Report by Affiliation</strong></h3>
+                                        <h4><strong>Logins</strong></h4>
+                                        <table class='table table-striped table-bordered'>
+                                            <thead>
+                                            <tr>
+                                                <th>Affiliation</th>
+                                                <th>Number of Logins</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="(key, value) in loginsGroupByAffiliation">
+                                                <td> {{key}} </td>
+                                                <td> {{ value.length }} </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="tab-pane fade" id="s4">
+                                        <h3><strong>Report by User</strong></h3>
+                                        <h4><strong>Users</strong></h4>
+                                        <table class='table table-striped table-bordered'>
+                                            <thead>
+                                            <tr>
+                                                <th>Affiliation</th>
+                                                <th>Number of Users</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="(key, value) in usersGroupByAffiliation">
+                                                <td> {{key}} </td>
+                                                <td> {{ value.length }} </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+                                        <h4><strong>Term-and-Condition Acceptances</strong></h4>
+                                        <table class='table table-striped table-bordered'>
+                                            <thead>
+                                            <tr>
+                                                <th>Affiliation</th>
+                                                <th>Number of Users</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr ng-repeat="(key, value) in registersGroupByAffiliation">
+                                                <td> {{key}} </td>
+                                                <td> {{ value.length }} </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end widget content -->
+                    </div>
+                </article><!-- WIDGET END -->
+            </div>
+        </section><!-- end widget grid -->
+    </div>
+</div>
+<footer th:replace="tags/footer :: footer"/>
+<!--================================================== -->
+<thymeleaf th:replace="tags/body-tail-remove-tag :: tail" />
+</body>
+</html>

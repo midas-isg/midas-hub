@@ -2,12 +2,11 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head" />
-    <script th:src='@{/webjars/angular/angular.min.js}'/>
+    <thymeleaf th:replace="tags/head-remove-tag-ng-app-resources :: head" />
+    <script th:src='@{/public/js/ng/Term.js}'/>
     <title>Terms of Services - MIDAS Software Portal</title>
 </head>
 <body id='controller' ng-app='app' ng-controller='Term'>
-<script th:src='@{/public/js/ng/app.js}'/>
-<script th:src='@{/public/js/ng/Term.js}'/>
 <header th:replace="tags/header :: header"/>
 <div class="">
     <div id="content">
@@ -403,18 +402,7 @@ Last Edited on 2016-10-21</p>
 </div>
 <!--================================================== -->
 <thymeleaf th:replace="tags/body-tail-remove-tag :: tail" />
-<!-- PAGE RELATED PLUGIN(S) -->
-<script src="public/js/plugin/datatables/jquery.dataTables.min.js"></script>
-<!--<script src="https://cdn.datatables.net/select/1.2.0/js/dataTables.select.min.js"></script>-->
-<script src="public/js/plugin/datatables/dataTables.colVis.min.js"></script>
-<script src="public/js/plugin/datatables/dataTables.tableTools.min.js"></script>
-<script src="public/js/plugin/datatables/dataTables.bootstrap.min.js"></script>
-<script src="public/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-<!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
-<!--<link rel="stylesheet" href="https://cdn.datatables.net/select/1.2.0/css/select.dataTables.min.css"/>-->
-<!-- Latest compiled and minified JavaScript -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
 <footer th:replace="tags/footer :: footer"/>
 
@@ -423,31 +411,9 @@ Last Edited on 2016-10-21</p>
 <script type="text/javascript">
     /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
     $(document).ready(function() {
-        $("#version").load("/hub/public/MidashubVersion.txt");
         pageSetUp();
         initWizard();
-        initDataTable();
         var groups = [];
-
-//        $('#example-select-all').on('click', function(){
-//            // Check/uncheck all checkboxes in the table
-//            var rows = $("#datatable_groups").rows({ 'search': 'applied' }).nodes();
-//            $('input[type="checkbox"]', rows).prop('checked', this.checked);
-//        });
-//
-//        // Handle click on checkbox to set state of "Select all" control
-//        $('#datatable_groups').on('change', 'input[type="checkbox"]', function(){
-//            // If checkbox is not checked
-//            if(!this.checked){
-//                var el = $('#example-select-all').get(0);
-//                // If "Select all" control is checked and has 'indeterminate' property
-//                if(el && el.checked && ('indeterminate' in el)){
-//                    // Set visual state of "Select all" control
-//                    // as 'indeterminate'
-//                    el.indeterminate = true;
-//                }
-//            }
-//        });
 
         //prevents user from going to pages by selecting the number in the wizard
         var classname = document.getElementsByClassName("wizard-circle-button");
@@ -631,174 +597,6 @@ Last Edited on 2016-10-21</p>
             });
         }
     });
-
-    function initDataTable() {
-        /* // DOM Position key index //
-
-        l - Length changing (dropdown)
-        f - Filtering input (search)
-        t - The Table! (datatable)
-        i - Information (records)
-        p - Pagination (paging)
-        r - pRocessing
-        < and > - div elements
-        <"#id" and > - div with an id
-        <"class" and > - div with a class
-        <"#id.class" and > - div with an id and class
-
-        Also see: http://legacy.datatables.net/usage/features
-        */
-
-        /* BASIC ;*/
-        var responsiveHelper_dt_basic = undefined;
-        var responsiveHelper_datatable_fixed_column = undefined;
-        var responsiveHelper_datatable_col_reorder = undefined;
-        var responsiveHelper_datatable_tabletools = undefined;
-
-        var breakpointDefinition = {
-            tablet: 1024,
-            phone: 480
-        };
-
-        $('#dt_basic').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-12 hidden-xs'l>r>" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth": true,
-            "oLanguage": {
-//                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-            },
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_dt_basic) {
-                    responsiveHelper_dt_basic = new ResponsiveDatatablesHelper($('#dt_basic'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_dt_basic.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_dt_basic.respond();
-            }
-        }); /* END BASIC */
-
-        /* COLUMN FILTER  */
-        var otable = $('#datatable_fixed_column').DataTable({
-            "bFilter": false,
-            "bInfo": false,
-            //"bLengthChange": false
-            //"bAutoWidth": false,
-            "bPaginate": false,
-            //"bStateSave": true // saves sort state using localStorage
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6 hidden-xs'f><'col-sm-6 col-xs-12 hidden-xs'<'toolbar'>>r>" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-xs-12 col-sm-6'p>>",
-            "autoWidth": true,
-            "oLanguage": {
-                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-            },
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_datatable_fixed_column) {
-                    responsiveHelper_datatable_fixed_column = new ResponsiveDatatablesHelper($('#datatable_fixed_column'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_datatable_fixed_column.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_datatable_fixed_column.respond();
-            }
-
-        });
-
-        // custom toolbar
-        //$("div.toolbar").html('<div class="text-right"><img src="img/logo.png" alt="SmartAdmin" style="width: 111px; margin-top: 3px; margin-right: 10px;"></div>');
-
-        // Apply the filter
-        $("#datatable_fixed_column thead th input[type=text]").on('keyup change', function () {
-            otable
-                    .column($(this).parent().index() + ':visible')
-                    .search(this.value)
-                    .draw();
-
-        }); /* END COLUMN FILTER */
-
-        /* COLUMN SHOW - HIDE */
-        $('#datatable_col_reorder').dataTable({
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'C>r>" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-            "autoWidth": true,
-            "oLanguage": {
-//                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-            },
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_datatable_col_reorder) {
-                    responsiveHelper_datatable_col_reorder = new ResponsiveDatatablesHelper($('#datatable_col_reorder'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_datatable_col_reorder.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_datatable_col_reorder.respond();
-            }
-        }); /* END COLUMN SHOW - HIDE */
-
-        /* TABLETOOLS */
-        $('#datatable_tabletools').dataTable({
-            // Tabletools options:
-            //   https://datatables.net/extensions/tabletools/button_options
-            "sDom": "<'dt-toolbar'<'col-xs-12 col-sm-6'f><'col-sm-6 col-xs-6 hidden-xs'T>r>" +
-            "t" +
-            "<'dt-toolbar-footer'<'col-sm-6 col-xs-12 hidden-xs'i><'col-sm-6 col-xs-12'p>>",
-            "oLanguage": {
-//                "sSearch": '<span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>'
-            },
-            "oTableTools": {
-                "aButtons": [
-                    "copy",
-                    "csv",
-                    "xls",
-                    {
-                        "sExtends": "pdf",
-                        "sTitle": "SmartAdmin_PDF",
-                        "sPdfMessage": "SmartAdmin PDF Export",
-                        "sPdfSize": "letter"
-                    },
-                    {
-                        "sExtends": "print",
-                        "sMessage": "Generated by SmartAdmin <i>(press Esc to close)</i>"
-                    }
-                ],
-                "sSwfPath": "js/plugin/datatables/swf/copy_csv_xls_pdf.swf"
-            },
-            "autoWidth": true,
-            "preDrawCallback": function () {
-                // Initialize the responsive datatables helper once.
-                if (!responsiveHelper_datatable_tabletools) {
-                    responsiveHelper_datatable_tabletools = new ResponsiveDatatablesHelper($('#datatable_tabletools'), breakpointDefinition);
-                }
-            },
-            "rowCallback": function (nRow) {
-                responsiveHelper_datatable_tabletools.createExpandIcon(nRow);
-            },
-            "drawCallback": function (oSettings) {
-                responsiveHelper_datatable_tabletools.respond();
-            }
-        }); /* END TABLETOOLS */
-    }
-    /*]]>*/
-</script>
-
-<script type="text/javascript">
-    /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
-    $(document).ready(function() {
-
-
-    })
     /*]]>*/
 </script>
 </body>

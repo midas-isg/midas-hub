@@ -19,13 +19,18 @@ import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.APP_METADATA;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ROLES;
+import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAllApplicationsUrl;
+import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAllAuth0UsersUrl;
+import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0LogUrl;
 import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UserUrl;
+import static org.springframework.http.HttpMethod.GET;
 import static org.springframework.http.HttpMethod.PATCH;
 
 @Service
@@ -43,7 +48,7 @@ public class Auth0Dao {
         return getAuth0User(bearerToken, url);
     }
 
-    private Auth0User getAuth0User(String bearerToken, String url) {
+    public Auth0User getAuth0User(String bearerToken, String url) {
         final HttpUrl httpUrl = HttpUrl.parse(url).newBuilder().build();
         final Gson gson = UserProfileDeserializer.makeGson();
         final UserProfile userProfile = new RequestFactory().GET(httpUrl, new OkHttpClient(), gson, UserProfile.class)
@@ -52,8 +57,8 @@ public class Auth0Dao {
         return new Auth0User(userProfile);
     }
 
-    public void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, Map<String, Object> userProfile) {
-        final HttpEntity<Map<String, Object>> requestEntity = new HttpEntity<>(userProfile, toHttpHeaders(bearerToken));
+    public void saveUserMetaDataAffiliationAndIsgUserRole(Auth0User user, Map<String, ?> userProfile) {
+        final HttpEntity<Map<String, ?>> requestEntity = new HttpEntity<>(userProfile, toHttpHeaders());
         final String url = toAuth0UserUrl(auth0Config.getDomain(), user.getUserId());
         final ResponseEntity<HashMap> exchange = toRestTemplate().exchange(url, PATCH, requestEntity, HashMap.class);
         if (exchange.getStatusCode().is2xxSuccessful()) {
@@ -65,9 +70,9 @@ public class Auth0Dao {
 
     private void updateAuth0UserToGainNewAuthorities(Auth0User user, ResponseEntity<HashMap> exchange) {
         @SuppressWarnings("unchecked")
-        final Map<String, Object> body = (Map<String, Object>)exchange.getBody();
+        final Map<String, ?> body = (Map<String, ?>)exchange.getBody();
         @SuppressWarnings("unchecked")
-        final Map<String, Object> appMetadata = (Map<String, Object>) body.get(APP_METADATA);
+        final Map<String, ?> appMetadata = (Map<String, ?>) body.get(APP_METADATA);
         user.getAppMetadata().putAll(appMetadata);
 
         final List<String> roles = user.getRoles();
@@ -77,6 +82,36 @@ public class Auth0Dao {
         roles.addAll(list);
     }
 
+    public List<HashMap<String, ?>> listLogs(int perPage, int page) {
+        final HttpEntity<List<Map<String, ?>>> requestEntity = new HttpEntity<>(null, toHttpHeaders());
+        final String url = toAuth0LogUrl(auth0Config.getDomain(), perPage, page);
+        final ResponseEntity<ArrayList> exchange = toRestTemplate().exchange(url, GET, requestEntity, ArrayList.class);
+        if (exchange.getStatusCode().is2xxSuccessful()) {
+            return (List<HashMap<String, ?>>)exchange.getBody();
+        }
+        return null;
+    }
+
+    public List<HashMap<String, ?>> listUsers(){
+        final HttpEntity<List<Map<String, ?>>> requestEntity = new HttpEntity<>(null, toHttpHeaders());
+        final String url = toAllAuth0UsersUrl(auth0Config.getDomain());
+        final ResponseEntity<ArrayList> exchange = toRestTemplate().exchange(url, GET, requestEntity, ArrayList.class);
+        if (exchange.getStatusCode().is2xxSuccessful()) {
+            return (List<HashMap<String, ?>>)exchange.getBody();
+        }
+        return null;
+    }
+
+    public List<HashMap<String, ?>> listApplications(){
+        final HttpEntity<List<Map<String, ?>>> requestEntity = new HttpEntity<>(null, toHttpHeaders());
+        final String url = toAllApplicationsUrl(auth0Config.getDomain());
+        final ResponseEntity<ArrayList> exchange = toRestTemplate().exchange(url, GET, requestEntity, ArrayList.class);
+        if (exchange.getStatusCode().is2xxSuccessful()) {
+            return (List<HashMap<String, ?>>)exchange.getBody();
+        }
+        return null;
+    }
+
     private RestTemplate toRestTemplate() {
         final RestTemplate rest = new RestTemplate();
         final HttpClient httpClient = HttpClients.createDefault();
@@ -84,7 +119,7 @@ public class Auth0Dao {
         return rest;
     }
 
-    private HttpHeaders toHttpHeaders(String bearerToken) {
+    private HttpHeaders toHttpHeaders() {
         final HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
         final String bearer = BEARER_SCHEME + bearerToken;
