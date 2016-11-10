@@ -1,6 +1,5 @@
 package edu.pitt.isg.midas.hub.affiliation;
 
-import edu.pitt.isg.midas.hub.service.ServiceRunner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import static edu.pitt.isg.midas.hub.Application.RUNNER_PREFIX;
 )
 @Component
 public class AffiliationRunner implements CommandLineRunner {
-    private static final Logger log = LoggerFactory.getLogger(ServiceRunner.class);
+    private static final Logger log = LoggerFactory.getLogger(AffiliationRunner.class);
 
     @Autowired
     private AffiliationRepository repository;
@@ -33,12 +32,12 @@ public class AffiliationRunner implements CommandLineRunner {
     }
 
     private void logAffiliations() {
-        log.info("All Affiliations:");
-        log.info("-------------------------------");
+        log.debug("All Affiliations:");
+        log.debug("-------------------------------");
         for (Affiliation aff : repository.findAll()) {
-            log.info(aff.toString());
+            log.debug(aff.toString());
         }
-        log.info("");
+        log.debug("");
     }
 
     private void loadAffiliations() {

@@ -47,12 +47,12 @@ public class ServiceRunner implements CommandLineRunner {
     }
 
     private void logServices() {
-        log.info("All Services:");
-        log.info("-------------------------------");
+        log.debug("All Services:");
+        log.debug("-------------------------------");
         final Iterable<Service> iterable = repository.findAll();
         for (Service s : iterable) {
-            log.info(s.toString());
+            log.debug(s.toString());
         }
-        log.info("");
+        log.debug("");
     }
 }

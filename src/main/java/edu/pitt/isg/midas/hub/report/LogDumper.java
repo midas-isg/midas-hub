@@ -12,7 +12,7 @@ import java.util.Objects;
 
 @Service
 class LogDumper {
-    private static final Logger log = LoggerFactory.getLogger(DumpRunner.class);
+    private static final Logger log = LoggerFactory.getLogger(LogDumper.class);
 
     @Autowired
     private LogRepository repository;
@@ -42,7 +42,8 @@ class LogDumper {
             log("Read " + logLot.size() + " logs from page #: " + page);
             page++;
         } while (logLot.size() >= perPage);
-        log("Done: ETL logs from auth0.com.");
+        final int logs = perPage * (page - 1) + logLot.size();
+        log.info(logs + " logs were dumped from auth0.com.");
     }
 
     private void save(HashMap<String, ?> record){
@@ -51,6 +52,6 @@ class LogDumper {
     }
 
     private void log(Object message) {
-        log.info(Objects.toString(message));
+        log.debug(Objects.toString(message));
     }
 }
