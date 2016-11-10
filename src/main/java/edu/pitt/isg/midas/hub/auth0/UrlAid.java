@@ -4,7 +4,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 
-public class UrlAid {
+class UrlAid {
     private UrlAid() {
     }
 
@@ -31,11 +31,37 @@ public class UrlAid {
         return req.getContextPath() + path;
     }
 
-    public static String toAuth0UserUrl(String auth0Domain, String userId) {
+    static String toAuth0LogUrl(String auth0Domain, int perPage, int page) {
+        return toAuth0ApiUrlBuilder(auth0Domain)
+                .pathSegment("logs")
+                .queryParam("sort", "date:1")
+                .queryParam("page", page)
+                .queryParam("perPage", perPage)
+                .build().toString();
+    }
+
+    static String toAuth0UserUrl(String auth0Domain, String userId) {
+        return toAuth0ApiUrlBuilder(auth0Domain)
+                .pathSegment("users", userId)
+                .build().toString();
+    }
+
+    static String toAllApplicationsUrl(String auth0Domain) {
+        return toAuth0ApiUrlBuilder(auth0Domain)
+                .pathSegment("clients")
+                .build().toString();
+    }
+
+    static String toAllAuth0UsersUrl(String auth0Domain) {
+        return toAuth0ApiUrlBuilder(auth0Domain)
+                .pathSegment("users")
+                .build().toString();
+    }
+
+    private static UriComponentsBuilder toAuth0ApiUrlBuilder(String auth0Domain) {
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(auth0Domain)
-                .pathSegment("api", "v2", "users", userId)
-                .build().toString();
+                .pathSegment("api", "v2");
     }
 }

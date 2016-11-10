@@ -3,11 +3,12 @@
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head"/>
     <title>Home - MIDAS Software Portal</title>
+    <link rel='stylesheet' th:href="@{/webjars/datatables/css/jquery.dataTables.min.css}"/>
+    <script th:src='@{/webjars/jquery/jquery.min.js}'/>
+    <!--thymeleaf th:replace="tags/head-remove-tag-jquery-datatables-resources :: head"/-->
 </head>
 <body>
 <header th:replace="tags/header :: header"/>
-
-
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -40,20 +41,15 @@
 </div>
 <footer th:replace="tags/footer :: footer"/>
 <thymeleaf th:replace="tags/body-tail-remove-tag :: tail"/>
+<script type="text/javascript" charset="utf8" src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
+<script th:src='@{/public/js/plugin/datatable-responsive/datatables.responsive.min.js}'></script>
 </body>
-
-<script type="text/javascript" charset="utf8"
-        src="http://ajax.aspnetcdn.com/ajax/jquery.dataTables/1.9.4/jquery.dataTables.min.js"></script>
-<script src="/hub/public/js/plugin/datatable-responsive/datatables.responsive.min.js"></script>
-<link rel="stylesheet" href="https://cdn.datatables.net/1.10.12/css/jquery.dataTables.min.css"/>
-
 <script type="text/javascript">
     $(function () {
         $('#services_datatable').DataTable(
                 {
                     "sScrollX": "100%",
                     "bScrollCollapse": true,
-//                    "scrollX": true,
                     "bPaginate": false,
                     "bFilter": false,
                     'columnDefs': [{
@@ -64,11 +60,6 @@
                     }],
                     'order': [1, 'asc']
                 });
-    })
-
-    $(document).ready(function () {
-        $("#version").load("/hub/public/MidashubVersion.txt");
     });
-
 </script>
 </html>

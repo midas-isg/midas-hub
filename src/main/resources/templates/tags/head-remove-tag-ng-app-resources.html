@@ -1,0 +1,9 @@
+<thymeleaf xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+           th:fragment="head" th:remove="tag">
+    <thymeleaf th:replace="tags/head-remove-tag-jquery-datatables-resources :: head" />
+    <script th:src='@{/webjars/angular/angular.min.js}'/>
+    <script th:src='@{/webjars/angular-datatables/dist/angular-datatables.min.js}'/>
+    <script th:src='@{/webjars/underscorejs/underscore-min.js}'></script>
+
+    <script th:src='@{/public/js/ng/app.js}'/>
+</thymeleaf>

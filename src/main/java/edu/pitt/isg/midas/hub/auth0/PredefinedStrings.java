@@ -1,6 +1,9 @@
 package edu.pitt.isg.midas.hub.auth0;
 
 public class PredefinedStrings {
+    public static final String APP_METADATA = "app_metadata";
+    public static final String ROLES = "roles";
+
     public static final String AFFILIATION = "affiliation";
 
     // Roles

@@ -8,6 +8,8 @@ import javax.persistence.Id;
 
 @Entity
 public class Service {
+    private static final int MAX_VARCHAR = 10485760; // due to PostgreSQL
+
     private Long id;
     private String name;
     private String description;
@@ -46,7 +48,7 @@ public class Service {
         this.name = name;
     }
 
-    @Column(length = Integer.MAX_VALUE)
+    @Column(length = MAX_VARCHAR)
     public String getDescription() {
         return description;
     }

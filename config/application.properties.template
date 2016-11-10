@@ -12,7 +12,9 @@ server.port=8900
 server.context-path=/hub
 
 # Database settings:
-spring.datasource.url=jdbc:hsqldb:file:./db/hsqldb/prod
+spring.datasource.url=
+spring.datasource.username=
+spring.datasource.password=
 
 # Auth0 application settings:
 auth0.clientId=cYbbROxMX2aMkLlRTu3dImco98f0QB3A
