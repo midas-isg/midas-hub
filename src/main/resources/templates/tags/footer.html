@@ -3,16 +3,15 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <span class="txt-color-white" id="version" th:inline="text"></span>
+                    <span class="txt-color-white" id="version" th:inline="text">
+                        <span class="hidden-mobile">[[${@environment.getProperty('app.name')}]] </span>
+                        v<span class="hidden-mobile">ersion </span>[[${@environment.getProperty('app.instance.version')}]]
+                    </span>
+
                     <span class="txt-color-white pull-right" th:inline="text">Copyright &copy;
                         [[${#dates.year(#dates.createNow())}]]</span>
                 </div>
             </div>
         </div>
     </div>
-    <script type="text/javascript">
-        $(document).ready(function () {
-            $("#version").load("/hub/public/MidashubVersion.txt");
-        });
-    </script>
 </footer>
