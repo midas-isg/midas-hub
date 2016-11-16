@@ -15,8 +15,6 @@ import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.APP_METADATA;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ROLES;
 
 public class AppMetadataAid {
-    private static final String ALLOWED_SERVICES = "allowedServices";
-
     private AppMetadataAid(){
     }
 
@@ -34,24 +32,6 @@ public class AppMetadataAid {
         appMetadata.put(ROLES, roles);
     }
 
-
-    static void addAllowedServices(Map<String, Object> appMetadata) {
-        final List<Object> services =  new ArrayList<>();
-        Map<String, String> service = new HashMap<>();
-
-        service.put("d", "UPitt");
-        service.put("n", "SEIR");
-        service.put("v", "3.0");
-        services.add(service);
-
-        service = new HashMap<>();
-        service.put("d", "UPitt,PSC,CMU");
-        service.put("n", "FRED");
-        service.put("v", "2.0.1_i");
-        services.add(service);
-
-        appMetadata.put(ALLOWED_SERVICES, services);
-    }
 
     static Map<String, Object> toUserProfileMap(Map<String, Object> appMetadata) {
         final Map<String, Object> userProfile = new HashMap<>();
