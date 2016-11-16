@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.springframework.org/security/tags">
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head"/>
     <title>Home - MIDAS Software Portal</title>
@@ -36,6 +37,12 @@
                 </tr>
                 </tbody>
             </table>
+        </div>
+        <div class="col-md-12">
+            <div sec:authorize="hasAuthority('ISG_ADMIN')">
+                <p>Since you has ISG_ADMIN role, you may add more service:</p>
+                <form th:replace="tags/form-service :: form"/>
+            </div>
         </div>
     </div>
 </div>

@@ -73,8 +73,6 @@ public class AffiliationTest {
         MockHttpSession session = SecurityAid.toMockHttpSessionWithAffliation("affiliation");
         mvc.perform(get(path).with(user("aRegisteredUser")).session(session))
                 .andExpect(status().is3xxRedirection())
-                .andExpect(header().string("Location", MvcTest.HOME_URL));
+                .andExpect(header().string("Location", "/"));
     }
-
-
 }

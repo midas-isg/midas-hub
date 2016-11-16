@@ -13,7 +13,7 @@ public class PredefinedStrings {
     // Spring access-control expression
     private static final String hasAuthority = "hasAuthority";
     public static final String IS_ISG_USER = hasAuthority + "('"+ ISG_USER + "')";
-    public static final String IS_ISG_ADMIN = hasAuthority + "('"+ ISG_USER + "')";
+    public static final String IS_ISG_ADMIN = hasAuthority + "('"+ ISG_ADMIN + "')";
 
     public static final String RETURN_TO_URL_KEY = "returnToUrl";
 }

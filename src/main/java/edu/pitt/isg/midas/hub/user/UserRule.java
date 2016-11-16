@@ -1,20 +1,17 @@
 package edu.pitt.isg.midas.hub.user;
 
 import com.auth0.spring.security.mvc.Auth0UserDetails;
-import com.auth0.web.Auth0Config;
 import com.auth0.web.Auth0User;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
 import edu.pitt.isg.midas.hub.auth0.Auth0Dao;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
-import static edu.pitt.isg.midas.hub.user.AppMetadataAid.addAllowedServices;
-import static edu.pitt.isg.midas.hub.user.AppMetadataAid.addRole;
 import static edu.pitt.isg.midas.hub.user.AppMetadataAid.addAffiliation;
+import static edu.pitt.isg.midas.hub.user.AppMetadataAid.addRole;
 import static edu.pitt.isg.midas.hub.user.AppMetadataAid.toUserProfileMap;
 
 @Service
@@ -38,7 +35,6 @@ public class UserRule {
         final Map<String, Object> appMetadata = user.getAppMetadata();
         addAffiliation(appMetadata, form);
         addRole(appMetadata, ISG_USER);
-        addAllowedServices(appMetadata);
         Map<String, Object> userProfile = toUserProfileMap(appMetadata);
         dao.saveUserMetaDataAffiliationAndIsgUserRole(user, userProfile);
     }
