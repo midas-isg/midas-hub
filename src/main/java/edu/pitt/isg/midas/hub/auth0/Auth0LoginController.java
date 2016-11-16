@@ -25,7 +25,7 @@ import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 
 @Controller
 @SessionAttributes("appUser")
-public class Auth0LoginController {
+class Auth0LoginController {
     static final String TOS = "/tos";
     private static final String LOGIN_VIEW = "auth0Login";
 
@@ -50,7 +50,7 @@ public class Auth0LoginController {
         if (partnerUrl != null) {
             return partnerUrl.toString();
         } else {
-            return "/secured/home";
+            return "/";
         }
     }
 
