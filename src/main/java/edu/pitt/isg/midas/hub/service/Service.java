@@ -17,6 +17,7 @@ public class Service {
     private String softwareType;
     private String developmentGroup;
     private String contact;
+    private String ssoEnabled;
 
     Service() {
     }
@@ -89,6 +90,14 @@ public class Service {
         this.contact = contact;
     }
 
+    public String getSsoEnabled() {
+        return ssoEnabled;
+    }
+
+    public void setSsoEnabled(String ssoEnabled) {
+        this.ssoEnabled = ssoEnabled;
+    }
+
     @Override
     public String toString() {
         return "Service{" +
@@ -99,6 +108,7 @@ public class Service {
                 ", softwareType='" + softwareType + '\'' +
                 ", developmentGroup='" + developmentGroup + '\'' +
                 ", contact='" + contact + '\'' +
+                ", ssoEnabled='" + ssoEnabled + '\'' +
                 '}';
     }
 }

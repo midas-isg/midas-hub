@@ -23,6 +23,7 @@
                     <th>Type</th>
                     <th>Development group</th>
                     <th>Contact</th>
+                    <th>MIDAS SSO Enabled</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,8 +35,14 @@
                     <td><span th:text='${service.softwareType}'/></td>
                     <td><span th:text='${service.developmentGroup}'/></td>
                     <td><a th:href="${'mailto:' + service.contact}" th:text='${service.contact}'/></td>
+                    <td><span th:text='${service.ssoEnabled}'/></td>
                 </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>If you are interested in using MIDAS Single Sign-on in your web application or web service, please contact <a href="mailto:juest4@pitt.edu">juest4@pitt.edu</a>.</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <div class="col-md-12">
