@@ -1,0 +1,32 @@
+<form id="reload-service-form" xmlns:th="http://www.thymeleaf.org" role="form">
+    <h4>Reload services from csv file:</h4>
+    <label class="label-danger">
+         It will delete all existing services and then insert all records from the file:
+    </label>
+    <input id="reload-service-input-file" type="file" name="multipartFile" accept="text/csv" />
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        $(document).ready(function() {
+            $("#reload-service-input-file").on("change", uploadFile);
+
+            function uploadFile() {
+                $.ajax({
+                    url: /*[[@{/api/services/reload}]]*/ '',
+                    type: "POST",
+                    data: new FormData($("#reload-service-form")[0]),
+                    enctype: 'multipart/form-data',
+                    processData: false,
+                    contentType: false,
+                    cache: false,
+                    success: function () {
+                       location.reload();
+                    },
+                    error: function (rsp) {
+                        alert("upload error: " + rsp.responseJSON.message);
+                    }
+                });
+            }
+        });
+        /*]]>*/
+    </script>
+</form>
