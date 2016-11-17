@@ -1,5 +1,6 @@
 package edu.pitt.isg.midas.hub;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -21,6 +22,11 @@ import static springfox.documentation.builders.PathSelectors.regex;
 public class Application {
 	public static final String RUNNER_PREFIX = "app.runner";
 
+	@Value("${app.name}")
+	private String appName;
+	@Value("${app.description}")
+	private String appDescription;
+
 	public static void main(String[] args) {
 		TimeZone.setDefault(getTimeZone("UTC"));
 		SpringApplication.run(Application.class, args);
@@ -38,8 +44,8 @@ public class Application {
 
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder()
-				.title("MIDAS Software Portal")
-				.description("The Portal to MIDAS Network applications")
+				.title(appName)
+				.description(appDescription)
 				.build();
 	}
 }

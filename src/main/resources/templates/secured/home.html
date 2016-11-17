@@ -3,7 +3,7 @@
       xmlns:sec="http://www.springframework.org/security/tags">
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head"/>
-    <title>Home - MIDAS Software Portal</title>
+    <title>Home - MIDAS Commons</title>
     <link rel='stylesheet' th:href="@{/webjars/datatables/css/jquery.dataTables.min.css}"/>
     <script th:src='@{/webjars/jquery/jquery.min.js}'/>
     <!--thymeleaf th:replace="tags/head-remove-tag-jquery-datatables-resources :: head"/-->
@@ -23,6 +23,7 @@
                     <th>Type</th>
                     <th>Development group</th>
                     <th>Contact</th>
+                    <th>MIDAS SSO Enabled</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -34,14 +35,24 @@
                     <td><span th:text='${service.softwareType}'/></td>
                     <td><span th:text='${service.developmentGroup}'/></td>
                     <td><a th:href="${'mailto:' + service.contact}" th:text='${service.contact}'/></td>
+                    <td><span th:text='${service.ssoEnabled}'/></td>
                 </tr>
                 </tbody>
+                <tfoot>
+                    <tr>
+                        <td>If you are interested in using MIDAS Single Sign-on in your web application or web service, please contact <a href="mailto:juest4@pitt.edu">juest4@pitt.edu</a>.</td>
+                    </tr>
+                </tfoot>
             </table>
         </div>
         <div class="col-md-12">
             <div sec:authorize="hasAuthority('ISG_ADMIN')">
-                <p>Since you has ISG_ADMIN role, you may add more service:</p>
+                <h3>Since you has ISG_ADMIN role, you may:</h3>
+                <form th:replace="tags/form-service-upload :: form"/>
                 <form th:replace="tags/form-service :: form"/>
+                <br />
+                <br />
+                <br />
             </div>
         </div>
     </div>

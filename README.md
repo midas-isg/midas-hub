@@ -1,8 +1,5 @@
-midas-hub
-=========
-
-MIDAS Hub
----------
+MIDAS Commons
+-------------
 This project is the centralized web services that can be used by other MIDAS-Network applications.
 It is a Java web application based on Spring Boot, Spring Security, Thymeleaf, Maven, and use Auth0 (http://auth0.com). 
 
