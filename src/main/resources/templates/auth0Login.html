@@ -28,7 +28,7 @@
                 });
                 auth0.getSSOData(function (err, data) {
                     var loggedInUserId = /*[[${userId}]]*/ '';
-                    var homePath = /*[[@{/secured/home}]]*/ '';
+                    var homePath = /*[[@{/}]]*/ '';
                     var logoutPath = /*[[@{/logout}]]*/ '';
                     if (data && data.sso === true) {
                         // have SSO session
