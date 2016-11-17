@@ -19,12 +19,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.xml.ws.Response;
 import java.util.stream.Stream;
 import java.util.stream.StreamSupport;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.IS_ISG_ADMIN;
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Controller
 @SessionAttributes("appUser")
