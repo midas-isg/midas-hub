@@ -36,11 +36,6 @@ class ServiceController {
         return "secured/home";
     }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET, headers = "Accept=text/html")
-    public String showLandingPage() {
-        return "redirect:/services";
-    }
-
     @PostAuthorize(IS_ISG_ADMIN)
     @RequestMapping(value = "/api/services", method = RequestMethod.POST)
     public String postService(@ModelAttribute Service form){

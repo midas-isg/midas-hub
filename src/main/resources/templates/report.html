@@ -27,7 +27,7 @@
                             <div class="row">
                                 <ul id="myTab1" class="nav nav-tabs bordered">
                                     <li class="active">
-                                        <a href="#s1" data-toggle="tab">Activities</a>
+                                        <a href="#s1" data-toggle="tab">Activity Logs</a>
                                     </li>
                                     <li class="dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
@@ -46,7 +46,7 @@
                                 </ul>
                                 <div id="myTabContent1" class="tab-content padding-10">
                                     <div class="tab-pane fade in active" id="s1">
-                                        <h3><strong>Activities</strong></h3>
+                                        <h3><strong>Activity Logs</strong></h3>
                                         <div><!-- widget div-->
                                             <div class="jarviswidget-editbox">
                                                 <!-- This area used as dropdown edit box -->
@@ -55,9 +55,7 @@
                                                 <table datatable="ng" dt-options="dtOptions" id="datatable_fixed_column" class="table table-striped table-bordered row-border hover" width="100%">
                                                     <thead>
                                                     <tr>
-                                                        <th class="hidden-mobile">Local Timestamp</th>
-                                                        <th><span class="hidden-mobile">Local </span>Date</th>
-                                                        <th class="hidden-mobile">Local Time</th>
+                                                        <th>Time</th>
                                                         <th class="hidden-mobile">User</th>
                                                         <th class="hidden-mobile">Connection</th>
                                                         <th>Aff<span class="hidden-mobile">iliation</span></th>
@@ -67,14 +65,8 @@
                                                     </thead>
                                                     <tbody>
                                                     <tr ng-repeat="log in logs">
-                                                        <td class="hidden-mobile">
-                                                            {{log.timestamp |date:'yyyy-MM-dd HH:mm'}}
-                                                        </td>
                                                         <td>
-                                                            {{log.timestamp |date:"d MMM yyyy"}}
-                                                        </td>
-                                                        <td class="hidden-mobile">
-                                                            {{log.timestamp |date:'HH:mm'}}
+                                                            {{log.timestamp |date:'yyyy-MM-dd HH:mm'}}
                                                         </td>
                                                         <td class="hidden-mobile">
                                                             {{log.userName}}
