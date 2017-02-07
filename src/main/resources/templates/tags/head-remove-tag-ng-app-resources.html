@@ -1,8 +1,17 @@
 <thymeleaf xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
            th:fragment="head" th:remove="tag">
+    <link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css"/>
     <thymeleaf th:replace="tags/head-remove-tag-jquery-datatables-resources :: head" />
     <script th:src='@{/webjars/angular/angular.min.js}'/>
     <script th:src='@{/webjars/angular-datatables/dist/angular-datatables.min.js}'/>
+    <script th:src='@{/webjars/datatables.net-buttons/js/dataTables.buttons.min.js}'/>
+    <script th:src='@{/webjars/datatables.net-buttons/js/buttons.colVis.min.js}'/>
+    <script th:src='@{/webjars/datatables.net-buttons/js/buttons.flash.min.js}'/>
+    <script th:src='@{/webjars/datatables.net-buttons/js/buttons.html5.min.js}'/>
+    <script th:src='@{/webjars/datatables.net-buttons/js/buttons.print.min.js}'/>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script th:src='@{/webjars/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.min.js}' src="vendor/angular-datatables/dist/plugins/buttons/angular-datatables.buttons.min.js"></script>
     <script th:src='@{/webjars/underscorejs/underscore-min.js}'></script>
 
     <script th:src='@{/public/js/ng/app.js}'/>

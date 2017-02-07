@@ -129,13 +129,13 @@
       <dependency>
           <groupId>org.webjars</groupId>
           <artifactId>datatables</artifactId>
-          <version>1.10.10</version><!--version>1.10.10</version-->
+          <version>1.10.13</version><!--version>1.10.10</version-->
           <scope>runtime</scope>
       </dependency>
       <dependency>
           <groupId>org.webjars.bower</groupId>
           <artifactId>angular-datatables</artifactId>
-          <version>0.5.3</version><!--version>0.5.3</version-->
+          <version>0.5.5</version><!--version>0.5.3</version-->
           <scope>runtime</scope>
           <exclusions>
               <exclusion>
@@ -150,6 +150,19 @@
           <version>4.2.0</version><!--version>4.2.0</version-->
           <scope>runtime</scope>
       </dependency>
+      <dependency>
+          <groupId>org.webjars.bower</groupId>
+          <artifactId>datatables.net-buttons</artifactId>
+          <version>1.2.4</version>
+          <scope>runtime</scope>
+          <exclusions>
+              <exclusion>
+                  <groupId>*</groupId>
+                  <artifactId>*</artifactId>
+              </exclusion>
+          </exclusions>
+      </dependency>
+
 
       <dependency>
           <groupId>org.springframework.boot</groupId>
