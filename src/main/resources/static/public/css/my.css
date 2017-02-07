@@ -71,6 +71,10 @@ fieldset {
     margin-left: 9px;
 }
 
+.table thead tr th {
+    font-size: 15px;
+}
+
 .datatable-scroll {
     overflow-x: auto;
     overflow-y: visible;
