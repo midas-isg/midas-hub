@@ -96,12 +96,14 @@
                                             <tr>
                                                 <th>Application</th>
                                                 <th>Number of Logins</th>
+                                                <th>Date service came online</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr ng-repeat="(key, value) in loginsGroupByApplication">
                                                 <td> {{key}} </td>
                                                 <td> {{ value.length }} </td>
+                                                <td> {{ value[0].timestamp |date:'yyyy-MM-dd'}} </td>
                                             </tr>
                                             </tbody>
                                         </table>

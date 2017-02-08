@@ -12,7 +12,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
 public class MvcTest extends TestApplication {
-    public static final String HOME_URL = "/services";
+    public static final String HOME_URL = "/report";
 
     @Autowired
     private WebApplicationContext context;

@@ -29,7 +29,7 @@
                         data-widget-sortable="false"
                         -->
                         <header>
-                            <h2>Welcome to MIDAS Accounts</h2>
+                            <h2>Create a MIDAS Account</h2>
                         </header>
                         <div>
                             <!-- widget edit box -->
@@ -49,12 +49,10 @@
                                             <div class="container-fluid">
                                                 <div class="!row ">
                                                     <div class="col-md-12">
-                                                        <select name="select" id="select"
-                                                                class="selectpicker required"
-                                                                data-width="fit"
+                                                        <select name="select"
                                                                 title="Choose one of the following..."
-                                                                ng-model='selectedAffiliation'>
-                                                            <option th:value="${affiliations}"
+                                                                ng-model="affiliationName">
+                                                            <option th:value="${affiliation.name}"
                                                                     th:each="affiliation : ${affiliations}"
                                                                     th:if="!${#strings.contains(affiliation,':')}">
                                                                 <label th:for='${affiliation.description}'>
@@ -73,19 +71,30 @@
                                                     </div>
                                                     <input type="hidden" id="name" name="name"
                                                            ng-model='affiliationName'/>
-                                                    <input type="hidden" id="description"
-                                                           name="description"
-                                                           ng-model='affiliationDescription'/>
+
+                                                    <div class="col-md-5 col-sm-12"
+                                                         ng-show="affiliationName === 'other' " >
+                                                        <br/>
+                                                        <label for='description'><strong>Please provide your affiliation name:</strong></label>
+                                                        <br/>
+                                                        <input type='text' id="description" name='description'
+                                                               placeholder="(optional) affiliation name"
+                                                               class='form-control'
+                                                               ng-model='affiliationDescription'/>
+                                                    </div>
                                                     <input type="hidden" id="affiliationGroups"
                                                            value=""
                                                            name="affiliationGroups"
                                                            ng-model='affiliationGroups'/>
                                                 </div>
-                                                <br/>
-                                                <button id="accept" type="submit" class="btn btn-lg btn-block btn-success"
-                                                        ng-disabled='! selectedAffiliation'>
-                                                    Start using services
-                                                </button>
+
+                                                <div class="col-sm-12">
+                                                    <br/>
+                                                    <button id="accept" type="submit" class="btn btn-lg btn-success"
+                                                            ng-disabled='! affiliationName'>
+                                                        Create my account and log me in
+                                                    </button>
+                                                </div>
                                             </div>
                                         </div>
                                     </form>
