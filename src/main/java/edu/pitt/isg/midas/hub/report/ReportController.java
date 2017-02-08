@@ -44,6 +44,8 @@ class ReportController {
     private List<ReportingLog> filter(List<ReportingLog> logs) {
         final Set<String> filterOutEventCodes = toEventCodesToFilterOut();
         return logs.stream()
+                .filter(l -> l.getApplicationName() != null)
+                .filter(l -> l.getUserAffiliation() != null)
                 .filter(l -> !filterOutEventCodes.contains(l.getEventCode()))
                 .collect(Collectors.toList());
     }
