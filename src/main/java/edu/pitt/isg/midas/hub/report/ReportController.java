@@ -45,9 +45,13 @@ class ReportController {
         final Set<String> filterOutEventCodes = toEventCodesToFilterOut();
         return logs.stream()
                 .filter(l -> l.getApplicationName() != null)
-                .filter(l -> l.getUserAffiliation() != null)
+                .filter(l -> isNotPrintedAsNull(l.getUserAffiliation()))
                 .filter(l -> !filterOutEventCodes.contains(l.getEventCode()))
                 .collect(Collectors.toList());
+    }
+
+    private boolean isNotPrintedAsNull(String s) {
+        return s != null && ! s.equalsIgnoreCase("null");
     }
 
     private HashSet<String> toEventCodesToFilterOut() {
