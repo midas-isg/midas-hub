@@ -3,6 +3,8 @@ package edu.pitt.isg.midas.hub.auth0;
 import com.auth0.web.Auth0User;
 import com.auth0.web.NonceUtils;
 import com.auth0.web.SessionUtils;
+import com.google.common.collect.Lists;
+import edu.pitt.isg.midas.hub.affiliation.Affiliation;
 import edu.pitt.isg.midas.hub.affiliation.AffiliationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,9 +21,11 @@ import org.springframework.web.util.UriComponentsBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
+import java.util.List;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
+import static java.util.Comparator.comparing;
 
 @Controller
 @SessionAttributes("appUser")
@@ -62,7 +66,9 @@ class Auth0LoginController {
 
     @RequestMapping(value = TOS, method = RequestMethod.GET)
     protected String termsOfServices(final Model model) throws Exception {
-        model.addAttribute("affiliations", repo.findAll());
+        final List<Affiliation> list = Lists.newArrayList(repo.findAll());
+        list.sort(comparing(Affiliation::getName));
+        model.addAttribute("affiliations", list);
         return "terms";
     }
 

@@ -1,17 +1,12 @@
 <footer xmlns:th="http://www.thymeleaf.org">
-    <div class="page-footer padding-left-0">
-        <div class="container-fluid">
-            <div class="row">
-                <div class="col-md-12">
-                    <span class="txt-color-white" id="version" th:inline="text">
-                        <span class="hidden-mobile">[[${@environment.getProperty('app.name')}]] </span>
-                        v<span class="hidden-mobile">ersion </span>[[${@environment.getProperty('app.instance.version')}]]
-                    </span>
-
-                    <span class="txt-color-white pull-right" th:inline="text">Copyright &copy;
-                        [[${#dates.year(#dates.createNow())}]]</span>
-                </div>
-            </div>
+    <md-toolbar class="md-hue-2">
+        <div class="md-toolbar-tools">
+            <h9 class="md-caption" md-truncate=""><span class="md-flex" th:inline="text"><span hide-xs="">[[${@environment.getProperty('app.name')}]] </span>
+                    v<span hide-xs="">ersion </span>[[${@environment.getProperty('app.instance.version')}]]</span></h9>
+            <h9 flex=""></h9>
+            <h9 class="md-caption" ><span th:inline="text">Copyright &copy;
+                [[${#dates.year(#dates.createNow())}]]</span>
+            </h9>
         </div>
-    </div>
+    </md-toolbar>
 </footer>
