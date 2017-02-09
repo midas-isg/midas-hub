@@ -3,308 +3,66 @@
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head" />
     <thymeleaf th:replace="tags/head-remove-tag-ng-app-resources :: head" />
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var affiliationsFromThymeleaf = /*[[${affiliations}]]*/ [];
+        /*]]>*/
+    </script>
     <script th:src='@{/public/js/ng/Term.js}'/>
     <title>Terms of Services - MIDAS Accounts</title>
 </head>
-<body id='controller' ng-app='app' ng-controller='Term'>
+<body id='controller' ng-app='app' ng-controller='Term' class="">
 <header th:replace="tags/header :: header"/>
-<div class="">
-    <div id="content">
-        <section id="widget-grid" class="">
-            <div class="row">
-                <article class="col-xs-12">
-                    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
-                         data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false"
-                         data-widget-colorbutton="false" data-widget-fullscreenbutton="false">
-                        <!-- widget options:
-                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
+<md-card layout="column" ng-cloak="">
+    <md-toolbar class="md-hue-3">
+        <header class="md-toolbar-tools">
+            <span class="md-headline">Sign up now</span>
+        </header>
+    </md-toolbar>
+    <div layout="column" layout-gt-xs="row">
+        <form flex-gt-xs="66" method="POST" action="term-acceptance" class="layout-padding">
+            <md-card-content layout="column">
+                <md-input-container>
+                    <label>Select your MIDAS affiliation</label>
+                    <md-select name='name' required="required"
+                               ng-model="vm.affiliationName"
+                               md-no-asterisk="false">
+                        <md-option
+                                ng-repeat='affiliation in vm.affiliations"'
+                                ng-value="affiliation.name" >
+                            {{affiliation.description}} ({{affiliation.name}})
+                        </md-option>
+                        <md-option value="other">
+                            Other
+                        </md-option>
+                    </md-select>
+                </md-input-container>
 
-                        data-widget-colorbutton="false"
-                        data-widget-editbutton="false"
-                        data-widget-togglebutton="false"
-                        data-widget-deletebutton="false"
-                        data-widget-fullscreenbutton="false"
-                        data-widget-custombutton="false"
-                        data-widget-collapsed="true"
-                        data-widget-sortable="false"
-                        -->
-                        <header>
-                            <h2>Create a MIDAS Account</h2>
-                        </header>
-                        <div>
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <!-- This area used as dropdown edit box -->
-                            </div> <!-- end widget edit box -->
-                            <!-- widget content -->
-                            <div class="widget-body">
-                                <div class="row">
-                                    <form id="wizard-1" novalidate="novalidate" role="form" method="POST" action="term-acceptance" class="col-md-12">
-                                        <h4><strong>Please select your primary MIDAS affiliation:</strong></h4>
-                                        <br/>
-                                        <!-- widget div-->
-                                        <!-- widget edit box -->
-                                        <!-- widget content -->
-                                        <div class="widget-body no-padding">
-                                            <div class="container-fluid">
-                                                <div class="!row ">
-                                                    <div class="col-md-12">
-                                                        <select name="select"
-                                                                title="Choose one of the following..."
-                                                                ng-model="affiliationName">
-                                                            <option th:value="${affiliation.name}"
-                                                                    th:each="affiliation : ${affiliations}"
-                                                                    th:if="!${#strings.contains(affiliation,':')}">
-                                                                <label th:for='${affiliation.description}'>
-                                                                    <span th:text="${affiliation.description} +' (' + ${affiliation.name} + ')'"></span>
-                                                                </label>
-                                                            </option>
-                                                            <option id="other" value="other">
-                                                                Other
-                                                            </option>
-                                                        </select>
-                                                    </div>
-                                                    <div id="otherName" style="display:none" class="col-md-5 col-sm-12">
-                                                        <br/>
-                                                        <input class="form-control" name="name" id="otherNameValue"
-                                                               ng-model='affiliationName' placeholder="Please enter the affiliation name"/>
-                                                    </div>
-                                                    <input type="hidden" id="name" name="name"
-                                                           ng-model='affiliationName'/>
+                <md-input-container
+                        ng-show="vm.affiliationName === 'other' " >
+                    <label>Provide your affiliation name (optional)</label>
+                    <input type='text' name='description'/>
+                </md-input-container>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end">
+                <md-button ng-disabled="!vm.affiliationName" type='submit' class="md-raised md-accent">Sign up</md-button>
+            </md-card-actions>
+        </form>
 
-                                                    <div class="col-md-5 col-sm-12"
-                                                         ng-show="affiliationName === 'other' " >
-                                                        <br/>
-                                                        <label for='description'><strong>Please provide your affiliation name:</strong></label>
-                                                        <br/>
-                                                        <input type='text' id="description" name='description'
-                                                               placeholder="(optional) affiliation name"
-                                                               class='form-control'
-                                                               ng-model='affiliationDescription'/>
-                                                    </div>
-                                                    <input type="hidden" id="affiliationGroups"
-                                                           value=""
-                                                           name="affiliationGroups"
-                                                           ng-model='affiliationGroups'/>
-                                                </div>
-
-                                                <div class="col-sm-12">
-                                                    <br/>
-                                                    <button id="accept" type="submit" class="btn btn-lg btn-success"
-                                                            ng-disabled='! affiliationName'>
-                                                        Create my account and log me in
-                                                    </button>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div><!-- end widget content -->
-                        </div><!-- end widget div -->
-                    </div><!-- end widget -->
-                </article><!-- WIDGET END -->
-            </div><!-- end row -->
-        </section><!-- end widget grid -->
+        <div flex-gt-xs="33">
+            <md-card-title>
+                <md-card-title-text>
+                    <strong>Why you should create a MIDAS Account</strong>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <span class="md-caption">
+                    Creating a MIDAS Account will enable you to login to web applications that use MIDAS Single Sign-on (SSO) for authentication!
+                </span>
+            </md-card-content>
+        </div>
     </div>
-</div>
-<!--================================================== -->
-<thymeleaf th:replace="tags/body-tail-remove-tag :: tail" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+</md-card>
 <footer th:replace="tags/footer :: footer"/>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-
-<script type="text/javascript">
-    /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
-    $(document).ready(function() {
-        pageSetUp();
-        initWizard();
-        var groups = [];
-
-        //prevents user from going to pages by selecting the number in the wizard
-        var classname = document.getElementsByClassName("wizard-circle-button");
-        var myFunction = function() {
-            event.stopPropagation();
-        };
-        for (var i = 0; i < classname.length; i++) {
-            classname[i].addEventListener('click', myFunction, false);
-        }
-
-        //sorts the select
-        var items = $('#select option').get();
-        items.sort(function(a,b){
-            var keyA = $(a).text();
-            var keyB = $(b).text();
-
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
-            return 0;
-        });
-        var select = $('#select');
-        $.each(items, function(i, option){
-            select.append(option);
-        });
-
-        //on select, populate the groups table
-        $('#select').on('changed.bs.select', function () {
-            $("#datatable_groups").dataTable().fnDestroy();
-            groups = [];
-            document.getElementById('affiliationGroups').value = groups;
-
-            var affiliations = $(this).find("option:selected").val();
-            //converting array of objects to json to be able to manage each affiliation
-            affiliations = affiliations.replace(/Affiliation/g, "");
-            affiliations = affiliations.replace(/=/g, "\":");
-            affiliations = affiliations.replace(/'/g, "\"");
-            affiliations = affiliations.replace(/name/g, "\"name");
-            affiliations = affiliations.replace(/id/g, "\"id");
-            affiliations = affiliations.replace(/description/g, "\"description");
-
-
-            var selected = $(this).find("option:selected").text().trim();
-            var selectedName = "";
-            if(selected.includes("(")) {
-                selectedName = (selected.match(/\((.*)\)/)[1]).trim();
-            }
-            var selectedDescription = (selected.replace(/ *\([^)]*\) */g, "")).trim();
-
-
-            //sets hidden input for form submit
-            document.getElementById('name').value = selectedName;
-            document.getElementById('description').value = selectedDescription;
-            document.getElementById('optional').innerHTML = '<strong> Optionally, please indicate any groups you belong to inside: ' + selectedDescription +'</strong>';
-
-            var dataset = [];
-
-            if(selectedDescription == "Other") {
-                $("#otherName").show();
-            } else {
-                $("#otherName").hide();
-                document.getElementById('otherNameValue').value = "";
-
-                $(jQuery.parseJSON(affiliations)).each(function() {
-                    var ID = this.id;
-                    var NAME = this.name;
-                    var DESCRIPTION = this.description;
-
-                    if(NAME.includes(selectedName) && !selected.includes(DESCRIPTION)) {
-                        NAME = NAME.substring(NAME.indexOf(":") + 1);
-                        dataset.push(["", NAME, DESCRIPTION]);
-                    }
-                });
-            }
-
-
-            //manages disabled look
-            if(dataset.length > 0) {
-                document.getElementById('optional').classList.remove("disabler");
-                document.getElementById('datatable_groups').classList.remove("disabler");
-            } else {
-                document.getElementById('optional').classList.add("disabler");
-                document.getElementById('datatable_groups').classList.add("disabler");
-            }
-
-            //generates table of affilated groups
-            var table = $('#datatable_groups').DataTable({
-                data: dataset,
-                "bPaginate": false,
-                "bFilter": false,
-                columns: [
-                    {title: '', width: "5%"},
-                    {title: "Name", width: "35%"},
-                    {title: "Description", width: "55%"}
-                ],
-                'columnDefs': [{
-                    'targets': 0,
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
-                        return '<input type="checkbox" value="'
-                                + $('<div/>').text(data).html() + '">';
-                    }
-                }],
-                'order': [1, 'asc']
-            });
-
-            //sets hidden input of affiliation groups for form submit
-            $('#datatable_groups').on('change', 'input[type="checkbox"]', function() {
-                var data = table.row($(this).parents('tr')).data();
-                var name = data[1];
-                if(this.checked){
-                    groups.push(name);
-                } else {
-                    var index = groups.indexOf(name);
-                    if(index > -1) {
-                        groups.splice(index, 1);
-                    }
-                }
-                document.getElementById('affiliationGroups').value = groups;
-            });
-
-        });
-
-        function initWizard() {
-            var $bootstrapValidator = $("#wizard-1").validate({
-                rules: {
-                    name: {
-                        required: true
-                    },
-                    accepted: {
-                        required: true
-                    }
-                },
-                messages: {
-                    name: "Please enter your affiliation",
-                    accepted: "Please accept our terms and condition by check the box below and proceed."
-                },
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block bg-danger',
-                errorPlacement: function (error, element) {
-                    if (element.is(":radio")) {
-                        error.insertBefore( element.parents('.table') );
-                    } else {
-                        error.insertBefore(element);
-                    }
-                }
-            });
-            var ngScope = angular.element(document.getElementById('controller')).scope();
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onTabShow': function (tab, navigation, index) {
-                    ngScope.$apply(function () {
-                        ngScope.isFirstStep = index <= 0;
-                        ngScope.isLastStep = index >= 3;
-                    });
-                },
-                'onNext': function (tab, navigation, index) {
-                    var step = index - 1;
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $bootstrapValidator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                        ngScope.$apply(function () {
-                            ngScope.completeStep(step);
-                        });
-                    }
-                }
-            });
-        }
-    });
-    /*]]>*/
-</script>
 </body>
 </html>

@@ -56,11 +56,11 @@
                                                     <thead>
                                                     <tr>
                                                         <th>Time</th>
-                                                        <th class="hidden-mobile">User</th>
-                                                        <th class="hidden-mobile">Connection</th>
-                                                        <th>Aff<span class="hidden-mobile">iliation</span></th>
+                                                        <th hide-xs="">User</th>
+                                                        <th hide-xs="">Connection</th>
+                                                        <th>Aff<span hide-xs="">iliation</span></th>
                                                         <th>Event</th>
-                                                        <th>App<span class="hidden-mobile">lication</span></th>
+                                                        <th>App<span hide-xs="">lication</span></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
@@ -68,10 +68,10 @@
                                                         <td>
                                                             {{log.timestamp |date:'yyyy-MM-dd HH:mm'}}
                                                         </td>
-                                                        <td class="hidden-mobile">
+                                                        <td hide-xs="">
                                                             {{log.userName}}
                                                         </td>
-                                                        <td class="hidden-mobile">
+                                                        <td hide-xs="">
                                                             {{log.userConnection}}
                                                         </td>
                                                         <td>
@@ -95,8 +95,8 @@
                                             <thead>
                                             <tr>
                                                 <th>Application</th>
-                                                <th>Number of Logins</th>
-                                                <th>Date Service Came Online</th>
+                                                <th><span hide-xs="">Number of </span>Logins</th>
+                                                <th><span hide-xs="">Date Service Came </span>Online</th>
                                             </tr>
                                             </thead>
                                             <tbody>

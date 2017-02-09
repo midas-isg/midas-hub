@@ -1,6 +1,6 @@
 <header id="header" xmlns:th="http://www.thymeleaf.org">
     <div id="logo-group">
-        <span id="logo" class='h2'> <img th:src="@{/public/img/logo-header.png}" alt="MIDAS"/> <span class="hidden-mobile">MIDAS </span>Accounts</span>
+        <span id="logo" class='md-display-1'> <img th:src="@{/public/img/logo-header.png}" alt="MIDAS"/> <span hide-xs="">MIDAS </span>Accounts</span>
     </div>
     <!-- pulled right: nav area -->
     <div class="pull-right">
@@ -12,7 +12,7 @@
         <!-- logout button -->
         <div id="logout" class="btn-header transparent pull-right">
             <span> <a th:href="@{/logout}" th:title="'Logout of ' + ${appUser.name}" data-action="userLogout"
-                      data-logout-msg="FYI: You can improve security further after logging out by closing this opened browser."><i
+                      data-logout-msg="Please confirm."><i
                     class="fa fa-sign-out"></i></a> </span>
         </div> <!-- end logout button -->
         <!-- fullscreen button -->

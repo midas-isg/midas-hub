@@ -17,18 +17,11 @@ app.controller('Report', function($scope, $rootScope, DTOptionsBuilder) {
         .withOption('bLengthChange', false)
         .withButtons([
             // 'columnsToggle',
-            //'colvis',
+            // 'colvis',
             // 'copy',
             'print',
             'pdf',
-            'excel',
-            /*{
-                text: 'Some button',
-                key: '1',
-                action: function (e, dt, node, config) {
-                    alert('Button activated');
-                }
-            }*/
+            'excel'
         ]);
 
     function groupBy(fieldName, code) {
