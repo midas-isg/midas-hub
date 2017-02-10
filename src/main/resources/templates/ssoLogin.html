@@ -7,10 +7,23 @@
     <script th:src="@{/webjars/auth0-lock/build/auth0-lock.min.js}"></script>
     <script th:src="@{/webjars/jquery/jquery.min.js}"></script>
     <script th:src="@{/public/jquery.growl.js}"></script>
+    <link rel='stylesheet' th:href="@{/public/css/custom.css}"/>
+    <link rel='stylesheet' th:href="@{/public/css/bootstrap.min.css}"/>
 </head>
 <body>
+    <a style="display: none" href="" id="back-button-url" class="back-button"><button type="button" id="back-button-title" class="btn btn-default"></button></a>
 <div class="container">
     <script th:inline="javascript">
+        var returnUrl = /*[[${returnUrl}]]*/ '';
+        var returnTitle = /*[[${returnTitle}]]*/ '';
+        if(returnUrl) {
+            if(returnTitle){
+                $('#back-button-url').attr("style", '');
+                $('#back-button-url').attr("href", /*[[${returnUrl}]]*/ '');
+                document.getElementById("back-button-title").appendChild(document.createTextNode(/*[[${returnTitle}]]*/ ''));
+            }
+        }
+
         /*<![CDATA[*/
         (function() {
             var auth0ClientId = /*[[${@environment.getProperty('auth0.clientId')}]]*/ '';

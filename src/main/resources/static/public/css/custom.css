@@ -1,0 +1,6 @@
+.back-button {
+    position: absolute;
+    z-index: 10001;
+    margin-left: 15px;
+    margin-top: 20px;
+}

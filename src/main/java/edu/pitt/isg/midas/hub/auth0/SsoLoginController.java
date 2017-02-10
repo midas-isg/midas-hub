@@ -90,6 +90,8 @@ public class SsoLoginController {
                 .replaceFirst("/", "")
         ));
         model.put("state", SessionUtils.getState(req));
+        model.put("returnUrl", req.getParameter("returnUrl"));
+        model.put("returnTitle", req.getParameter("returnTitle"));
         putParameterIfNotNull(model, req, "title");
         putParameterIfNotNull(model, req, "message");
     }
