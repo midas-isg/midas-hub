@@ -13,6 +13,16 @@ app.controller('Report', function($scope, $rootScope, DTOptionsBuilder) {
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withOption('bLengthChange', false);
+    $scope.dtOptionsWithButtons = DTOptionsBuilder.newOptions()
+        .withOption('bLengthChange', false)
+        .withButtons([
+            // 'columnsToggle',
+            // 'colvis',
+            // 'copy',
+            'print',
+            'pdf',
+            'excel'
+        ]);
 
     function groupBy(fieldName, code) {
         var filteredLogs = _.filter(logs, function (log) {

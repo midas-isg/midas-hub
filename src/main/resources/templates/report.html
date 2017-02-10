@@ -3,7 +3,7 @@
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head" />
     <thymeleaf th:replace="tags/head-remove-tag-ng-app-resources :: head" />
-    <title>Report - MIDAS Commons</title>
+    <title>Report - MIDAS Accounts</title>
 </head>
 <body id='controller' ng-app='app' ng-controller='Report'>
 <script type="text/javascript"  th:inline="javascript">
@@ -27,7 +27,7 @@
                             <div class="row">
                                 <ul id="myTab1" class="nav nav-tabs bordered">
                                     <li class="active">
-                                        <a href="#s1" data-toggle="tab">Activities</a>
+                                        <a href="#s1" data-toggle="tab">Activity Logs</a>
                                     </li>
                                     <li class="dropdown">
                                         <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown">Reports <b class="caret"></b></a>
@@ -46,7 +46,7 @@
                                 </ul>
                                 <div id="myTabContent1" class="tab-content padding-10">
                                     <div class="tab-pane fade in active" id="s1">
-                                        <h3><strong>Activities</strong></h3>
+                                        <h3><strong>Activity Logs</strong></h3>
                                         <div><!-- widget div-->
                                             <div class="jarviswidget-editbox">
                                                 <!-- This area used as dropdown edit box -->
@@ -55,31 +55,23 @@
                                                 <table datatable="ng" dt-options="dtOptions" id="datatable_fixed_column" class="table table-striped table-bordered row-border hover" width="100%">
                                                     <thead>
                                                     <tr>
-                                                        <th class="hidden-mobile">Local Timestamp</th>
-                                                        <th><span class="hidden-mobile">Local </span>Date</th>
-                                                        <th class="hidden-mobile">Local Time</th>
-                                                        <th class="hidden-mobile">User</th>
-                                                        <th class="hidden-mobile">Connection</th>
-                                                        <th>Aff<span class="hidden-mobile">iliation</span></th>
+                                                        <th>Time</th>
+                                                        <th hide-xs="">User</th>
+                                                        <th hide-xs="">Connection</th>
+                                                        <th>Aff<span hide-xs="">iliation</span></th>
                                                         <th>Event</th>
-                                                        <th>App<span class="hidden-mobile">lication</span></th>
+                                                        <th>App<span hide-xs="">lication</span></th>
                                                     </tr>
                                                     </thead>
                                                     <tbody>
                                                     <tr ng-repeat="log in logs">
-                                                        <td class="hidden-mobile">
+                                                        <td>
                                                             {{log.timestamp |date:'yyyy-MM-dd HH:mm'}}
                                                         </td>
-                                                        <td>
-                                                            {{log.timestamp |date:"d MMM yyyy"}}
-                                                        </td>
-                                                        <td class="hidden-mobile">
-                                                            {{log.timestamp |date:'HH:mm'}}
-                                                        </td>
-                                                        <td class="hidden-mobile">
+                                                        <td hide-xs="">
                                                             {{log.userName}}
                                                         </td>
-                                                        <td class="hidden-mobile">
+                                                        <td hide-xs="">
                                                             {{log.userConnection}}
                                                         </td>
                                                         <td>
@@ -99,26 +91,26 @@
                                     </div>
                                     <div class="tab-pane fade" id="s2">
                                         <h3><strong>Report by Application</strong></h3>
-                                        <h4><strong>Logins</strong></h4>
-                                        <table class='table table-striped table-bordered'>
+                                        <table datatable="ng" dt-options="dtOptionsWithButtons" class='table table-striped table-bordered'>
                                             <thead>
                                             <tr>
                                                 <th>Application</th>
-                                                <th>Number of Logins</th>
+                                                <th><span hide-xs="">Number of </span>Logins</th>
+                                                <th><span hide-xs="">Date Service Came </span>Online</th>
                                             </tr>
                                             </thead>
                                             <tbody>
                                             <tr ng-repeat="(key, value) in loginsGroupByApplication">
                                                 <td> {{key}} </td>
                                                 <td> {{ value.length }} </td>
+                                                <td> {{ value[0].timestamp |date:'yyyy-MM-dd'}} </td>
                                             </tr>
                                             </tbody>
                                         </table>
                                     </div>
                                     <div class="tab-pane fade" id="s3">
                                         <h3><strong>Report by Affiliation</strong></h3>
-                                        <h4><strong>Logins</strong></h4>
-                                        <table class='table table-striped table-bordered'>
+                                        <table datatable="ng" dt-options="dtOptionsWithButtons" class='table table-striped table-bordered'>
                                             <thead>
                                             <tr>
                                                 <th>Affiliation</th>
@@ -135,8 +127,7 @@
                                     </div>
                                     <div class="tab-pane fade" id="s4">
                                         <h3><strong>Report by User</strong></h3>
-                                        <h4><strong>Users</strong></h4>
-                                        <table class='table table-striped table-bordered'>
+                                        <table datatable="ng" dt-options="dtOptionsWithButtons" class='table table-striped table-bordered'>
                                             <thead>
                                             <tr>
                                                 <th>Affiliation</th>
@@ -145,22 +136,6 @@
                                             </thead>
                                             <tbody>
                                             <tr ng-repeat="(key, value) in usersGroupByAffiliation">
-                                                <td> {{key}} </td>
-                                                <td> {{ value.length }} </td>
-                                            </tr>
-                                            </tbody>
-                                        </table>
-
-                                        <h4><strong>Term-and-Condition Acceptances</strong></h4>
-                                        <table class='table table-striped table-bordered'>
-                                            <thead>
-                                            <tr>
-                                                <th>Affiliation</th>
-                                                <th>Number of Users</th>
-                                            </tr>
-                                            </thead>
-                                            <tbody>
-                                            <tr ng-repeat="(key, value) in registersGroupByAffiliation">
                                                 <td> {{key}} </td>
                                                 <td> {{ value.length }} </td>
                                             </tr>

@@ -71,7 +71,29 @@ fieldset {
     margin-left: 9px;
 }
 
+.table thead tr th {
+    font-size: 15px;
+}
+md-card-footer.md-caption {
+    padding: 0;
+}
 .datatable-scroll {
     overflow-x: auto;
     overflow-y: visible;
+}
+md-card-actions.layout-align-start-stretch.layout-row {
+    padding: 0;
+}
+md-input-container.md-input-has-value {
+    padding: 0;
+}
+.md-button.md-small {
+    border-bottom: 1px;
+    line-height: 20px;
+    margin: 0px 0px 1px 0px;
+    min-height: 26px;
+    min-width: 0px;
+    padding: 2px 2px 1px 2px; }
+md-input-container.layout-row {
+    padding: 0;
 }

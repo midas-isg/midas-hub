@@ -2,7 +2,6 @@ package edu.pitt.isg.midas.hub.user;
 
 import edu.pitt.isg.midas.hub.affiliation.AffiliationForm;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,10 +42,7 @@ public class AppMetadataAid {
         Map<String, Object> map = new HashMap<>();
         final String name = form.getName();
         map.put("name", name);
-        final String description = name.equalsIgnoreCase("other")
-                ? ""
-                : form.getDescription();
-        map.put("description", description);
+        map.put("description", form.getDescription());
         map.put("groups", form.getAffiliationGroups());
         map.put("secondaries", form.getAdditionalAffiliationNames());
         return map;

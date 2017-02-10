@@ -3,601 +3,66 @@
 <head>
     <thymeleaf th:replace="tags/head-remove-tag :: head" />
     <thymeleaf th:replace="tags/head-remove-tag-ng-app-resources :: head" />
+    <script th:inline="javascript">
+        /*<![CDATA[*/
+        var affiliationsFromThymeleaf = /*[[${affiliations}]]*/ [];
+        /*]]>*/
+    </script>
     <script th:src='@{/public/js/ng/Term.js}'/>
-    <title>Terms of Services - MIDAS Commons</title>
+    <title>Terms of Services - MIDAS Accounts</title>
 </head>
-<body id='controller' ng-app='app' ng-controller='Term'>
+<body id='controller' ng-app='app' ng-controller='Term' class="">
 <header th:replace="tags/header :: header"/>
-<div class="">
-    <div id="content">
-        <section id="widget-grid" class="">
-            <div class="row">
-                <article class="col-xs-12">
-                    <div class="jarviswidget jarviswidget-color-darken" id="wid-id-0"
-                         data-widget-togglebutton="false" data-widget-editbutton="false" data-widget-deletebutton="false"
-                         data-widget-colorbutton="false" data-widget-fullscreenbutton="false">
-                        <!-- widget options:
-                        usage: <div class="jarviswidget" id="wid-id-0" data-widget-editbutton="false">
-
-                        data-widget-colorbutton="false"
-                        data-widget-editbutton="false"
-                        data-widget-togglebutton="false"
-                        data-widget-deletebutton="false"
-                        data-widget-fullscreenbutton="false"
-                        data-widget-custombutton="false"
-                        data-widget-collapsed="true"
-                        data-widget-sortable="false"
-                        -->
-                        <header>
-                            <h2>MIDAS Commons</h2>
-                        </header>
-                        <div>
-                            <!-- widget edit box -->
-                            <div class="jarviswidget-editbox">
-                                <!-- This area used as dropdown edit box -->
-                            </div> <!-- end widget edit box -->
-                            <!-- widget content -->
-                            <div class="widget-body">
-                                <div class="row">
-                                    <form id="wizard-1" novalidate="novalidate" role="form" method="POST" action="term-acceptance">
-                                        <div id="bootstrap-wizard-1" class="col-sm-12">
-                                            <div class="form-bootstrapWizard">
-                                                <ul class="bootstrapWizard form-wizard">
-                                                    <li class="active" data-target="#step1">
-                                                        <a href="#tab1" data-toggle="tab" class="wizard-circle-button"> <span class="step">1</span> <span class="title">Terms</span> </a>
-                                                    </li>
-                                                    <li data-target="#step2">
-                                                        <a href="#tab2" data-toggle="tab" class="wizard-circle-button"> <span class="step">2</span> <span class="title">Privacy</span> </a>
-                                                    </li>
-                                                    <li data-target="#step3">
-                                                        <a href="#tab3" data-toggle="tab" class="wizard-circle-button"> <span class="step">3</span> <span class="title">Affiliation</span> </a>
-                                                    </li>
-                                                    <li data-target="#step4">
-                                                        <a href="#tab4" data-toggle="tab" class="wizard-circle-button"> <span class="step">4</span> <span class="title">Save</span> </a>
-                                                    </li>
-                                                </ul>
-                                                <div class="clearfix"></div>
-                                            </div>
-                                            <div class="tab-content">
-                                                <div class="tab-pane active" id="tab1">
-                                                    <br />
-                                                    <h3><strong>Step 1 </strong> - Terms and Conditions</h3>
-
-                                                    <div class="row">
-                                                        <div class="col-sm-12">
-                                                            <h4><strong>Please accept terms and conditions below or logout:</strong></h4>
-                                                            <p class='pre-scrollable well' style='white-space: pre-wrap;'>Welcome to the MIDAS Commons!
-
-These terms and conditions outline the rules and regulations for the use of the MIDAS software accessible from the portal.
-
-By accepting the terms and conditions stated on this page, you agree are granted permission to use the MIDAS software that is made available from this portal.  If you do not agree to these terms and conditions, you agree to cease all use of the MIDAS software that is made available from this portal.
-
-The following terminology applies to these Terms and Conditions, Privacy Statement and Disclaimer Notice and all Agreements: “Client”, “You” and “Your” refers to you, the person log on this website and compliant to the Company’s terms and conditions. “The Company”, “Ourselves”, “We”, “Our” and “Us”, refers to our Company. “Party”, “Parties”, or “Us”, refers to both the Client and ourselves. All terms refer to the offer, acceptance and consideration of payment necessary to undertake the process of our assistance to the Client in the most appropriate manner for the express purpose of meeting the Client’s needs in respect of provision of the Company’s stated services, in accordance with and subject to, prevailing law of Netherlands. Any use of the above terminology or other words in the singular, plural, capitalization and/or he/she or they, are taken as interchangeable and therefore as referring to same.
-
-Cookies
-
-We employ the use of cookies. By accessing the MIDAS Commons, you agree to use cookies in agreement with the MIDAS Software privacy policy.
-
-Most interactive websites use cookies to let us retrieve the user’s details for each visit. Cookies are used by our website to enable the functionality of certain areas to make it easier for people visiting our websites.
-
-License
-
-Unless otherwise stated, the investors of MIDAS software and/or its licensors own the intellectual property rights for all material made accessible from this portal. All intellectual property rights are reserved.
-
-Individual software accessible from the portal are licensed by their respective providers and the MIDAS Portal only acts as an entry point to this software.  You agree to abide by the individual licenses of software accessible from the portal.
-
-You may not:
--	Republish material made available from this portal.
--	Sell, rent or sub-license material from this portal.
--	Reproduce, duplicate or copy material from this portal.
--	Redistribute content made available from this portal.
--
-This Agreement shall begin on the date hereof.
-
-Terms and Conditions.
-
-You warrant and represent that:
-
-Hyperlinking to our Content
-
-The following organizations may link to our Website without prior written approval:
-
--	Government agencies;
--	Search engines;
--	News organizations;
--	Online directory distributors may link to our Website in the same manner as they hyperlink to the Websites of other listed businesses; and
--	System wide Accredited Businesses except soliciting non-profit organizations, charity shopping malls, and charity fundraising groups which may not hyperlink to our Web site.
--	These organizations may link to the MIDAS Commons, to publications or to other Website information so long as the link: (a) is not in any way deceptive; (b) does not falsely imply sponsorship, endorsement or approval of the linking party and its products and/or services; and (c) fits within the context of the linking party’s site.
-
-Approved organizations may hyperlink to our Website as follows:
-
--	By use of the uniform resource locator being linked to; or
--	By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party’s site.
--	No use of the MIDAS logo or other artwork will be allowed for linking absent a trademark license agreement.
-
-iFrames
-
--	Without prior approval and written permission, you may not create frames around software made available from this portal.
-
-Content Liability
-
-The University of Pittsburgh shall not be hold responsible for any content that appears on your Website. You agree to protect and defend us against all claims that is rising on your Website. No link(s) should appear on any Website that may be interpreted as libelous, obscene or criminal, or which infringes, otherwise violates, or advocates the infringement or other violation of, any third party rights.
-
-Reservation of Rights
-
-We reserve the right to request that you remove all links or any particular link to the MIDAS Software Portal. You approve to immediately remove all links to the MIDAS Software Portal upon request. We also reserve the right to amend these terms and conditions and it’s linking policy at any time. By continuously linking to the MIDAS Software Portal, you agree to be bound to and follow these linking terms and conditions.
-
-
-Disclaimer
-
-To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to software made available from this portal. Nothing in this disclaimer will:
-
--	limit or exclude our or your liability for death or personal injury;
--	limit or exclude our or your liability for fraud or fraudulent misrepresentation;
--	limit any of our or your liabilities in any way that is not permitted under applicable law; or
-exclude any of our or your liabilities that may not be excluded under applicable law.
-The limitations and prohibitions of liability set in this Section and elsewhere in this disclaimer: (a) are subject to the preceding paragraph; and (b) govern all liabilities arising under the disclaimer, including liabilities arising in contract, in tort and for breach of statutory duty.
-
-BY USING ANY SOFTWARE MADE AVAILABLE BY THE MIDAS COMMONS YOU AGREE THAT NO WARRANTIES OF ANY KIND ARE MADE BY THE UNIVERSITY OF PITTSBURGH (UNIVERSITY), OR THE NATIONAL INSTITUTES OF HEALTH WITH RESPECT TO THE DATA PROVIDED IN SOFTWARE MADE AVAILABLE BY THE MIDAS COMMONS OR ANY USE THEREOF, AND THE UNIVERSITY HEREBY DISCLAIM THE IMPLIED WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT. THE UNIVERSITY AND NATIONAL INSTITUTES OF HEALTH SHALL NOT BE LIABLE FOR ANY CLAIMS, LOSSES OR DAMAGES OF ANY KIND ARISING FROM THE DATA PROVIDED IN ANY MIDAS SOFTWARE OR ANY USE THEREOF.</p>
-                                                            <label>
-                                                                <input type='checkbox' name='accepted' ng-model='accepted' />
-                                                                I accept the terms and conditions.
-                                                            </label>
-                                                            <div>To decline, please logout or close this page.</div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane" id="tab2">
-                                                    <br />
-                                                    <h3><strong>Step 2</strong> - Privacy Policy</h3>
-
-                                                    <div class="row">
-                                                        <div class='col-sm-12'>
-                                                            <h4><strong>Please review our privacy policy:</strong></h4>
-                                                            <p class='pre-scrollable well' style='white-space: pre-wrap;'>MIDAS Commons Privacy Policy
-
-This privacy policy has been compiled to better serve those who are concerned with how their 'Personally Identifiable Information' (PII) is being used online. PII, as described in US privacy law and information security, is information that can be used on its own or with other information to identify, contact, or locate a single person, or to identify an individual in context. Please read our privacy policy carefully to get a clear understanding of how we collect, use, protect or otherwise handle your Personally Identifiable Information in accordance with our website.
-
-What personal information do we collect from the people that visit our blog, website or app?
-
-When ordering or registering on our site, as appropriate, you may be asked to enter your name, email address, MIDAS Affiliation or other details to help you with your experience.
-
-When do we collect information?
-
-We collect information from you when you register on our site or enter information on our site.
-
-How do we use your information?
-
-We may use the information we collect from you when you register, make a purchase, sign up for our newsletter, respond to a survey or marketing communication, surf the website, or use certain other site features in the following ways:
-
-- To personalize your experience and to allow us to deliver the type of content and product offerings in which you are most interested.
-
-How do we protect your information?
-
-We do not use vulnerability scanning and/or scanning to PCI standards.
-We only provide articles and information. We never ask for credit card numbers.
-We use regular Malware Scanning.
-
-Your personal information is contained behind secured networks and is only accessible by a limited number of persons who have special access rights to such systems, and are required to keep the information confidential. In addition, all sensitive information you supply is encrypted via Secure Socket Layer (SSL) technology.
-
-We implement a variety of security measures when a user enters, submits, or accesses their information to maintain the safety of your personal information.
-
-Do we use 'cookies'?
-
-Yes. Cookies are small files that a site or its service provider transfers to your computer's hard drive through your Web browser (if you allow) that enables the site's or service provider's systems to recognize your browser and capture and remember certain information. For instance, we use cookies to help us remember and process the items in your shopping cart. They are also used to help us understand your preferences based on previous or current site activity, which enables us to provide you with improved services. We also use cookies to help us compile aggregate data about site traffic and site interaction so that we can offer better site experiences and tools in the future.
-
-We use cookies to:
-- Compile aggregate data about site traffic and site interactions in order to offer better site experiences and tools in the future. We may also use trusted third-party services that track this information on our behalf.
-
-You can choose to have your computer warn you each time a cookie is being sent, or you can choose to turn off all cookies. You do this through your browser settings. Since browser is a little different, look at your browser's Help Menu to learn the correct way to modify your cookies.
-
-If users disable cookies in their browser:
-
-If you turn cookies off, some features will be disabled. Some of the features that make your site experience more efficient and may not function properly.
-
-
-Third-party disclosure
-
-We do not sell, trade, or otherwise transfer to outside parties your Personally Identifiable Information.
-
-Third-party links
-
-We do not include or offer third-party products or services on our website.
-
-Google
-
-Google's advertising requirements can be summed up by Google's Advertising Principles. They are put in place to provide a positive experience for users. https://support.google.com/adwordspolicy/answer/1316548?hl=en
-
-We have not enabled Google AdSense on our site but we may do so in the future.
-
-COPPA (Children Online Privacy Protection Act)
-
-When it comes to the collection of personal information from children under the age of 13 years old, the Children's Online Privacy Protection Act (COPPA) puts parents in control. The Federal Trade Commission, United States' consumer protection agency, enforces the COPPA Rule, which spells out what operators of websites and online services must do to protect children's privacy and safety online.
-
-We do not specifically market to children under the age of 13 years old.
-
-Fair Information Practices
-
-The Fair Information Practices Principles form the backbone of privacy law in the United States and the concepts they include have played a significant role in the development of data protection laws around the globe. Understanding the Fair Information Practice Principles and how they should be implemented is critical to comply with the various privacy laws that protect personal information.
-
-In order to be in line with Fair Information Practices we will take the following responsive action, should a data breach occur:
-We will notify the users via in-site notification within 7 business days
-
-We also agree to the Individual Redress Principle which requires that individuals have the right to legally pursue enforceable rights against data collectors and processors who fail to adhere to the law. This principle requires not only that individuals have enforceable rights against data users, but also that individuals have recourse to courts or government agencies to investigate and/or prosecute non-compliance by data processors.
-
-CAN SPAM Act
-
-The CAN-SPAM Act is a law that sets the rules for commercial email, establishes requirements for commercial messages, gives recipients the right to have emails stopped from being sent to them, and spells out tough penalties for violations.
-
-We collect your email address in order to:
-
-To be in accordance with CAN-SPAM, we agree to the following:
-
-If at any time you would like to unsubscribe from receiving future emails, you can email us at
-and we will promptly remove you from ALL correspondence.
-
-
-Contacting Us
-
-If there are any questions regarding this privacy policy, you may contact us using the information below.
-
-http://midas-hub.pitt.edu
-MIDAS Informatics Services Group
-Mailing Address:
-Department of Biomedical Informatics, U. Pittsburgh
-5607 Baum Boulevard, 4th Floor
-Pittsburgh PA USA 15206-3701
-Telephone: 412-648-9213
-Email: cleats @ pitt.edu
-
-
-
-Last Edited on 2016-10-21</p>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane" id="tab3">
-                                                    <br />
-                                                    <h3><strong>Step 3</strong> - Set MIDAS Affiliation</h3>
-
-                                                    <h4><strong>Please select your primary MIDAS affiliation:</strong></h4>
-                                                    <br/>
-                                                    <!-- widget div-->
-                                                    <!-- widget edit box -->
-                                                    <!-- widget content -->
-                                                    <div class="widget-body no-padding">
-                                                        <div class="container-fluid">
-                                                            <div class="row ">
-                                                                <div class="col-md-12">
-                                                                    <select name="select" id="select"
-                                                                            class="selectpicker required"
-                                                                            data-width="fit"
-                                                                            title="Choose one of the following...">
-                                                                        <option th:value="${affiliations}"
-                                                                                th:each="affiliation : ${affiliations}"
-                                                                                th:if="!${#strings.contains(affiliation,':')}">
-                                                                            <label th:for='${affiliation.description}'>
-                                                                                <span th:text="${affiliation.description} +' (' + ${affiliation.name} + ')'"></span>
-                                                                            </label>
-                                                                        </option>
-                                                                        <option id="other" value="other">
-                                                                            Other
-                                                                        </option>
-                                                                    </select>
-                                                                </div>
-                                                                <div id="otherName" style="display:none" class="col-md-5 col-sm-12">
-                                                                    <br/>
-                                                                    <input class="form-control" name="name" id="otherNameValue"
-                                                                           ng-model='affiliationName' placeholder="Please enter the affiliation name"/>
-                                                                </div>
-                                                                <input type="hidden" id="name" name="name"
-                                                                       ng-model='affiliationName'/>
-                                                                <input type="hidden" id="description"
-                                                                       name="description"
-                                                                       ng-model='affiliationDescription'/>
-                                                                <input type="hidden" id="affiliationGroups"
-                                                                       value=""
-                                                                       name="affiliationGroups"
-                                                                       ng-model='affiliationGroups'/>
-                                                            </div>
-                                                            <div class="row">
-                                                                <br/>
-                                                                <h4 class="col-md-12 disabler" id="optional"><strong>Optionally, please indicate any
-                                                                    groups
-                                                                    you belong to inside: (please choose MIDAS affiliation)
-                                                                </strong></h4>
-                                                                <div class="col-md-12 col-lg-6 col-sm-12">
-                                                                    <br/>
-                                                                    <table id="datatable_groups"
-                                                                           class="table table-bordered display disabler"
-                                                                           cellspacing="0" width="100%">
-                                                                        <thead>
-                                                                        <tr>
-                                                                            <th></th>
-                                                                            <th>Name</th>
-                                                                            <th>Description</th>
-                                                                        </tr>
-                                                                        </thead>
-                                                                    </table>
-                                                                </div>
-                                                            </div>
-                                                            <div class="row">
-
-                                                                <div class="col-md-5 col-sm-12">
-                                                                    <br/>
-                                                                    <label for='addition'><strong>Please provide
-                                                                        additional affiliations if
-                                                                        any:</strong></label>
-                                                                    <br/>
-                                                                    <input id='addition' type='text'
-                                                                           name='additionalAffiliationNames'
-                                                                           placeholder="(optional) additional affiliations"
-                                                                           class='form-control'
-                                                                           ng-model='addition'/>
-                                                                </div>
-                                                            </div>
-
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="tab-pane" id="tab4">
-                                                    <br/>
-                                                    <h3><strong>Step 4</strong> - Save and Start Using Services</h3>
-
-                                                    <h4 ng-show='! isReadyToSave()'>
-                                                        <mark><strong>Please go back to complete any incomplete step(s)
-                                                            by clicking the step number above.</strong></mark>
-                                                    </h4>
-                                                    <br />
-                                                    <table class='table table-bordered table-striped'>
-                                                        <tr ng-repeat='ok in completedSteps track by $index'>
-                                                            <td>
-                                                                <span ng-if="ok" class="text-center text-success"><strong><i class="fa fa-check fa-lg"></i> Complete</strong></span>
-                                                                <span ng-if=" !ok" class="text-center text-danger"><strong><i class="fa fa-warning fa-lg"></i> Incomplete</strong></span>
-                                                                Step {{$index + 1}}: {{stepNames[$index]}}
-                                                            </td>
-                                                        </tr>
-                                                    </table>
-                                                    <br />
-                                                    <div class='panel-footer'>
-                                                        <h5 ng-show='isReadyToSave()'>Please click the below button to save and start using services.</h5>
-                                                        <button id="accept" type="submit" class="btn btn-lg btn-block btn-success"
-                                                                ng-disabled='! isReadyToSave()'>
-                                                            Start using services
-                                                        </button>
-                                                    </div>
-                                                </div>
-                                                <div class="form-actions bottom">
-                                                    <div class="container-fluid">
-                                                        <div class="row">
-                                                            <div class="col-sm-12">
-                                                                <ul class="pager wizard no-margin">
-                                                                    <li class="previous disabled">
-                                                                        <a href="javascript:void(0);"
-                                                                           class="btn btn-lg btn-default"
-                                                                           ng-show='!isFirstStep'
-                                                                           ng-init='isFirstStep=true'><i class="fa fa-arrow-circle-left"></i> Previous </a>
-                                                                    </li>
-                                                                    <li class="next">
-                                                                        <a href="javascript:void(0);"
-                                                                           class="btn btn-lg txt-color-darken"
-                                                                           ng-show='!isLastStep'> Next <i class="fa fa-arrow-circle-right"></i> </a>
-                                                                    </li>
-                                                                </ul>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div><!-- end widget content -->
-                        </div><!-- end widget div -->
-                    </div><!-- end widget -->
-                </article><!-- WIDGET END -->
-            </div><!-- end row -->
-        </section><!-- end widget grid -->
+<md-card layout="column" ng-cloak="">
+    <md-toolbar class="md-hue-3">
+        <header class="md-toolbar-tools">
+            <span class="md-headline">Sign up now</span>
+        </header>
+    </md-toolbar>
+    <div layout="column" layout-gt-xs="row">
+        <form flex-gt-xs="66" method="POST" action="term-acceptance" class="layout-padding">
+            <md-card-content layout="column">
+                <md-input-container>
+                    <label>Select your MIDAS affiliation</label>
+                    <md-select name='name' required="required"
+                               ng-model="vm.affiliationName"
+                               md-no-asterisk="false">
+                        <md-option
+                                ng-repeat='affiliation in vm.affiliations"'
+                                ng-value="affiliation.name" >
+                            {{affiliation.description}} ({{affiliation.name}})
+                        </md-option>
+                        <md-option value="other">
+                            Other
+                        </md-option>
+                    </md-select>
+                </md-input-container>
+
+                <md-input-container
+                        ng-show="vm.affiliationName === 'other' " >
+                    <label>Provide your affiliation name (optional)</label>
+                    <input type='text' name='description'/>
+                </md-input-container>
+            </md-card-content>
+            <md-card-actions layout="row" layout-align="end">
+                <md-button ng-disabled="!vm.affiliationName" type='submit' class="md-raised md-accent">Sign up</md-button>
+            </md-card-actions>
+        </form>
+
+        <div flex-gt-xs="33">
+            <md-card-title>
+                <md-card-title-text>
+                    <strong>Why you should create a MIDAS Account</strong>
+                </md-card-title-text>
+            </md-card-title>
+            <md-card-content>
+                <span class="md-caption">
+                    Creating a MIDAS Account will enable you to login to web applications that use MIDAS Single Sign-on (SSO) for authentication!
+                </span>
+            </md-card-content>
+        </div>
     </div>
-</div>
-<!--================================================== -->
-<thymeleaf th:replace="tags/body-tail-remove-tag :: tail" />
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/css/bootstrap-select.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.11.2/js/bootstrap-select.min.js"></script>
+</md-card>
 <footer th:replace="tags/footer :: footer"/>
-
-<!-- (Optional) Latest compiled and minified JavaScript translation files -->
-
-<script type="text/javascript">
-    /*<![CDATA[*/  // DO NOT REMOVE : GLOBAL FUNCTIONS!
-    $(document).ready(function() {
-        pageSetUp();
-        initWizard();
-        var groups = [];
-
-        //prevents user from going to pages by selecting the number in the wizard
-        var classname = document.getElementsByClassName("wizard-circle-button");
-        var myFunction = function() {
-            event.stopPropagation();
-        };
-        for (var i = 0; i < classname.length; i++) {
-            classname[i].addEventListener('click', myFunction, false);
-        }
-
-        //sorts the select
-        var items = $('#select option').get();
-        items.sort(function(a,b){
-            var keyA = $(a).text();
-            var keyB = $(b).text();
-
-            if (keyA < keyB) return -1;
-            if (keyA > keyB) return 1;
-            return 0;
-        });
-        var select = $('#select');
-        $.each(items, function(i, option){
-            select.append(option);
-        });
-
-        //on select, populate the groups table
-        $('#select').on('changed.bs.select', function () {
-            $("#datatable_groups").dataTable().fnDestroy();
-            groups = [];
-            document.getElementById('affiliationGroups').value = groups;
-
-            var affiliations = $(this).find("option:selected").val();
-            //converting array of objects to json to be able to manage each affiliation
-            affiliations = affiliations.replace(/Affiliation/g, "");
-            affiliations = affiliations.replace(/=/g, "\":");
-            affiliations = affiliations.replace(/'/g, "\"");
-            affiliations = affiliations.replace(/name/g, "\"name");
-            affiliations = affiliations.replace(/id/g, "\"id");
-            affiliations = affiliations.replace(/description/g, "\"description");
-
-
-            var selected = $(this).find("option:selected").text().trim();
-            var selectedName = "";
-            if(selected.includes("(")) {
-                selectedName = (selected.match(/\((.*)\)/)[1]).trim();
-            }
-            var selectedDescription = (selected.replace(/ *\([^)]*\) */g, "")).trim();
-
-
-            //sets hidden input for form submit
-            document.getElementById('name').value = selectedName;
-            document.getElementById('description').value = selectedDescription;
-            document.getElementById('optional').innerHTML = '<strong> Optionally, please indicate any groups you belong to inside: ' + selectedDescription +'</strong>';
-
-            var dataset = [];
-
-            if(selectedDescription == "Other") {
-                $("#otherName").show();
-            } else {
-                $("#otherName").hide();
-                document.getElementById('otherNameValue').value = "";
-
-                $(jQuery.parseJSON(affiliations)).each(function() {
-                    var ID = this.id;
-                    var NAME = this.name;
-                    var DESCRIPTION = this.description;
-
-                    if(NAME.includes(selectedName) && !selected.includes(DESCRIPTION)) {
-                        NAME = NAME.substring(NAME.indexOf(":") + 1);
-                        dataset.push(["", NAME, DESCRIPTION]);
-                    }
-                });
-            }
-
-
-            //manages disabled look
-            if(dataset.length > 0) {
-                document.getElementById('optional').classList.remove("disabler");
-                document.getElementById('datatable_groups').classList.remove("disabler");
-            } else {
-                document.getElementById('optional').classList.add("disabler");
-                document.getElementById('datatable_groups').classList.add("disabler");
-            }
-
-            //generates table of affilated groups
-            var table = $('#datatable_groups').DataTable({
-                data: dataset,
-                "bPaginate": false,
-                "bFilter": false,
-                columns: [
-                    {title: '', width: "5%"},
-                    {title: "Name", width: "35%"},
-                    {title: "Description", width: "55%"}
-                ],
-                'columnDefs': [{
-                    'targets': 0,
-                    'searchable': false,
-                    'orderable': false,
-                    'className': 'dt-body-center',
-                    'render': function (data, type, full, meta) {
-                        return '<input type="checkbox" value="'
-                                + $('<div/>').text(data).html() + '">';
-                    }
-                }],
-                'order': [1, 'asc']
-            });
-
-            //sets hidden input of affiliation groups for form submit
-            $('#datatable_groups').on('change', 'input[type="checkbox"]', function() {
-                var data = table.row($(this).parents('tr')).data();
-                var name = data[1];
-                if(this.checked){
-                    groups.push(name);
-                } else {
-                    var index = groups.indexOf(name);
-                    if(index > -1) {
-                        groups.splice(index, 1);
-                    }
-                }
-                document.getElementById('affiliationGroups').value = groups;
-            });
-
-        });
-
-        function initWizard() {
-            var $bootstrapValidator = $("#wizard-1").validate({
-                rules: {
-                    name: {
-                        required: true
-                    },
-                    accepted: {
-                        required: true
-                    }
-                },
-                messages: {
-                    name: "Please enter your affiliation",
-                    accepted: "Please accept our terms and condition by check the box below and proceed."
-                },
-                highlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-success').addClass('has-error');
-                },
-                unhighlight: function (element) {
-                    $(element).closest('.form-group').removeClass('has-error').addClass('has-success');
-                },
-                errorElement: 'span',
-                errorClass: 'help-block bg-danger',
-                errorPlacement: function (error, element) {
-                    if (element.is(":radio")) {
-                        error.insertBefore( element.parents('.table') );
-                    } else {
-                        error.insertBefore(element);
-                    }
-                }
-            });
-            var ngScope = angular.element(document.getElementById('controller')).scope();
-
-            $('#bootstrap-wizard-1').bootstrapWizard({
-                'tabClass': 'form-wizard',
-                'onTabShow': function (tab, navigation, index) {
-                    ngScope.$apply(function () {
-                        ngScope.isFirstStep = index <= 0;
-                        ngScope.isLastStep = index >= 3;
-                    });
-                },
-                'onNext': function (tab, navigation, index) {
-                    var step = index - 1;
-                    var $valid = $("#wizard-1").valid();
-                    if (!$valid) {
-                        $bootstrapValidator.focusInvalid();
-                        return false;
-                    } else {
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).addClass(
-                                'complete');
-                        $('#bootstrap-wizard-1').find('.form-wizard').children('li').eq(step).find('.step')
-                                .html('<i class="fa fa-check"></i>');
-                        ngScope.$apply(function () {
-                            ngScope.completeStep(step);
-                        });
-                    }
-                }
-            });
-        }
-    });
-    /*]]>*/
-</script>
 </body>
 </html>
