@@ -11,9 +11,19 @@ public class PredefinedStrings {
     public static final String ISG_ADMIN = "ISG_ADMIN";
 
     // Spring access-control expression
-    private static final String hasAuthority = "hasAuthority";
-    public static final String IS_ISG_USER = hasAuthority + "('"+ ISG_USER + "')";
-    public static final String IS_ISG_ADMIN = hasAuthority + "('"+ ISG_ADMIN + "')";
+    private static final String hasAnyAuthority = "hasAnyAuthority";
+    public static final String IS_ISG_USER = hasAnyAuthority + "('"+ ISG_USER + "')";
+    public static final String IS_ISG_ADMIN = hasAnyAuthority + "('"+ ISG_ADMIN + "')";
+
+
+    // Roles for Accounts
+    private static final String ACCOUNTS_DIRECTOR = "ACCOUNTS_DIRECTOR";
+    // Generic Roles
+    public static final String ACCOUNTS_APP_ADMIN = "ACCOUNTS_APP_ADMIN";
+    public static final String CAN_VIEW_LOG_REPORTS = "hasAnyAuthority('" +
+            ACCOUNTS_APP_ADMIN + "','" +
+            ACCOUNTS_DIRECTOR  + "','" +
+            ISG_ADMIN + "')";
 
     public static final String RETURN_TO_URL_KEY = "returnToUrl";
 }
