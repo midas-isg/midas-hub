@@ -22,12 +22,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.util.Collections;
 import java.util.List;
-import java.util.Set;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.toSet;
 
 @Controller
 @SessionAttributes("appUser")
@@ -36,10 +34,16 @@ class Auth0LoginController {
     private static final String LOGIN_VIEW = "auth0Login";
 
     private AffiliationRepository repo;
+    private AuthorityRule authorityRule;
 
     @Autowired
     protected void setAffiliationRepository(final AffiliationRepository repo) {
         this.repo = repo;
+    }
+
+    @Autowired
+    protected void setAuthorityRule(AuthorityRule authorityRule) {
+        this.authorityRule = authorityRule;
     }
 
     @RequestMapping(value = "/auth0", method = RequestMethod.GET)
@@ -53,7 +57,8 @@ class Auth0LoginController {
             return TOS;
         }
         final Object partnerUrl = removeReturnToUrlAttribute(req.getSession());
-        addGenericAuthoritiesFromCurrentAuthorities(auth0User.getRoles());
+        authorityRule = new AuthorityRule();
+        authorityRule.addGenericAuthoritiesFromCurrentAuthorities(auth0User.getRoles());
 
         if (partnerUrl != null) {
             return partnerUrl.toString();
@@ -66,16 +71,6 @@ class Auth0LoginController {
         final Object returnToUrl = session.getAttribute(RETURN_TO_URL_KEY);
         session.removeAttribute(RETURN_TO_URL_KEY);
         return returnToUrl;
-    }
-
-    private void addGenericAuthoritiesFromCurrentAuthorities(List<String> roles) {
-        final Set<String> set = roles.stream()
-                .map(role -> role.split("\\."))
-                .filter(tokens -> tokens.length == 2)
-                .map(tokens -> tokens[0])
-                .collect(toSet());
-        set.removeAll(roles);
-        roles.addAll(set);
     }
 
     @RequestMapping(value = TOS, method = RequestMethod.GET)
