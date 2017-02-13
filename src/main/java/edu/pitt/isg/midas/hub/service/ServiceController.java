@@ -7,7 +7,7 @@ import com.fasterxml.jackson.dataformat.csv.CsvSchema;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PostAuthorize;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
@@ -36,14 +36,14 @@ class ServiceController {
         return "secured/home";
     }
 
-    @PostAuthorize(IS_ISG_ADMIN)
+    @PreAuthorize(IS_ISG_ADMIN)
     @RequestMapping(value = "/api/services", method = RequestMethod.POST)
     public String postService(@ModelAttribute Service form){
         repository.save(form);
         return "redirect:/services";
     }
 
-    @PostAuthorize(IS_ISG_ADMIN)
+    @PreAuthorize(IS_ISG_ADMIN)
     @RequestMapping(value = "/api/services/reload", method = RequestMethod.POST)
     @ResponseBody
     @Transactional(rollbackFor=Exception.class)
