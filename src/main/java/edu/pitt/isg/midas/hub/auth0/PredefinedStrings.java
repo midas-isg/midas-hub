@@ -17,7 +17,7 @@ public class PredefinedStrings {
 
 
     // Roles for Accounts
-    private static final String ACCOUNTS_DIRECTOR = "ACCOUNTS_DIRECTOR";
+    public static final String ACCOUNTS_DIRECTOR = "ACCOUNTS_DIRECTOR";
     // Generic Roles
     public static final String ACCOUNTS_APP_ADMIN = "ACCOUNTS_APP_ADMIN";
     public static final String CAN_VIEW_LOG_REPORTS = "hasAnyAuthority('" +

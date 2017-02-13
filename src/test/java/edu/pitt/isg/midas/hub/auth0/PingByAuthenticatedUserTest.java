@@ -7,6 +7,7 @@ import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequ
 import static edu.pitt.isg.midas.hub.auth0.PingController.ADMIN_PING_URL;
 import static edu.pitt.isg.midas.hub.auth0.PingController.AUTHENTICATED_PING_URL;
 import static edu.pitt.isg.midas.hub.auth0.PingController.PUBLIC_PING_URL;
+import static edu.pitt.isg.midas.hub.auth0.PingController.REPORT_PING_URL;
 import static edu.pitt.isg.midas.hub.auth0.PingController.SECURED_PING_URL;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -34,5 +35,10 @@ public class PingByAuthenticatedUserTest extends BasePingTest {
     @Test
     public void testAdminPingUrl() throws Exception {
         SecurityAid.assertForbidden(mvc.perform(get(ADMIN_PING_URL).with(toUser())));
+    }
+
+    @Test
+    public void testReportPingUrl() throws Exception {
+        SecurityAid.assertForbidden(mvc.perform(get(REPORT_PING_URL).with(toUser())));
     }
 }
