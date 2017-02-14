@@ -3,6 +3,7 @@ package edu.pitt.isg.midas.hub.report;
 import com.auth0.spring.security.mvc.Auth0JWTToken;
 import com.auth0.spring.security.mvc.Auth0UserDetails;
 import edu.pitt.isg.midas.hub.auth0.Auth0Dao;
+import edu.pitt.isg.midas.hub.user.UserRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -22,22 +23,16 @@ import static java.util.stream.Collectors.toList;
 @SessionAttributes("appUser")
 class ReportController {
     @Autowired
-    private Auth0Dao dao;
+    private UserRule userRule;
     @Autowired
     private LogRule logRule;
 
     @PreAuthorize(CAN_VIEW_LOG_REPORTS)
     @RequestMapping(value = "/report", method = RequestMethod.GET)
     public String showReportPage(final Model model, @AuthenticationPrincipal Auth0JWTToken authenticationToken) {
-        model.addAttribute("users", listUserWithoutSensitiveData());
+        model.addAttribute("users", userRule.listAllWithoutSensitiveData());
         model.addAttribute("logs", toLogs(authenticationToken));
         return "report";
-    }
-
-    private List<HashMap<String, ?>> listUserWithoutSensitiveData() {
-        final List<HashMap<String, ?>> users = dao.listUsers();
-        users.forEach(user -> user.remove("identities"));
-        return users;
     }
 
     private List<ReportingLog> toLogs(Auth0JWTToken authenticationToken) {
