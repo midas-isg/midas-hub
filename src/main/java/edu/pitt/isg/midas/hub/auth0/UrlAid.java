@@ -59,9 +59,13 @@ class UrlAid {
     }
 
     private static UriComponentsBuilder toAuth0ApiUrlBuilder(String auth0Domain) {
+        return toAuth0UrlBuilder(auth0Domain)
+                .pathSegment("api", "v2");
+    }
+
+    static UriComponentsBuilder toAuth0UrlBuilder(String auth0Domain) {
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
-                .host(auth0Domain)
-                .pathSegment("api", "v2");
+                .host(auth0Domain);
     }
 }
