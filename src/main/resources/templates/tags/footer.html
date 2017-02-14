@@ -1,11 +1,12 @@
 <footer xmlns:th="http://www.thymeleaf.org">
     <md-toolbar class="md-hue-2">
-        <div class="md-toolbar-tools">
-            <h9 class="md-caption" md-truncate=""><span class="md-flex" th:inline="text"><span hide-xs="">[[${@environment.getProperty('app.name')}]] </span>
-                    v<span hide-xs="">ersion </span>[[${@environment.getProperty('app.instance.version')}]]</span></h9>
+        <div class="md-toolbar-tools" layout="column" layout-gt-xs="row">
+            <h9 class="md-caption" th:inline="text">
+                [[${@environment.getProperty('app.name')}]] version [[${@environment.getProperty('app.instance.version')}]]
+            </h9>
             <h9 flex=""></h9>
-            <h9 class="md-caption" ><span th:inline="text">Copyright &copy;
-                [[${#dates.year(#dates.createNow())}]]</span>
+            <h9 class="md-caption" th:inline="text">
+                &copy; 2016 - [[${#dates.year(#dates.createNow())}]] University of Pittsburgh
             </h9>
         </div>
     </md-toolbar>
