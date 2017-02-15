@@ -4,6 +4,7 @@ package edu.pitt.isg.midas.hub.auth0;
 import org.junit.Test;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.UserRequestPostProcessor;
 
+import static edu.pitt.isg.midas.hub.auth0.PingController.REPORT_PING_URL;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
 import static edu.pitt.isg.midas.hub.auth0.PingController.ADMIN_PING_URL;
 import static edu.pitt.isg.midas.hub.auth0.PingController.AUTHENTICATED_PING_URL;
@@ -35,5 +36,10 @@ public class PingByIsgUserTest extends BasePingTest {
     @Test
     public void testAdminPingUrl() throws Exception {
         SecurityAid.assertForbidden(mvc.perform(get(ADMIN_PING_URL).with(toUser())));
+    }
+
+    @Test
+    public void testReportPingUrl() throws Exception {
+        SecurityAid.assertForbidden(mvc.perform(get(REPORT_PING_URL).with(toUser())));
     }
 }

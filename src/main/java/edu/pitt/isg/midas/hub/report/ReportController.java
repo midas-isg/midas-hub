@@ -1,7 +1,12 @@
 package edu.pitt.isg.midas.hub.report;
 
+import com.auth0.spring.security.mvc.Auth0JWTToken;
+import com.auth0.spring.security.mvc.Auth0UserDetails;
 import edu.pitt.isg.midas.hub.auth0.Auth0Dao;
+import edu.pitt.isg.midas.hub.user.UserRule;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,55 +14,40 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
+
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.CAN_VIEW_LOG_REPORTS;
+import static java.util.stream.Collectors.toList;
 
 @Controller
 @SessionAttributes("appUser")
 class ReportController {
     @Autowired
-    private LogRepository logRepo;
+    private UserRule userRule;
     @Autowired
-    private Auth0Dao dao;
+    private LogRule logRule;
 
+    @PreAuthorize(CAN_VIEW_LOG_REPORTS)
     @RequestMapping(value = "/report", method = RequestMethod.GET)
-    public String showReportPage(final Model model) {
-        model.addAttribute("users", listUserWithoutSensitiveData());
-        model.addAttribute("logs", filter(listLogsWithoutSensitiveData()));
+    public String showReportPage(final Model model, @AuthenticationPrincipal Auth0JWTToken authenticationToken) {
+        model.addAttribute("users", userRule.listAllWithoutSensitiveData());
+        model.addAttribute("logs", toLogs(authenticationToken));
         return "report";
     }
 
-    private List<HashMap<String, ?>> listUserWithoutSensitiveData() {
-        final List<HashMap<String, ?>> users = dao.listUsers();
-        users.forEach(user -> user.remove("identities"));
-        return users;
+    private List<ReportingLog> toLogs(Auth0JWTToken authenticationToken) {
+        final Auth0UserDetails user = toUser(authenticationToken);
+        final List<String> roles = toAuthorities(user);
+        return logRule.toReportingLogsByRoles(roles);
     }
 
-    private List<ReportingLog> listLogsWithoutSensitiveData() {
-        final List<ReportingLog> logs = logRepo.findAll();
-        logs.forEach(log -> log.setRaw(null));
-        return logs;
+    private Auth0UserDetails toUser(Auth0JWTToken authenticationToken) {
+        return (Auth0UserDetails)authenticationToken.getPrincipal();
     }
 
-    private List<ReportingLog> filter(List<ReportingLog> logs) {
-        final Set<String> filterOutEventCodes = toEventCodesToFilterOut();
-        return logs.stream()
-                .filter(l -> l.getApplicationName() != null)
-                .filter(l -> isNotPrintedAsNull(l.getUserAffiliation()))
-                .filter(l -> !filterOutEventCodes.contains(l.getEventCode()))
-                .collect(Collectors.toList());
-    }
-
-    private boolean isNotPrintedAsNull(String s) {
-        return s != null && ! s.equalsIgnoreCase("null");
-    }
-
-    private HashSet<String> toEventCodesToFilterOut() {
-        final HashSet<String> set = new HashSet<>();
-        set.add("seacft"); // seacft = Success Exchange (Authorization Code for Access Token)
-        set.add("feacft"); // feacft = Failed Exchange (Authorization Code for Access Token)
-        return set;
+    private List<String> toAuthorities(Auth0UserDetails auth0User) {
+        return auth0User.getAuthorities().stream()
+                .map(a -> a.getAuthority())
+                .collect(toList());
     }
 }

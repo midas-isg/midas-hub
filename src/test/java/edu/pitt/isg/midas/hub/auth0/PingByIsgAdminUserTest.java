@@ -4,6 +4,7 @@ package edu.pitt.isg.midas.hub.auth0;
 import org.junit.Test;
 import org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.UserRequestPostProcessor;
 
+import static edu.pitt.isg.midas.hub.auth0.PingController.REPORT_PING_URL;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_ADMIN;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
 import static edu.pitt.isg.midas.hub.auth0.PingController.ADMIN_PING_URL;
@@ -40,5 +41,13 @@ public class PingByIsgAdminUserTest extends BasePingTest {
         mvc.perform(get(ADMIN_PING_URL).with(asUser()))
                 .andExpect(status().isOk())
                 .andExpect(content().string("All good! You only get this message if you're Admin!"));
+    }
+
+    @Test
+    public void testReportPingUrl() throws Exception {
+        mvc.perform(get(REPORT_PING_URL).with(asUser()))
+                .andExpect(status().isOk())
+                .andExpect(content().string("All good! You only get this message if you can view log reports!"));
+
     }
 }

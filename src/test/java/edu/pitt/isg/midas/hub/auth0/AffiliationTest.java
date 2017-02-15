@@ -41,6 +41,8 @@ public class AffiliationTest {
     private MockMvc mvc;
 
     @MockBean
+    private AuthorityRule mockAuthorityRule;
+    @MockBean
     private AffiliationRepository mockRepo;
     @MockBean
     private AuthenticationFilter.Authenticator authenticator;

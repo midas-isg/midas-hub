@@ -25,6 +25,8 @@ import java.util.List;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
+import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UrlBuilder;
+import static java.util.Collections.singletonList;
 import static java.util.Comparator.comparing;
 
 @Controller
@@ -33,12 +35,10 @@ class Auth0LoginController {
     static final String TOS = "/tos";
     private static final String LOGIN_VIEW = "auth0Login";
 
-    private AffiliationRepository repo;
-
     @Autowired
-    protected void setAffiliationRepository(final AffiliationRepository repo) {
-        this.repo = repo;
-    }
+    private AffiliationRepository repo;
+    @Autowired
+    private AuthorityRule authorityRule;
 
     @RequestMapping(value = "/auth0", method = RequestMethod.GET)
     public String processAuth0Login(HttpServletRequest req) {
@@ -51,6 +51,8 @@ class Auth0LoginController {
             return TOS;
         }
         final Object partnerUrl = removeReturnToUrlAttribute(req.getSession());
+        authorityRule.addGenericAuthoritiesFromCurrentAuthorities(auth0User.getRoles());
+
         if (partnerUrl != null) {
             return partnerUrl.toString();
         } else {
@@ -96,11 +98,9 @@ class Auth0LoginController {
             final SessionStatus sessionStatus,
             final RedirectAttributes redirectAttributes) {
         sessionStatus.setComplete();
-        redirectAttributes.addFlashAttribute("successMsg", Collections.singletonList("You have successfully logged out."));
+        redirectAttributes.addFlashAttribute("successMsg", singletonList("You have successfully logged out."));
 
-        final String redirectUrl = UriComponentsBuilder.newInstance()
-                .scheme("https")
-                .host(auth0Domain)
+        final String redirectUrl = toAuth0UrlBuilder(auth0Domain)
                 .pathSegment("v2", "logout")
                 .queryParam("returnTo", UrlAid.toAbsoluteUrl(request, "login"))
                 .build().toString();
