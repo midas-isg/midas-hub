@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.report;
+package edu.pitt.isg.midas.hub.log;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

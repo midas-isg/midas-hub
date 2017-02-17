@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.report;
+package edu.pitt.isg.midas.hub.log;
 
 import edu.pitt.isg.midas.hub.auth0.Auth0Dao;
 import org.slf4j.Logger;

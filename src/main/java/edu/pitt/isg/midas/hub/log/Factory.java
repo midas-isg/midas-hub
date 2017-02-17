@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.report;
+package edu.pitt.isg.midas.hub.log;
 
 import edu.pitt.isg.midas.hub.user.AppMetadataAid;
 import org.springframework.stereotype.Component;

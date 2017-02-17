@@ -2,7 +2,8 @@ package edu.pitt.isg.midas.hub.report;
 
 import com.auth0.spring.security.mvc.Auth0JWTToken;
 import com.auth0.spring.security.mvc.Auth0UserDetails;
-import edu.pitt.isg.midas.hub.auth0.Auth0Dao;
+import edu.pitt.isg.midas.hub.log.LogRule;
+import edu.pitt.isg.midas.hub.log.ReportingLog;
 import edu.pitt.isg.midas.hub.user.UserRule;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -13,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
-import java.util.HashMap;
 import java.util.List;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.CAN_VIEW_LOG_REPORTS;

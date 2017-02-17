@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.report;
+package edu.pitt.isg.midas.hub.log;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,7 +17,7 @@ public class LogRule {
     @Autowired
     private LogRepository logRepo;
 
-    List<ReportingLog> toReportingLogsByRoles(List<String> roles) {
+    public List<ReportingLog> toReportingLogsByRoles(List<String> roles) {
         final List<ReportingLog> logs = toReportingLogs(listLogsWithoutSensitiveData(), roles);
         return logs;
     }
