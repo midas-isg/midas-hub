@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.report;
+package edu.pitt.isg.midas.hub.log;
 
 import org.junit.Test;
 

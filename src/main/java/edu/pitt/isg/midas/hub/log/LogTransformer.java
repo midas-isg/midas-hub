@@ -1,4 +1,4 @@
-package edu.pitt.isg.midas.hub.report;
+package edu.pitt.isg.midas.hub.log;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
