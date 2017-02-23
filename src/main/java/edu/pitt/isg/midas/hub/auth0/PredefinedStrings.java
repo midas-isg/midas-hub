@@ -25,5 +25,6 @@ public class PredefinedStrings {
             ACCOUNTS_DIRECTOR  + "','" +
             ISG_ADMIN + "')";
 
+    public static final String SIGNOFF = "/signoff";
     public static final String RETURN_TO_URL_KEY = "returnToUrl";
 }

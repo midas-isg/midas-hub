@@ -25,6 +25,7 @@ import java.io.IOException;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_ADMIN;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ISG_USER;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.SIGNOFF;
 
 
 @Configuration
@@ -53,7 +54,7 @@ public class Auth0Configuration extends Auth0SecurityConfig {
     @Override
     protected void authorizeRequests(final HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                .antMatchers("/public/**", "/webjars/**", "/logoutFromAuth0", "/callback", "/sso").permitAll()
+                .antMatchers("/public/**", "/webjars/**", SIGNOFF, "/callback", "/sso").permitAll()
                 .antMatchers("/secured/**").hasAnyAuthority(ISG_USER)
                 .antMatchers("/admin/**").hasAnyAuthority(ISG_ADMIN)
                 .antMatchers(securedRoute).authenticated()
@@ -70,7 +71,7 @@ public class Auth0Configuration extends Auth0SecurityConfig {
         return new SimpleUrlLogoutSuccessHandler(){
             @Override
             public void onLogoutSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                setDefaultTargetUrl("/logoutFromAuth0");
+                setDefaultTargetUrl(SIGNOFF);
                 super.handle(request, response, authentication);
             }
         };

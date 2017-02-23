@@ -1,10 +1,17 @@
 package edu.pitt.isg.midas.hub.auth0;
 
 import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.util.UriUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.UnsupportedEncodingException;
+
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
 
 class UrlAid {
+    private static final String TITLE_KEY = "title";
+    private static final String MESSAGE_KEY = "message";
+
     private UrlAid() {
     }
 
@@ -67,5 +74,48 @@ class UrlAid {
         return UriComponentsBuilder.newInstance()
                 .scheme("https")
                 .host(auth0Domain);
+    }
+
+    static String toEncodedReturnUrl(HttpServletRequest request, String appName) {
+        final String returnUrl = toFinalReturnUrl(request);
+        return encode(toSsoUrl(request, returnUrl, appName));
+    }
+
+    private static String toFinalReturnUrl(HttpServletRequest request) {
+        final String url = request.getParameter(RETURN_TO_URL_KEY);
+        return url != null ? url: UrlAid.toAbsoluteUrl(request, "login");
+    }
+
+    private static String encode(String url) {
+        final String utf8 = "utf8";
+        try {
+            return UriUtils.encode(url, utf8).toString();
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("Cannot encode with " + utf8, e);
+        }
+    }
+
+    private static String toSsoUrl(HttpServletRequest request, String returnUrl, String appName) {
+        final String sso = UrlAid.toAbsoluteUrl(request, "sso");
+        return UriComponentsBuilder.fromHttpUrl(sso)
+                .queryParam(TITLE_KEY, encode(toTitle(request, appName)))
+                .queryParam(MESSAGE_KEY, encode(toMessage(request)))
+                .queryParam(RETURN_TO_URL_KEY, returnUrl)
+                .build()
+                .toString();
+    }
+
+    private static String toMessage(HttpServletRequest request) {
+        final String message = request.getParameter(MESSAGE_KEY);
+        if (message == null)
+            return "Logged out successfully.";
+        return message;
+    }
+
+    private static String toTitle(HttpServletRequest request, String appName) {
+        final String title = request.getParameter(TITLE_KEY);
+        if (title == null)
+            return appName;
+        return title;
     }
 }
