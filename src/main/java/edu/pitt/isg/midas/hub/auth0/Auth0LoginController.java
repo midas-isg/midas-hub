@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import org.springframework.web.servlet.view.RedirectView;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Collections;
 import java.util.List;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.AFFILIATION;
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
+import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.SIGNOFF;
 import static edu.pitt.isg.midas.hub.auth0.UrlAid.toAuth0UrlBuilder;
+import static edu.pitt.isg.midas.hub.auth0.UrlAid.toEncodedReturnUrl;
 import static java.util.Collections.singletonList;
 import static java.util.Comparator.comparing;
 
@@ -91,18 +91,18 @@ class Auth0LoginController {
         return LOGIN_VIEW;
     }
 
-    @RequestMapping(value = "/logoutFromAuth0", method = RequestMethod.GET)
+    @RequestMapping(value = SIGNOFF, method = RequestMethod.GET)
     public RedirectView logout(
             @Value("${auth0.domain}") final String auth0Domain,
+            @Value("${app.name}") final String appName,
             final HttpServletRequest request,
             final SessionStatus sessionStatus,
             final RedirectAttributes redirectAttributes) {
         sessionStatus.setComplete();
         redirectAttributes.addFlashAttribute("successMsg", singletonList("You have successfully logged out."));
-
         final String redirectUrl = toAuth0UrlBuilder(auth0Domain)
                 .pathSegment("v2", "logout")
-                .queryParam("returnTo", UrlAid.toAbsoluteUrl(request, "login"))
+                .queryParam("returnTo", toEncodedReturnUrl(request, appName))
                 .build().toString();
         return new RedirectView(redirectUrl, false);
     }
