@@ -11,6 +11,7 @@ import java.util.Set;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ACCOUNTS_APP_ADMIN;
 import static java.util.Arrays.stream;
+import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -76,6 +77,8 @@ public class LogRule {
     }
 
     private Set<String> toClientIdsToFilterOut() {
+        if (arrayOfClientIdsToFilterOut == null)
+            return emptySet();
         return stream(arrayOfClientIdsToFilterOut).collect(toSet());
     }
 }
