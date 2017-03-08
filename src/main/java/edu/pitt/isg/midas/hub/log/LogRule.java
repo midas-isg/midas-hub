@@ -2,6 +2,7 @@ package edu.pitt.isg.midas.hub.log;
 
 import com.google.common.annotations.VisibleForTesting;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
@@ -9,6 +10,8 @@ import java.util.List;
 import java.util.Set;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.ACCOUNTS_APP_ADMIN;
+import static java.util.Arrays.stream;
+import static java.util.Collections.emptySet;
 import static java.util.stream.Collectors.toList;
 import static java.util.stream.Collectors.toSet;
 
@@ -16,6 +19,8 @@ import static java.util.stream.Collectors.toSet;
 public class LogRule {
     @Autowired
     private LogRepository logRepo;
+    @Value("${app.log.clientIdsToFilterOut}")
+    private String[] arrayOfClientIdsToFilterOut;
 
     public List<ReportingLog> toReportingLogsByRoles(List<String> roles) {
         final List<ReportingLog> logs = toReportingLogs(listLogsWithoutSensitiveData(), roles);
@@ -30,13 +35,14 @@ public class LogRule {
 
     @VisibleForTesting
     List<ReportingLog> toReportingLogs(List<ReportingLog> logs, List<String> roles) {
-        final Set<String> filterInClientId = toClientIdToFilterIn(roles);
+        final Set<String> filterOutClientIds = toClientIdsToFilterOut();
         final Set<String> filterOutEventCodes = toEventCodesToFilterOut();
         return logs.stream()
                 .filter(l -> l.getApplicationName() != null)
                 .filter(l -> isNotPrintedAsNull(l.getUserAffiliation()))
+                .filter(l -> !filterOutClientIds.contains(l.getApplicationId()))
                 .filter(l -> !filterOutEventCodes.contains(l.getEventCode()))
-                .filter(l -> contains(l.getApplicationId(), filterInClientId))
+                .filter(l -> contains(l.getApplicationId(), toClientIdToFilterIn(roles)))
                 .collect(toList());
     }
 
@@ -63,10 +69,16 @@ public class LogRule {
         return s != null && ! s.equalsIgnoreCase("null");
     }
 
-    Set<String> toEventCodesToFilterOut() {
+    private Set<String> toEventCodesToFilterOut() {
         final HashSet<String> set = new HashSet<>();
         set.add("seacft"); // seacft = Success Exchange (Authorization Code for Access Token)
         set.add("feacft"); // feacft = Failed Exchange (Authorization Code for Access Token)
         return set;
+    }
+
+    private Set<String> toClientIdsToFilterOut() {
+        if (arrayOfClientIdsToFilterOut == null)
+            return emptySet();
+        return stream(arrayOfClientIdsToFilterOut).collect(toSet());
     }
 }
