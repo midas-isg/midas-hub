@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.HashMap;
 import java.util.Map;
 
 import static edu.pitt.isg.midas.hub.auth0.PredefinedStrings.RETURN_TO_URL_KEY;
@@ -38,6 +39,23 @@ public class SsoLoginController {
     protected String partnerLogin(final Map<String, Object> model, final HttpServletRequest req){
         try {
             return doPartnerLogin(model, req);
+        } catch (IllegalArgumentException e){
+            logger.error(e.getLocalizedMessage(), e);
+            throw e;
+        }
+    }
+
+    @RequestMapping(value="/token", method = RequestMethod.POST)
+    @ExceptionHandler(IllegalArgumentException.class)
+    @ResponseStatus(value = HttpStatus.BAD_REQUEST)
+    protected Object postToken(final Map<String, Object> model, final HttpServletRequest req){
+        try {
+            logger.info(model.toString());
+            logger.info(req.toString());
+            Map<String, Object> map = new HashMap<>();
+            map.put("access_token", "RsT5OjbzRn430zqMLgV3Ia");
+            map.put("expires_in", 3600);
+            return map;
         } catch (IllegalArgumentException e){
             logger.error(e.getLocalizedMessage(), e);
             throw e;
