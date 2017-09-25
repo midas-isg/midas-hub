@@ -10,8 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,13 +51,15 @@ public class SsoLoginController {
     @RequestMapping(value="/public/token", method = RequestMethod.POST)
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
-    protected Object postToken(final Map<String, Object> model, final HttpServletRequest req){
+    @ResponseBody
+    protected Object postToken(@RequestBody final Map<String, Object> model, final HttpServletRequest req){
         try {
             logger.error("Request Cookies: " + Arrays.toString(req.getCookies()));
-            logger.error("Model: " + model.toString());
+            logger.error("Model: " + model);
             Map<String, Object> map = new HashMap<>();
             map.put("access_token", "RsT5OjbzRn430zqMLgV3Ia");
             map.put("expires_in", 3600);
+            logger.error("Response: " + map);
             return map;
         } catch (IllegalArgumentException e){
             logger.error(e.getLocalizedMessage(), e);
