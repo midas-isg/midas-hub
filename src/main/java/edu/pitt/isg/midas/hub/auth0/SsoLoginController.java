@@ -46,7 +46,7 @@ public class SsoLoginController {
         }
     }
 
-    @RequestMapping(value="/token", method = RequestMethod.POST)
+    @RequestMapping(value="/public/token", method = RequestMethod.POST)
     @ExceptionHandler(IllegalArgumentException.class)
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected Object postToken(final Map<String, Object> model, final HttpServletRequest req){
