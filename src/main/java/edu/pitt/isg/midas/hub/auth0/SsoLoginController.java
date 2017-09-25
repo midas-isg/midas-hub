@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -50,8 +51,8 @@ public class SsoLoginController {
     @ResponseStatus(value = HttpStatus.BAD_REQUEST)
     protected Object postToken(final Map<String, Object> model, final HttpServletRequest req){
         try {
-            logger.info(model.toString());
-            logger.info(req.toString());
+            logger.error("Request Cookies: " + Arrays.toString(req.getCookies()));
+            logger.error("Model: " + model.toString());
             Map<String, Object> map = new HashMap<>();
             map.put("access_token", "RsT5OjbzRn430zqMLgV3Ia");
             map.put("expires_in", 3600);
