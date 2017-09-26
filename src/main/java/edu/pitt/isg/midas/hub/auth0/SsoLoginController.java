@@ -56,10 +56,12 @@ public class SsoLoginController {
         try {
             logger.error("Request Cookies: " + Arrays.toString(req.getCookies()));
             logger.error("Model: " + model);
-            Map<String, Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>(model);
             map.put("access_token", "RsT5OjbzRn430zqMLgV3Ia");
             map.put("expires_in", 3600);
-            logger.error("Response: " + map);
+            final String message = "Response: " + map;
+            logger.error(message);
+            System.out.println(message);
             return map;
         } catch (IllegalArgumentException e){
             logger.error(e.getLocalizedMessage(), e);
