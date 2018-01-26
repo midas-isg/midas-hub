@@ -31,3 +31,4 @@ hs_err_pid*
 /db/hsqldb/*.properties
 /db/hsqldb/*.tmp/
 /PID
+src/main/python/output/*.csv
