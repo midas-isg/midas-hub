@@ -1,5 +1,7 @@
 import csv
 import json
+import itertools
+from operator import itemgetter
 from collections import Counter, defaultdict, ChainMap
 
 in_dir = 'input/'
@@ -8,11 +10,22 @@ def run():
     save_aff_users(in_dir + 'usersGroupByAffiliation.json')
     save_logins('loginsGroupByAffiliation', 'Affiliation')
     save_logins('loginsGroupByApplication', 'Application')
+    save_mdc_logins('loginsGroupByApplication', 'Affiliation')
+
+
+def save_mdc_logins(filename, key):
+    key2logins = load_json_as_dict(in_dir + filename + '.json')
+    aff2logins = transform(key2logins['Digital Commons'], 'userAffiliation')
+    save_csv_logins(aff2logins, out_dir + filename + '=mdc.csv', key)
+
+
+def transform(logins, subkey):
+    return {k: list(g) for k, g in itertools.groupby(logins, key=itemgetter(subkey))}
 
 
 def save_logins(filename, key):
-    aff2logins = load_json_as_dict(in_dir + filename + '.json')
-    save_csv_logins(aff2logins, out_dir + filename + '.csv', key)
+    key2logins = load_json_as_dict(in_dir + filename + '.json')
+    save_csv_logins(key2logins, out_dir + filename + '.csv', key)
 
 
 def save_csv_logins(key2logins, filepath, key):
