@@ -6,10 +6,9 @@ app.controller('Report', function($scope, $rootScope, DTOptionsBuilder) {
     });
 
     $scope.logs = logs;
-    $scope.loginsGroupByAffiliation = groupBy('userAffiliation', 's'); // s = Success Login
-    $scope.registersGroupByAffiliation = groupBy('userAffiliation', 'sapi'); // sapi = API Operation
-
-    $scope.loginsGroupByApplication = groupBy('applicationName', 's'); // s = Success Login
+    $scope.loginsGroupByAffiliation = groupBy('userAffiliation', ['s', 'ssa']); // s = Success Login; ssa = Success Silent Auth
+    $scope.registersGroupByAffiliation = groupBy('userAffiliation', ['sapi']); // sapi = API Operation
+    $scope.loginsGroupByApplication = groupBy('applicationName', ['s', 'ssa']); // s = Success Login
 
     $scope.dtOptions = DTOptionsBuilder.newOptions()
         .withOption('bLengthChange', false);
@@ -24,9 +23,9 @@ app.controller('Report', function($scope, $rootScope, DTOptionsBuilder) {
             'excel'
         ]);
 
-    function groupBy(fieldName, code) {
+    function groupBy(fieldName, codes) {
         var filteredLogs = _.filter(logs, function (log) {
-            return log.eventCode === code;
+            return _.contains(codes, log.eventCode);
         });
         return _.groupBy(filteredLogs, function (log) {
             return log[fieldName];

@@ -11,10 +11,14 @@ public class EventAid {
     public static Map<String, String> makeEventCode2NameLookupMap(){
         Map<String, String> eventCode2Name = new HashMap<>();
         eventCode2Name.put("s", "Success Login");
+        eventCode2Name.put("ssa", "Success Silent Auth");
+        eventCode2Name.put("fsa", "Failed Silent Auth");
         eventCode2Name.put("seacft", "Success Exchange (Authorization Code for Access Token)");
         eventCode2Name.put("feacft", "Failed Exchange (Authorization Code for Access Token)");
         eventCode2Name.put("seccft", "Success Exchange (Client Credentials for Access Token)");
         eventCode2Name.put("feccft", "Failed Exchange (Client Credentials for Access Token)");
+        eventCode2Name.put("sepft", "Success Exchange (Password for Access Token)");
+        eventCode2Name.put("fepft", "Failed Exchange (Password for Access Token)");
         eventCode2Name.put("f", "Failed Login");
         eventCode2Name.put("w", "Warnings During Login");
         eventCode2Name.put("du", "Deleted User");
@@ -56,6 +60,8 @@ public class EventAid {
         eventCode2Name.put("flo", "Failed Logout");
         eventCode2Name.put("sd", "Success Delegation");
         eventCode2Name.put("fd", "Failed Delegation");
+        eventCode2Name.put("fcoa", "Failed Cross Origin Authentication");
+        eventCode2Name.put("scoa", "Success Cross Origin Authentication");
         return  eventCode2Name;
     }
 }
