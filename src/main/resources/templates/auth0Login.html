@@ -1,81 +1,88 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
-    <head>
-        <meta charset="utf-8" />
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-        <title>Login - MIDAS Accounts</title>
-        <meta name="description" content="" />
-        <meta name="viewport" content="width=device-width, initial-scale=1" />
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <title>Login - MIDAS Accounts</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-        <link rel='icon' th:href="@{/public/favicon.ico}"/>
-    </head>
-    <body>
-        <script th:src="@{/webjars/auth0-lock/build/auth0-lock.min.js}"></script>
-        <script src="https://cdn.auth0.com/w2/auth0-6.8.js"></script>
-        <script th:inline="javascript">
-            /*<![CDATA[*/
-            (function() {
-                var auth0ClientId = /*[[${@environment.getProperty('auth0.clientId')}]]*/ '';
-                var auth0Domain = /*[[${@environment.getProperty('auth0.domain')}]]*/ '';
-                var state = /*[[${state}]]*/ '';
-                var callbackUrl = /*[[${callbackUrl}]]*/ '';
-                var icon = /*[[@{/public/img/logo.png}]]*/ '';
+    <link rel='icon' th:href="@{/public/favicon.ico}"/>
+</head>
+<body>
+<script th:src="@{/webjars/auth0-lock/build/auth0-lock.min.js}"></script>
+<script src="https://cdn.auth0.com/js/auth0/9.7.3/auth0.min.js"></script>
+<script th:inline="javascript">
+    /*<![CDATA[*/
+    (function() {
+        debugger
+        var auth0options = toAuth0Options();
+        new auth0.Authentication(auth0options).getSSOData(function (err, data) {
+            var loggedInUserId = /*[[${userId}]]*/ '';
+            var homePath = /*[[@{/}]]*/ '';
+            var logoutPath = /*[[@{/logout}]]*/ '';
+            if (data && data.sso === true) {
+                console.log('SSO: an Auth0 SSO session already exists');
+                console.log('local:', loggedInUserId);
+                console.log('SSO:', data.lastUsedUserID);
+                if (loggedInUserId !== data.lastUsedUserID) {
+                    console.log("SSO Session but NOT locally authenticated ");
+                    authorize();
+                } else {
+                    console.log("SSO Session and locally authenticated ");
+                    window.location = homePath;
+                }
+            } else if (loggedInUserId) {
+                console.log("NO SSO Session but locally authenticated -> log them out locally");
+                window.location = logoutPath;
+            } else {
+                console.log("NO SSO Session and NOT locally authenticated ");
+                login();
+            }
+        });
 
-                var auth0 = new Auth0({
-                    domain: auth0Domain,
-                    clientID: auth0ClientId,
-                    callbackURL: callbackUrl
-                });
-                auth0.getSSOData(function (err, data) {
-                    var loggedInUserId = /*[[${userId}]]*/ '';
-                    var homePath = /*[[@{/}]]*/ '';
-                    var logoutPath = /*[[@{/logout}]]*/ '';
-                    if (data && data.sso === true) {
-                        // have SSO session
-                        console.log('SSO: an Auth0 SSO session already exists');
-                        if (loggedInUserId !== data.lastUsedUserID) {
-                            // have SSO session but no valid local session - auto-login user
-                            auth0.login({
-                                scope: 'openid name email picture',
-                                state: state,
-                                callbackURL: callbackUrl
-                            }, function (err) {
-                                // this only gets called if there was a login error
-                                console.error('Error logging in: ' + err);
-                            });
-                        } else {
-                            // have SSO session and valid user - send to successfully authenticated landing page
-                            window.location = homePath;
-                        }
-                    } else {
-                        if (loggedInUserId) {
-                            // have local session (autenticated locally), but no SSO session exists so log them out locally too - will force login page
-                            window.location = logoutPath;
-                        } else {
-                            // have no SSO session and are not authenticated locally - present Lock widget Login box
-                            new Auth0Lock(auth0ClientId, auth0Domain).show({
-                                dict: {
-                                    signin: {
-                                        title: "MIDAS Accounts"
-                                    }
-                                },
-                                sso: true,
+        function toAuth0Options() {
+            var domain = /*[[${@environment.getProperty('auth0.domain')}]]*/ '';
+            return {
+                icon: /*[[@{/public/img/logo.png}]]*/ '',
+                state: /*[[${state}]]*/ '',
+                responseType: 'code',
+                clientID: /*[[${@environment.getProperty('auth0.clientId')}]]*/ '',
+                audience: 'https://' + domain + '/userinfo',
+                scope: 'openid profile email',
+                redirectUri: /*[[${callbackUrl}]]*/ '',
+                domain: domain
+            };
+        }
 
-                                icon: icon,
-                                callbackURL: callbackUrl,
-                                responseType: 'code',
-                                rememberLastLogin: false,
-                                closable: false,
-                                authParams: {
-                                    state: state,
-                                    scope: 'openid roles user_id name nickname email picture'
-                                }
-                            });
-                        }
+        function authorize () {
+            console.log('Authorizing ...');
+            new auth0.WebAuth(auth0options).authorize({
+                prompt: 'none'
+            });
+        }
+
+        function login() {
+            new Auth0Lock(auth0options.clientID, auth0options.domain).show({
+                dict: {
+                    signin: {
+                        title: "MIDAS Accounts"
                     }
-                });
-            }());
-            /*]]>*/
-        </script>
-    </body>
+                },
+                sso: true,
+                icon: auth0options.icon,
+                callbackURL: auth0options.redirectUri,
+                responseType: auth0options.responseType,
+                rememberLastLogin: false,
+                closable: false,
+                authParams: {
+                    state: auth0options.state,
+                    scope: auth0options.scope
+                }
+            });
+        }
+    }());
+    /*]]>*/
+</script>
+</body>
 </html>
