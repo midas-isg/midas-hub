@@ -39,7 +39,7 @@ public class LogRule {
         final Set<String> filterOutEventCodes = toEventCodesToFilterOut();
         return logs.stream()
                 .filter(l -> l.getApplicationName() != null)
-                .filter(l -> isNotPrintedAsNull(l.getUserAffiliation()))
+//                .filter(l -> isNotPrintedAsNull(l.getUserAffiliation()))
                 .filter(l -> !filterOutClientIds.contains(l.getApplicationId()))
                 .filter(l -> !filterOutEventCodes.contains(l.getEventCode()))
                 .filter(l -> contains(l.getApplicationId(), toClientIdToFilterIn(roles)))

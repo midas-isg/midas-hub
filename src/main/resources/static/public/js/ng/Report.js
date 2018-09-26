@@ -1,10 +1,11 @@
 app.controller('Report', function($scope, $rootScope, DTOptionsBuilder) {
     'use strict';
     $scope.users = users;
+    $scope.nilText = 'N/A';
     $scope.usersGroupByAffiliation = _.groupBy($scope.users, function (user) {
-        return user && user.app_metadata && user.app_metadata.affiliation && user.app_metadata.affiliation.name;
+        var aff = user && user.app_metadata && user.app_metadata.affiliation && user.app_metadata.affiliation.name;
+        return aff || $scope.nilText;
     });
-
     $scope.logs = logs;
     $scope.loginsGroupByAffiliation = groupBy('userAffiliation', ['s', 'ssa']); // s = Success Login; ssa = Success Silent Auth
     $scope.registersGroupByAffiliation = groupBy('userAffiliation', ['sapi']); // sapi = API Operation
@@ -28,7 +29,9 @@ app.controller('Report', function($scope, $rootScope, DTOptionsBuilder) {
             return _.contains(codes, log.eventCode);
         });
         return _.groupBy(filteredLogs, function (log) {
-            return log[fieldName];
+            var nullText = $scope.nilText;
+            var value = log[fieldName] || nullText;
+            return value === 'null' ? nullText : value;
         });
     }
 });

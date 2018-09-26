@@ -69,19 +69,19 @@
                                                             {{log.timestamp |date:'yyyy-MM-dd HH:mm'}}
                                                         </td>
                                                         <td hide-xs="">
-                                                            {{log.userName}}
+                                                            {{log.userName || nilText }}
                                                         </td>
                                                         <td hide-xs="">
-                                                            {{log.userConnection}}
+                                                            {{log.userConnection || nilText }}
                                                         </td>
                                                         <td>
-                                                            {{log.userAffiliation}}
+                                                            {{log.userAffiliation || nilText }}
                                                         </td>
                                                         <td>
-                                                            {{log.event}}
+                                                            {{log.event || nilText }}
                                                         </td>
                                                         <td>
-                                                            {{log.applicationName}}
+                                                            {{log.applicationName || nilText }}
                                                         </td>
                                                     </tr>
                                                     </tbody>
