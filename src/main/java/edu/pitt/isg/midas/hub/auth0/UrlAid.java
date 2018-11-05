@@ -17,7 +17,7 @@ class UrlAid {
 
     private static UriComponentsBuilder toContextUrlBuilder(HttpServletRequest request) {
         final UriComponentsBuilder uriBuilder = UriComponentsBuilder.newInstance()
-                .scheme(request.getScheme())
+                .scheme(getScheme(request))
                 .host(request.getServerName());
         final int serverPort = request.getServerPort();
         if (!(serverPort == 80 || serverPort == 443))
@@ -28,6 +28,13 @@ class UrlAid {
             uriBuilder.path(contextPath);
 
         return uriBuilder;
+    }
+
+    private static String getScheme(HttpServletRequest request) {
+        final String header = request.getHeader("x-forwarded-proto");
+        if (header != null && ! header.isEmpty())
+            return header;
+        return request.getScheme();
     }
 
     static String toAbsoluteUrl(HttpServletRequest request, String... pathSegments) {
