@@ -2,6 +2,7 @@ package edu.pitt.isg.midas.hub.auth0;
 
 import com.auth0.web.Auth0CallbackHandler;
 import com.auth0.web.QueryParamUtils;
+import com.auth0.web.Tokens;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -34,6 +35,20 @@ class CallbackController extends Auth0CallbackHandler {
             throws ServletException, IOException {
         super.handle(req, res);
         model.addAttribute("appUser", getAuth0User(req));
+    }
+
+    protected Tokens fetchTokens(final HttpServletRequest req) {
+        final String authorizationCode = req.getParameter("code");
+        final String redirectUri = toRedirectUri(req);
+        return auth0Client.getTokens(authorizationCode, redirectUri);
+    }
+
+    private String toRedirectUri(HttpServletRequest req) {
+        String header = req.getHeader("x-forwarded-proto");
+        String uri = req.getRequestURL().toString();
+        if (header != null && !header.isEmpty())
+            return uri.replace("http://", header + "://");
+        return uri;
     }
 
     @Override

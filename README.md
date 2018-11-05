@@ -40,3 +40,5 @@ The method saves user profile as Auth0User. This Auth0User is used as ModelAttri
 5. Run `./start.sh` again.
 
 ------------------------------------------------------------------------
+#### Remote debug
+`mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=n,address=5005"`
